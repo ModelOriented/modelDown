@@ -1,0 +1,20 @@
+<div style="position: fixed; width: 300px;">
+    <div class="panel panel-default">
+        <ul class="list-group">
+            {{#variables}}
+            <li class="list-group-item" style="padding: 5px 15px;">
+                <a href="#{{variable_name}}">{{variable_name}}</a>
+            </li>
+            {{/variables}}
+        </ul>
+    </div>
+</div>
+<div class="col-md-push-3 col-md-9" style="left: 300px; width: auto;">
+    {{#variables}}
+    <a id="{{variable_name}}" style="display: block;position: relative;top: -51px;visibility: hidden;"></a>
+    <div style="padding: 0px 20px;">
+        <h2>{{variable_name}}</h2>
+        <img src="img/{{img_filename}}" />
+    </div>
+    {{/variables}}
+</div>
