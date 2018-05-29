@@ -3,7 +3,7 @@ Title: What the Package Does (one line, title case)
 Version: 0.0.0.9000
 Authors@R: c(person("Magda", "Tatarynowicz", email = "magda.tatarynowicz@gmail.com", role = c("aut")), person("Kamil", "Romaszko", email = "kamil.romaszko@gmail.com", role = c("aut", "cre")), person("Mateusz", "Urba?ski", email = "matiszak@gmail.com", role = c("aut")))
 Description: What the package does (one paragraph).
-Depends: R (>= 3.5.0)
+Depends: R (>= 3.2.0)
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
