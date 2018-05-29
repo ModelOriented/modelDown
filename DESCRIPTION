@@ -10,4 +10,5 @@ LazyData: true
 Imports: DALEX,
     whisker,
     DT,
-    kableExtra
+    kableExtra,
+    psych

@@ -83,9 +83,24 @@ library(stringi)
   })
 }
 
-.renderMainPage <- function(modules, output_folder) {
+.renderMainPage <- function(modules, output_folder, explainers) {
+  library(kableExtra)
+
+  explainers_data <- lapply(explainers, function(explainer){
+    list(explainer_name = explainer$label)
+  })
+
+  variables_data <- kable_styling(kable(psych::describe(explainers[[1]]$data)), bootstrap_options = c("responsive", "bordered", "hover"))
+
+  main_page_data <- list(
+    explainers = explainers_data,
+    data_summary = variables_data,
+    observations_count = nrow(explainers[[1]]$data),
+    columns_count = ncol(explainers[[1]]$data)
+  )
+
   content_template <- readLines(system.file("extdata", "template", "index_template.html", package = "modelDown"))
-  content <- whisker::whisker.render(content_template)
+  content <- whisker::whisker.render(content_template, main_page_data)
   output_path <- file.path(output_folder, "index.html")
   .renderPage(content, modules, output_path)
 }
@@ -106,7 +121,7 @@ modelDown <- function(..., modules = c("model_performance", "variable_importance
   generated_modules <- .generateModules(modules, output_folder, explainers, options)
 
   .renderModules(generated_modules, output_folder)
-  .renderMainPage(generated_modules, output_folder)
+  .renderMainPage(generated_modules, output_folder, explainers)
   browseURL(file.path(output_folder, "index.html"))
 }
 

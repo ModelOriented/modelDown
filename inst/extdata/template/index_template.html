@@ -1,1 +1,43 @@
-<h1>modelDown</h1>
+<header class="bg-primary text-white">
+  <div class="container text-center">
+    <h1>modelDown</h1>
+    <p class="lead">Analyze your data!</p>
+  </div>
+</header>
+
+<br>
+<br>
+
+<div class="row">
+  <div class="col-md-8">
+    <h3 class="my-3">Basic information</h3>
+    <ul>
+      <li>{{observations_count}} observations</li>
+      <li>{{columns_count}} columns</li>
+    </ul>
+  </div>
+  <div class="col-md-4" >
+    <h3 class="my-3">Explainers</h3>
+    <ul>
+      {{#explainers}}
+        <li>{{explainer_name}}</li>
+      {{/explainers}}
+    </ul>
+  </div>
+</div>
+
+<br>
+
+<div class="text-center">
+  {{{data_summary}}}
+</div>
+
+<br>
+<br>
+
+
+<footer>
+  <div class="container">
+    <p class="text-center">Site built with <a href="https://gitlab.com/Romaszko/modeldown">modelDown</a>.</p>
+  </div>
+</footer>
