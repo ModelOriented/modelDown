@@ -1,6 +1,6 @@
 Package: modelDown
 Title: Generating summaries for multiple DALEX explainers
-Version: 0.0.0.9001
+Version: 0.1
 Authors@R: c(person("Magda", "Tatarynowicz", email = "magda.tatarynowicz@gmail.com", role = c("aut")), person("Kamil", "Romaszko", email = "kamil.romaszko@gmail.com", role = c("aut", "cre")), person("Mateusz", "Urba?ski", email = "matiszak@gmail.com", role = c("aut")))
 Description: The package uses DALEX package to compute summaries of how given models behave. We can see how exactly scores for predictions were calculated (Prediction breakdown), how much each variable contributes to predictions (Variable response), which variables are the most important for a given model (Variable importance) and how well out models behave (Model Performance).
 Depends: R (>= 3.4.0)
