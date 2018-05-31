@@ -3,6 +3,14 @@
 #' @param ... explainers
 #' @param modules selected modules to generate
 #' @param output_folder folder where generated page will be stored
+#' @param vr.vars variables which will be examined in Variable Response module. Defaults to all variables. Example vr.vars = c("var1", "var2")
+#' @param pb.observations observations which will be examined in Prediction Breakdown module. When not given it selects worst predicted observations for each model. Example pb.observations = c(1,2,3) where 1,2,3 are observation numbers.
+#' @param vr.type types of examinations which will be conducteed in Variable Response module. Defaults to c("ale", "pdb"). Example vr.type = "ale"
+#' @param plot_width default width for plots. Defaults to 800. Example plot_width = 750
+#' @param vr.plot_width Override plot width for Variable Response module. Defaults to plot_width. Example vr.plot_width = 750
+#' @param mp.plot_width Override plot width for Model Performance module. Defaults to plot_width. Example mp.plot_width = 750
+#' @param pb.plot_width Override plot width for Prediction Breakdown module. Defaults to plot_width. Example pb.plot_width = 750
+#' @param vi.plot_width Override plot width for Variable Importance module. Defaults to plot_width. Example vi.plot_width = 750
 #'
 #' @export
 #' @import kableExtra
@@ -12,6 +20,8 @@
 #' \dontrun{
 #' require(ranger)
 #' require(breakDown)
+#' require(DALEX)
+#' 
 #' # ranger
 #' HR_ranger_model <- ranger(as.factor(left) ~ .,
 #'                       data = HR_data, num.trees = 500, classification = TRUE, probability = TRUE)
@@ -25,10 +35,22 @@
 #' explainer_glm <- explain(HR_glm_model, data=HR_data, y = HR_data$left)
 #'
 #' modelDown::modelDown(explainer_ranger, explainer_glm) #all defaults
+#' 
+#' modelDown::modelDown(explainer_glm,
+#'   modules = c("model_performance", "variable_importance", "variable_response", "prediction_breakdown"),
+#'   output_folder = "modelDown_output",
+#'   vr.vars= c("average_montly_hours", "time_spend_company"),
+#'   pb.observations = c(1,2,3),
+#'   vr.type = "ale",
+#'   plot_width=700,
+#'   pb.plot_width=810,
+#'   mp.plot_width=820,
+#'   vi.plot_width=830,
+#'   vr.plot_width=840)
 #' }
 modelDown <- function(..., modules = c("model_performance", "variable_importance", "variable_response", "prediction_breakdown"),
                       output_folder="output") {
-
+  
   args <- list(..., version=1.0 )
   #named arguments are options (except those specified after ... in function definition)
   options <- args[names(args) != ""]
