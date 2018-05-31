@@ -46,6 +46,7 @@ generator <- function(explainers, options, img_folder) {
   if(is.null(variables)) {
     variables <- colnames(explainers[[1]]$data)
   }
+  variables <- sort(variables)
 
   variable_models <- lapply(variables, make_variable_plot_model, explainers, img_folder, options)
 
