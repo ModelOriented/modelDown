@@ -37,6 +37,15 @@ body {font-family: Arial;}
     border-top: none;
 }
 
+.footer {
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   background-color: #f1f1f1;
+   text-align: center;
+}
+
 body > .container {
     display: flex;
     padding-top: 60px;
