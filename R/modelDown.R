@@ -83,7 +83,7 @@ getPlotWidth <- function(options, plot_with_variable = NULL, default_width = 800
   width
 }
 
-makeGeneratorEnviroment <- function() {
+makeGeneratorEnvironment <- function() {
   e <- new.env()
   e$getPlotWidth <- getPlotWidth
   e
@@ -100,7 +100,7 @@ generateModules <- function(modules_names, output_folder, explainers, options) {
   return(lapply(modules_names, function(module_name) {
     print(paste("Generating ", module_name, "...", sep = ""))
     generator_path <- system.file("extdata", "modules", module_name, "generator.R", package = "modelDown")
-    generator_env <- makeGeneratorEnviroment()
+    generator_env <- makeGeneratorEnvironment()
     source(generator_path, local=generator_env)
     data <- generator_env$generator(explainers, options, file.path(output_folder, "img"))
     return(data)
