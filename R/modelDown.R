@@ -21,7 +21,7 @@
 #' require(ranger)
 #' require(breakDown)
 #' require(DALEX)
-#' 
+#'
 #' # ranger
 #' HR_ranger_model <- ranger(as.factor(left) ~ .,
 #'                       data = HR_data, num.trees = 500, classification = TRUE, probability = TRUE)
@@ -35,7 +35,7 @@
 #' explainer_glm <- explain(HR_glm_model, data=HR_data, y = HR_data$left)
 #'
 #' modelDown::modelDown(explainer_ranger, explainer_glm) #all defaults
-#' 
+#'
 #' modelDown::modelDown(explainer_glm,
 #'   modules = c("model_performance", "variable_importance", "variable_response", "prediction_breakdown"),
 #'   output_folder = "modelDown_output",
@@ -50,7 +50,7 @@
 #' }
 modelDown <- function(..., modules = c("model_performance", "variable_importance", "variable_response", "prediction_breakdown"),
                       output_folder="output") {
-  
+
   args <- list(..., version=1.0 )
   #named arguments are options (except those specified after ... in function definition)
   options <- args[names(args) != ""]
@@ -92,7 +92,7 @@ makeGeneratorEnviroment <- function() {
 copyAssets <- function(from, to) {
   asset_files <- list.files(from)
   css_files <- asset_files[grepl(".*.css", asset_files)]
-  css_files_paths <- lapply(css_files, function(name) {file.path(from, name)})
+  css_files_paths <- unlist(lapply(css_files, function(name) {file.path(from, name)}))
   file.copy(css_files_paths, to, recursive=TRUE, overwrite = TRUE)
 }
 
