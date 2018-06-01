@@ -10,17 +10,24 @@ save_plot_image <- function(file_name, models, options){
   ggsave(file_name, pl, png, width = width, height = 500, limitsize = FALSE)
 }
 
-make_variable_importance_table <- function(explainer, img_folder) {
-  label <- explainer$label
+make_variable_importance_table <- function(explainers) {
+  importance_table<-vector()
+  importance_table <- NULL
 
-  model <- variable_importance(explainer, type="raw")
+  for(explainer in explainers){
+    model <- variable_importance(explainer, type="raw")
+    importance_table <- rbind(importance_table, model[,-3])
+  }
 
-  html <- kable_styling(kable(model[,-3], row.names = FALSE), bootstrap_options = c("responsive", "bordered", "hover"), full_width = FALSE)
+  html <- kable_styling(kable(importance_table, row.names = FALSE), bootstrap_options = c("responsive", "hover"), full_width = FALSE)
+  i <- 1
+  for(explainer in explainers){
+    label <- explainer$label
+    html <- html %>% group_rows(label, i, ncol(explainer$data) + 2)
+    i <- i + ncol(explainer$data) + 2
+  }
 
-  list(
-    name=label,
-    dataframe=html
-  )
+  html
 }
 
 create_plot_image <- function(explainers, img_folder, options){
@@ -37,7 +44,7 @@ create_plot_image <- function(explainers, img_folder, options){
 
 generator <- function(explainers, options, img_folder) {
 
-  variable_importance_models <- lapply(explainers, make_variable_importance_table, img_folder)
+  variable_importance_table <- make_variable_importance_table(explainers)
 
   create_plot_image(explainers, img_folder, options)
 
@@ -46,7 +53,7 @@ generator <- function(explainers, options, img_folder) {
     name='variable_importance',
     data=list(
       img_filename='variable_importance.png',
-      models=variable_importance_models
+      dataframe=variable_importance_table
     )
   )
 }
