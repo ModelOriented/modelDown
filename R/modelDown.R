@@ -129,7 +129,8 @@ renderPage <- function(content, modules, output_path) {
 
   data <- list(
     content = content,
-    menu_links = menu_links
+    menu_links = menu_links,
+    datetime = Sys.time()
   )
 
   iteratelist(data[['menu_links']], name='menu_links')
