@@ -153,14 +153,10 @@ renderModules <- function(modules, output_folder) {
 }
 
 renderMainPage <- function(modules, output_folder, explainers) {
-  explainers_data <- lapply(explainers, function(explainer){
-    list(explainer_name = explainer$label)
-  })
-
   variables_data <- kable_styling(kable(psych::describe(explainers[[1]]$data)), bootstrap_options = c("responsive", "bordered", "hover"))
 
   main_page_data <- list(
-    explainers = explainers_data,
+    explainers = renderExplainersList(explainers),
     data_summary = variables_data,
     observations_count = nrow(explainers[[1]]$data),
     columns_count = ncol(explainers[[1]]$data)
@@ -170,5 +166,14 @@ renderMainPage <- function(modules, output_folder, explainers) {
   content <- whisker.render(content_template, main_page_data)
   output_path <- file.path(output_folder, "index.html")
   renderPage(content, modules, output_path)
+}
+
+renderExplainersList <- function(explainers){
+  explainers_ul <- "<ul>"
+  for(explainer in explainers){
+    explainers_ul <- paste(explainers_ul, "<li>", explainer$label, "</li>", sep = "")
+  }
+  explainers_ul <- paste(explainers_ul, "</ul>", sep = "")
+  explainers_ul
 }
 
