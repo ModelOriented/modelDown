@@ -192,12 +192,15 @@ renderFactorTables <- function(data_set, factor_columns){
   factor_data <- vector()
   factor_data <- NULL
 
-  for(i in 1:length(factor_columns)){
-    column_number <- factor_columns[[i]]
-    column_name <- names(factor_columns)[i]
-    temp_table <- kable_styling(kable(table(data_set[,column_number]), col.names = c(column_name, "Frequency")), bootstrap_options = c("responsive", "bordered", "hover"), full_width = FALSE)
-    factor_data <- paste(factor_data, temp_table, sep="<br>")
+  if(length(factor_columns) > 0) {
+    for(i in 1:length(factor_columns)){
+      column_number <- factor_columns[[i]]
+      column_name <- names(factor_columns)[i]
+      temp_table <- kable_styling(kable(table(data_set[,column_number]), col.names = c(column_name, "Frequency")), bootstrap_options = c("responsive", "bordered", "hover"), full_width = FALSE)
+      factor_data <- paste(factor_data, temp_table, sep="<br>")
+    }
   }
+
   factor_data
 }
 
