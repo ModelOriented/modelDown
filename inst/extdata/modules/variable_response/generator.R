@@ -29,7 +29,7 @@ make_variable_plot_model <- function(variable_name, explainers, img_folder, opti
 
   types <- options[["vr.type"]]
   if(is.null(types)) {
-    types <- c("pdp", "ale")
+    types <- "pdp"
   }
 
   plot_filename <-make_variable_plot(variable_name, types, explainers, img_folder, options)
@@ -51,7 +51,7 @@ generator <- function(explainers, options, img_folder) {
   variable_models <- lapply(variables, make_variable_plot_model, explainers, img_folder, options)
 
   list(
-    display_name='Variable response',
+    display_name='Variable Response',
     name='variable_response',
     data=list(
       variables=variable_models

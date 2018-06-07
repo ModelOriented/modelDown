@@ -27,7 +27,7 @@ create_prediction_breakdown_file <- function(observation_number, explainers, img
   html_table <- kable_styling(kable(explainers[[1]]$data[observation_number,], row.names = FALSE), bootstrap_options = c("responsive", "bordered", "hover"))
 
   if(is_worst) {
-    name_prefix <- "Worst prediction"
+    name_prefix <- "Worst Prediction"
   }
   else
   {
@@ -73,7 +73,7 @@ generator <- function(explainers, options, img_folder) {
   }
 
   list(
-    display_name='Prediction breakdown',
+    display_name='Prediction BreakDown',
     name='prediction_breakdown',
     data=list(
       models=new_models
