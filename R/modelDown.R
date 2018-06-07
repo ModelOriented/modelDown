@@ -65,6 +65,10 @@ modelDown <- function(..., modules = c("model_performance", "variable_importance
 
   ensureOutputFolderStructureExist(output_folder);
   do.call(file.remove, list(list.files(output_folder, full.names = TRUE, recursive = TRUE)))
+  # save explainers
+  for(explainer in explainers){
+    saveRDS(explainer, file = paste0(output_folder,"/explainers/", explainer$label, ".rda"))
+  }
   copyAssets(system.file("extdata", "template", package = "modelDown"), output_folder)
 
   generated_modules <- generateModules(modules, output_folder, explainers, options)
@@ -116,6 +120,11 @@ generateModules <- function(modules_names, output_folder, explainers, options) {
 ensureOutputFolderStructureExist <- function(output_folder) {
   if(!dir.exists(output_folder)) {
     dir.create(output_folder)
+  }
+
+  img_folder_path <- file.path(output_folder, "explainers")
+  if(!dir.exists(img_folder_path)) {
+    dir.create(img_folder_path)
   }
 
   img_folder_path <- file.path(output_folder, "img")
@@ -182,7 +191,7 @@ renderMainPage <- function(modules, output_folder, explainers) {
 renderExplainersList <- function(explainers){
   explainers_ul <- "<ul>"
   for(explainer in explainers){
-    explainers_ul <- paste(explainers_ul, "<li>", explainer$label, "</li>", sep = "")
+    explainers_ul <- paste(explainers_ul, "<li>", explainer$label, " <a href='explainers/", explainer$label, ".rda'>(download)</a></li>", sep = "")
   }
   explainers_ul <- paste(explainers_ul, "</ul>", sep = "")
   explainers_ul
