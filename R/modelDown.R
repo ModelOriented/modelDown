@@ -1,15 +1,15 @@
-#' Create page with summary for your models
+#' Generates a website with HTML summaries for predictive models
 #'
-#' @param ... explainers
-#' @param modules selected modules to generate
-#' @param output_folder folder where generated page will be stored
+#' @param ... one or more explainers createdwith \code{DALEX::explain()} function
+#' @param modules modules that should be included in the website
+#' @param output_folder folder where the website will be saved
 #'
 #' @details
-#' Additional argument that could by passed by name:
+#' Additional arguments that could by passed by name:
 #' \itemize{
 #'   \item{vr.vars} {variables which will be examined in Variable Response module. Defaults to all variables. Example vr.vars = c("var1", "var2")}
 #'   \item{pb.observations} {observations which will be examined in Prediction Breakdown module. When not given it selects worst predicted observations for each model. Example pb.observations = c(1,2,3) where 1,2,3 are observation numbers.}
-#'   \item{vr.type} {types of examinations which will be conducteed in Variable Response module. Defaults to c("ale", "pdb"). Example vr.type = "ale"}
+#'   \item{vr.type} {types of examinations which will be conducteed in Variable Response module. Defaults to "pdp". Example vr.type = c("ale", "pdp")}
 #'   \item{plot_width default} {width for plots. Defaults to 800. Example plot_width = 750}
 #'   \item{vr.plot_width} {Override plot width for Variable Response module. Defaults to plot_width. Example vr.plot_width = 750}
 #'   \item{mp.plot_width} {Override plot width for Model Performance module. Defaults to plot_width. Example mp.plot_width = 750}
@@ -23,9 +23,9 @@
 #' @author Magda Tatarynowicz, Kamil Romaszko, Mateusz Urabński
 #' @examples
 #' \dontrun{
-#' require(ranger)
-#' require(breakDown)
-#' require(DALEX)
+#' require("ranger")
+#' require("breakDown")
+#' require("DALEX")
 #'
 #' # ranger
 #' HR_ranger_model <- ranger(as.factor(left) ~ .,
