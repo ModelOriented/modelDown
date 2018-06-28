@@ -9,6 +9,10 @@ Is uses [DALEX](https://github.com/pbiecek/DALEX) explainers to compute and plot
 
 An example website for regression models: https://mi2datalab.github.io/modelDown_example/
 
+## Getting started
+
+Do you want to start right now ? Check out our [getting started](https://mi2datalab.github.io/modelDown/getting-started) guide.
+
 ## Index page
 
 <center><img width="600" src="https://raw.githubusercontent.com/MI2DataLab/modelDown/master/misc/index.PNG"></center>
