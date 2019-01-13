@@ -4,10 +4,10 @@ library(kableExtra)
 
 save_plot_image <- function(file_name, models, options){
 
-  width <- getPlotWidth(options, "vi.plot_width")
+  plot_settings <- getPlotSettings(options, "vi")
 
-  pl <- do.call(plot, models)
-  ggsave(file_name, pl, png, width = width, height = 500, limitsize = FALSE)
+  pl <- do.call(plot, models) + theme(text = element_text(size=plot_settings$font_size))
+  ggsave(file_name, pl, png, width = plot_settings$width, height = 500, limitsize = FALSE)
 }
 
 make_variable_importance_table <- function(explainers) {

@@ -28,6 +28,11 @@ Additional argument that could by passed by name:
   \item{mp.plot_width} {Override plot width for Model Performance module. Defaults to plot_width. Example mp.plot_width = 750}
   \item{pb.plot_width} {Override plot width for Prediction Breakdown module. Defaults to plot_width. Example pb.plot_width = 750}
   \item{vi.plot_width} {Override plot width for Variable Importance module. Defaults to plot_width. Example vi.plot_width = 750}
+  \item{font_size default} {width for plots. Defaults is calculated basing on plot width. Plot with width 800 has font size of 19. Example font_size = 25}
+  \item{vr.font_size} {Override font size for Variable Response module. Defaults to font_size. Example vr.font_size = 25}
+  \item{mp.font_size} {Override font size for Model Performance module. Defaults to font_size. Example mp.font_size = 25}
+  \item{pb.font_size} {Override font size for Prediction Breakdown module. Defaults to font_size. Example pb.font_size = 25}
+  \item{vi.font_size} {Override font size for Variable Importance module. Defaults to font_size. Example vi.font_size = 25}
 }
 }
 \examples{
@@ -61,7 +66,12 @@ modelDown::modelDown(explainer_glm,
   pb.plot_width=810,
   mp.plot_width=820,
   vi.plot_width=830,
-  vr.plot_width=840)
+  vr.plot_width=840
+  font_size=15,
+  pb.font_size=20,
+  mp.font_size=20,
+  vi.font_size=20,
+  vr.font_size=20)
 }
 }
 \author{
