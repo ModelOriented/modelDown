@@ -168,15 +168,23 @@ renderModules <- function(modules, output_folder) {
   })
 }
 
-make_audit_plot_model <- function(explainers, img_folder, options) {
+make_audit_plot_model <- function(explainers, img_folder, y, options) {
 
   models <- lapply(explainers, function(explainer) {
     auditor::audit(explainer)
   })
 
   width <- getPlotWidth(options, "a.plot_width")
-  audit_plots <- list(c("acf.svg", "ACF"), c("rroc.svg", "RROC"), c("scale_location.svg", "ScaleLocation"),
-                      c("residuals.svg", "Residual"), c("ranking.svg", "ModelRanking"), c("rec.svg", "REC"))
+  # LIFT only for classification
+  audit_plots <- list(c("acf.svg", "ACF"), c("rroc.svg", "RROC"),
+                      c("scale_location.svg", "ScaleLocation"), c("residuals.svg", "Residual"),
+                      c("ranking.svg", "ModelRanking"), c("rec.svg", "REC"))
+  if (class(y) == "factor") {
+    audit_plots = append(audit_plots, c("lift.svg", "LIFT"))
+    if (nlevels(y) == 2){
+       audit_plots = append(audit_plots, c("roc.svg", "ROC"))
+    }
+  }
   result <- list()
   for(audit_plot in audit_plots) {
     img_filename <- audit_plot[1]
@@ -198,14 +206,17 @@ renderMainPage <- function(modules, output_folder, explainers, options) {
   factor_columns <- which(sapply(data_set, class) == "factor")
   variables_data <- kable_styling(kable(psych::describe(data_set[,numeric_columns])), bootstrap_options = c("responsive", "bordered", "hover"))
 
-  audit_img_filename <- make_audit_plot_model(explainers, file.path(output_folder, "img"), options)
-  print(audit_img_filename)
+  y = explainers[[1]]$y
+  audit_img_filename <- make_audit_plot_model(explainers, file.path(output_folder, "img"), y, options)
+
   main_page_data <- list(
     explainers = renderExplainersList(explainers),
     data_summary = variables_data,
     factor_summary = renderFactorTables(data_set, factor_columns),
     observations_count = nrow(explainers[[1]]$data),
     columns_count = ncol(explainers[[1]]$data),
+    roc_img_filename = audit_img_filename$ROC,
+    lift_img_filename = audit_img_filename$LIFT,
     acf_img_filename = audit_img_filename$ACF,
     ranking_img_filename = audit_img_filename$ModelRanking,
     residuals_img_filename = audit_img_filename$Residual,

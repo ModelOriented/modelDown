@@ -5,6 +5,19 @@
   </div>
 </header>
 
+
+<script type="text/javascript">
+  function loadOptionalCharts() {
+    if ("{{lift_img_filename}}" !== "") {
+        document.getElementById("lift").innerHTML = '<img src="img/{{lift_img_filename}}" /><br/>'
+    }
+    if ("{{roc_img_filename}}" !== "") {
+        document.getElementById("roc").innerHTML = '<img src="img/{{roc_img_filename}}" /><br/>'
+    }
+  }
+  loadOptionalCharts();
+</script>
+
 <br>
 <br>
 
@@ -27,7 +40,9 @@
 <div style="text-align: center">
     <h2>Audit</h2>
     <div style="padding: 0px 20px;">
-        <img src="img/{{acf_img_filename}}" />
+        <div id="lift"></div>
+        <div id="roc"></div>
+        <img src="img/{{rroc_img_filename}}" />
         <br/>
         <img src="img/{{ranking_img_filename}}" />
         <br/>
@@ -35,7 +50,7 @@
         <br/>
         <img src="img/{{rec_img_filename}}" />
         <br/>
-        <img src="img/{{rroc_img_filename}}" />
+        <img src="img/{{acf_img_filename}}" />
         <br/>
         <img src="img/{{scale_location_img_filename}}" />
     </div>
@@ -51,8 +66,6 @@
     {{{factor_summary}}}
   {{/factor_summary}}
 </div>
-
-
 
 <br>
 <br>
