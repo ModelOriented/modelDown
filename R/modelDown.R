@@ -20,6 +20,9 @@
 #' @export
 #' @import kableExtra
 #' @import whisker
+#' @import ggplot2
+#' @importFrom grDevices svg
+#' @importFrom graphics plot
 #' @author Magda Tatarynowicz, Kamil Romaszko, Mateusz Urabński
 #' @examples
 #' \dontrun{
@@ -182,7 +185,7 @@ make_audit_plot_model <- function(explainers, img_folder, y, options) {
   if (class(y) == "factor") {
     audit_plots = append(audit_plots, c("lift.svg", "LIFT"))
     if (nlevels(y) == 2){
-       audit_plots = append(audit_plots, c("roc.svg", "ROC"))
+       audit_plots <- append(audit_plots, c("roc.svg", "ROC"))
     }
   }
   result <- list()
@@ -192,7 +195,7 @@ make_audit_plot_model <- function(explainers, img_folder, y, options) {
 
     file.create(img_path)
     pl <- do.call(plot, c(models, type = audit_plot[2]))
-    ggplot2::ggsave(img_path, pl, svg, width = width, height = 5, limitsize = TRUE)
+    ggsave(img_path, pl, svg, width = width, height = 5, limitsize = TRUE)
     result[audit_plot[2]] <- img_filename
   }
 
