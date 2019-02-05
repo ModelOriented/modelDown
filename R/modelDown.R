@@ -20,6 +20,9 @@
 #' @export
 #' @import kableExtra
 #' @import whisker
+#' @import ggplot2
+#' @importFrom grDevices svg
+#' @importFrom graphics plot
 #' @author Magda Tatarynowicz, Kamil Romaszko, Mateusz Urabński
 #' @examples
 #' \dontrun{
@@ -74,7 +77,7 @@ modelDown <- function(..., modules = c("model_performance", "variable_importance
   generated_modules <- generateModules(modules, output_folder, explainers, options)
 
   renderModules(generated_modules, output_folder)
-  renderMainPage(generated_modules, output_folder, explainers)
+  renderMainPage(generated_modules, output_folder, explainers, options)
   utils::browseURL(file.path(output_folder, "index.html"))
 }
 
@@ -168,18 +171,61 @@ renderModules <- function(modules, output_folder) {
   })
 }
 
-renderMainPage <- function(modules, output_folder, explainers) {
+make_audit_plot_model <- function(explainers, img_folder, y, options) {
+
+  models <- lapply(explainers, function(explainer) {
+    auditor::audit(explainer)
+  })
+
+  width <- getPlotWidth(options, "a.plot_width")
+  # LIFT only for classification
+  audit_plots <- list(c("acf.svg", "ACF"), c("rroc.svg", "RROC"),
+                      c("scale_location.svg", "ScaleLocation"), c("residuals.svg", "Residual"),
+                      c("ranking.svg", "ModelRanking"), c("rec.svg", "REC"))
+  if (class(y) == "factor") {
+    audit_plots = append(audit_plots, c("lift.svg", "LIFT"))
+    if (nlevels(y) == 2){
+       audit_plots <- append(audit_plots, c("roc.svg", "ROC"))
+    }
+  }
+  result <- list()
+  for(audit_plot in audit_plots) {
+    img_filename <- audit_plot[1]
+    img_path <- file.path(img_folder, img_filename)
+
+    file.create(img_path)
+    pl <- do.call(plot, c(models, type = audit_plot[2]))
+    ggsave(img_path, pl, svg, width = width, height = 5, limitsize = TRUE)
+    result[audit_plot[2]] <- img_filename
+  }
+
+  result
+}
+
+
+renderMainPage <- function(modules, output_folder, explainers, options) {
   data_set <- explainers[[1]]$data
   numeric_columns <- which(sapply(data_set, class) != "factor")
   factor_columns <- which(sapply(data_set, class) == "factor")
   variables_data <- kable_styling(kable(psych::describe(data_set[,numeric_columns])), bootstrap_options = c("responsive", "bordered", "hover"))
+
+  y = explainers[[1]]$y
+  audit_img_filename <- make_audit_plot_model(explainers, file.path(output_folder, "img"), y, options)
 
   main_page_data <- list(
     explainers = renderExplainersList(explainers),
     data_summary = variables_data,
     factor_summary = renderFactorTables(data_set, factor_columns),
     observations_count = nrow(explainers[[1]]$data),
-    columns_count = ncol(explainers[[1]]$data)
+    columns_count = ncol(explainers[[1]]$data),
+    roc_img_filename = audit_img_filename$ROC,
+    lift_img_filename = audit_img_filename$LIFT,
+    acf_img_filename = audit_img_filename$ACF,
+    ranking_img_filename = audit_img_filename$ModelRanking,
+    residuals_img_filename = audit_img_filename$Residual,
+    rec_img_filename = audit_img_filename$REC,
+    rroc_img_filename = audit_img_filename$RROC,
+    scale_location_img_filename = audit_img_filename$ScaleLocation
   )
 
   content_template <- readLines(system.file("extdata", "template", "index_template.html", package = "modelDown"))
