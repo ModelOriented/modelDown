@@ -1,8 +1,7 @@
 # modelDown
 
-[![Travis-CI Build Status](https://travis-ci.org/MI2DataLab/modelDown.svg?branch=master)](https://travis-ci.org/MI2DataLab/modelDown)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/modelDown)](https://cran.r-project.org/package=modelDown)
-[![Build Status](https://api.travis-ci.org/MI2DataLab/modelDown.png)](https://travis-ci.org/MI2DataLab/modelDown)
+[![Travis-CI Build Status](https://travis-ci.org/MI2DataLab/modelDown.svg?branch=master)](https://travis-ci.org/MI2DataLab/modelDown)
 [![Coverage
 Status](https://img.shields.io/codecov/c/github/MI2DataLab/modelDown/master.svg)](https://codecov.io/github/MI2DataLab/modelDown?branch=master)
 
