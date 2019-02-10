@@ -12,7 +12,10 @@ notifications:
   email: false
 r_packages:
   - covr
+  - ranger
+  - testthat
+  - DALEX
 
 after_success:
   - Rscript -e 'library(covr); codecov()'
-  
+
