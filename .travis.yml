@@ -4,3 +4,15 @@ language: R
 sudo: false
 cache: packages
 warnings_are_errors: true
+dist: trusty
+env:
+  global:
+  - R_CHECK_ARGS="--no-build-vignettes --no-manual --timings"
+notifications:
+  email: false
+r_packages:
+  - covr
+
+after_success:
+  - Rscript -e 'library(covr); codecov()'
+  
