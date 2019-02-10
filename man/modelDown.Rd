@@ -23,7 +23,7 @@ Additional arguments that could by passed by name:
   \item{vr.vars} {variables which will be examined in Variable Response module. Defaults to all variables. Example vr.vars = c("var1", "var2")}
   \item{pb.observations} {observations which will be examined in Prediction Breakdown module. When not given it selects worst predicted observations for each model. Example pb.observations = c(1,2,3) where 1,2,3 are observation numbers.}
   \item{vr.type} {types of examinations which will be conducteed in Variable Response module. Defaults to "pdp". Example vr.type = c("ale", "pdp")}
-  \item{plot_width default} {width for plots. Defaults to 800. Example plot_width = 750}
+  \item{plot_width default} {width for plots (in inches). Defaults to 8. Example plot_width = 750}
   \item{vr.plot_width} {Override plot width for Variable Response module. Defaults to plot_width. Example vr.plot_width = 750}
   \item{mp.plot_width} {Override plot width for Model Performance module. Defaults to plot_width. Example mp.plot_width = 750}
   \item{pb.plot_width} {Override plot width for Prediction Breakdown module. Defaults to plot_width. Example pb.plot_width = 750}
