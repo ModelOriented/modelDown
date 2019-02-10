@@ -5,12 +5,15 @@
 \title{Generates a website with HTML summaries for predictive models}
 \usage{
 modelDown(..., modules = c("model_performance", "variable_importance",
-  "variable_response", "prediction_breakdown"), output_folder = "output")
+  "variable_response", "prediction_breakdown"), auditor_charts = TRUE,
+  output_folder = "output")
 }
 \arguments{
 \item{...}{one or more explainers createdwith \code{DALEX::explain()} function}
 
 \item{modules}{modules that should be included in the website}
+
+\item{auditor_charts}{flag indicating if auditor charts should be generated for main page}
 
 \item{output_folder}{folder where the website will be saved}
 }
@@ -23,11 +26,12 @@ Additional arguments that could by passed by name:
   \item{vr.vars} {variables which will be examined in Variable Response module. Defaults to all variables. Example vr.vars = c("var1", "var2")}
   \item{pb.observations} {observations which will be examined in Prediction Breakdown module. When not given it selects worst predicted observations for each model. Example pb.observations = c(1,2,3) where 1,2,3 are observation numbers.}
   \item{vr.type} {types of examinations which will be conducteed in Variable Response module. Defaults to "pdp". Example vr.type = c("ale", "pdp")}
-  \item{plot_width default} {width for plots. Defaults to 800. Example plot_width = 750}
+  \item{plot_width default} {width for plots. Defaults to 10. Example plot_width = 9.5}
   \item{vr.plot_width} {Override plot width for Variable Response module. Defaults to plot_width. Example vr.plot_width = 750}
   \item{mp.plot_width} {Override plot width for Model Performance module. Defaults to plot_width. Example mp.plot_width = 750}
   \item{pb.plot_width} {Override plot width for Prediction Breakdown module. Defaults to plot_width. Example pb.plot_width = 750}
   \item{vi.plot_width} {Override plot width for Variable Importance module. Defaults to plot_width. Example vi.plot_width = 750}
+  \item{a.plot_width} {Override plot width for Auditor plots. Defaults to plot_width. Example vi.plot_width = 750}
 }
 }
 \examples{
@@ -53,6 +57,7 @@ modelDown::modelDown(explainer_ranger, explainer_glm) #all defaults
 modelDown::modelDown(explainer_glm,
   modules = c("model_performance", "variable_importance",
               "variable_response", "prediction_breakdown"),
+  auditor_charts = TRUE,
   output_folder = "modelDown_output",
   vr.vars= c("average_montly_hours", "time_spend_company"),
   pb.observations = c(1,2,3),
@@ -61,7 +66,8 @@ modelDown::modelDown(explainer_glm,
   pb.plot_width=810,
   mp.plot_width=820,
   vi.plot_width=830,
-  vr.plot_width=840)
+  vr.plot_width=840,
+  a.plot_width=840)
 }
 }
 \author{

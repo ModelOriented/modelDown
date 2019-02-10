@@ -2,6 +2,7 @@
 #'
 #' @param ... one or more explainers createdwith \code{DALEX::explain()} function
 #' @param modules modules that should be included in the website
+#' @param auditor_charts flag indicating if auditor charts should be generated for main page
 #' @param output_folder folder where the website will be saved
 #'
 #' @details
@@ -10,11 +11,12 @@
 #'   \item{vr.vars} {variables which will be examined in Variable Response module. Defaults to all variables. Example vr.vars = c("var1", "var2")}
 #'   \item{pb.observations} {observations which will be examined in Prediction Breakdown module. When not given it selects worst predicted observations for each model. Example pb.observations = c(1,2,3) where 1,2,3 are observation numbers.}
 #'   \item{vr.type} {types of examinations which will be conducteed in Variable Response module. Defaults to "pdp". Example vr.type = c("ale", "pdp")}
-#'   \item{plot_width default} {width for plots. Defaults to 800. Example plot_width = 750}
-#'   \item{vr.plot_width} {Override plot width for Variable Response module. Defaults to plot_width. Example vr.plot_width = 750}
-#'   \item{mp.plot_width} {Override plot width for Model Performance module. Defaults to plot_width. Example mp.plot_width = 750}
-#'   \item{pb.plot_width} {Override plot width for Prediction Breakdown module. Defaults to plot_width. Example pb.plot_width = 750}
-#'   \item{vi.plot_width} {Override plot width for Variable Importance module. Defaults to plot_width. Example vi.plot_width = 750}
+#'   \item{plot_width default} {width for plots. Defaults to 10. Example plot_width = 9.5}
+#'   \item{vr.plot_width} {Override plot width for Variable Response module. Defaults to plot_width. Example vr.plot_width = 10}
+#'   \item{mp.plot_width} {Override plot width for Model Performance module. Defaults to plot_width. Example mp.plot_width = 10}
+#'   \item{pb.plot_width} {Override plot width for Prediction Breakdown module. Defaults to plot_width. Example pb.plot_width = 10}
+#'   \item{vi.plot_width} {Override plot width for Variable Importance module. Defaults to plot_width. Example vi.plot_width = 10}
+#'   \item{a.plot_width} {Override plot width for Auditor plots. Defaults to plot_width. Example vi.plot_width = 10}
 #' }
 #'
 #' @export
@@ -47,18 +49,20 @@
 #' modelDown::modelDown(explainer_glm,
 #'   modules = c("model_performance", "variable_importance",
 #'               "variable_response", "prediction_breakdown"),
+#'   auditor_charts = TRUE,
 #'   output_folder = "modelDown_output",
 #'   vr.vars= c("average_montly_hours", "time_spend_company"),
 #'   pb.observations = c(1,2,3),
 #'   vr.type = "ale",
-#'   plot_width=700,
-#'   pb.plot_width=810,
-#'   mp.plot_width=820,
-#'   vi.plot_width=830,
-#'   vr.plot_width=840)
+#'   plot_width=7,
+#'   pb.plot_width=8.1,
+#'   mp.plot_width=8.2,
+#'   vi.plot_width=8.3,
+#'   vr.plot_width=8.4,
+#'   a.plot_width=8.5)
 #' }
 modelDown <- function(..., modules = c("model_performance", "variable_importance", "variable_response", "prediction_breakdown"),
-                      output_folder="output") {
+                      auditor_charts = TRUE, output_folder="output") {
 
   args <- list(..., version=1.0 )
   #named arguments are options (except those specified after ... in function definition)
@@ -77,7 +81,7 @@ modelDown <- function(..., modules = c("model_performance", "variable_importance
   generated_modules <- generateModules(modules, output_folder, explainers, options)
 
   renderModules(generated_modules, output_folder)
-  renderMainPage(generated_modules, output_folder, explainers, options)
+  renderMainPage(generated_modules, auditor_charts, output_folder, explainers, options)
   utils::browseURL(file.path(output_folder, "index.html"))
 }
 
@@ -112,9 +116,10 @@ copyAssets <- function(from, to) {
 generateModules <- function(modules_names, output_folder, explainers, options) {
   return(lapply(modules_names, function(module_name) {
     print(paste("Generating ", module_name, "...", sep = ""))
-    generator_path <- system.file("extdata", "modules", module_name, "generator.R", package = "modelDown")
+    generator_path <-
+      system.file("extdata", "modules", module_name, "generator.R", package = "modelDown")
     generator_env <- makeGeneratorEnvironment()
-    source(generator_path, local=generator_env)
+    source(generator_path, local = generator_env)
     data <- generator_env$generator(explainers, options, file.path(output_folder, "img"))
     return(data)
   }))
@@ -153,7 +158,8 @@ renderPage <- function(content, modules, output_path) {
 
   iteratelist(data[['menu_links']], name='menu_links')
 
-  base_template_path <- system.file("extdata", "template", "base_template.html", package = "modelDown")
+  base_template_path <-
+    system.file("extdata", "template", "base_template.html", package = "modelDown")
   base_template <- readLines(base_template_path)
   page <- whisker.render(base_template, data)
   file.create(output_path)
@@ -163,7 +169,8 @@ renderPage <- function(content, modules, output_path) {
 renderModules <- function(modules, output_folder) {
   lapply(modules, function(module) {
     module_path <- file.path("modules", module[['name']])
-    content_template <- readLines(system.file("extdata", module_path, "template.html", package = "modelDown"))
+    content_template <-
+      readLines(system.file("extdata", module_path, "template.html", package = "modelDown"))
 
     content <- whisker.render(content_template, module[['data']])
     output_path <- file.path(output_folder, paste(module[['name']], ".html", sep=""))
@@ -178,15 +185,15 @@ make_audit_plot_model <- function(explainers, img_folder, y, options) {
   })
 
   width <- getPlotWidth(options, "a.plot_width")
-  # LIFT only for classification
   audit_plots <- list(c("acf.svg", "ACF"), c("rroc.svg", "RROC"),
                       c("scale_location.svg", "ScaleLocation"), c("residuals.svg", "Residual"),
                       c("ranking.svg", "ModelRanking"), c("rec.svg", "REC"))
-  if (class(y) == "factor") {
-    audit_plots = append(audit_plots, c("lift.svg", "LIFT"))
-    if (nlevels(y) == 2){
-       audit_plots <- append(audit_plots, c("roc.svg", "ROC"))
-    }
+  # LIFT and ROC only for binary classification
+  if (class(y) == "numeric" && length(levels(as.factor(y))) == 2) {
+      audit_plots <- append(audit_plots, list(c("roc.svg", "ROC")))
+      audit_plots <- append(audit_plots, list(c("lift.svg", "LIFT")))
+  } else if (class(y) == "factor") {
+    warning("ROC and LIFT charts are supported only for binary classification.")
   }
   result <- list()
   for(audit_plot in audit_plots) {
@@ -199,18 +206,15 @@ make_audit_plot_model <- function(explainers, img_folder, y, options) {
     result[audit_plot[2]] <- img_filename
   }
 
-  result
+  return(result)
 }
 
 
-renderMainPage <- function(modules, output_folder, explainers, options) {
+renderMainPage <- function(modules, auditor_charts, output_folder, explainers, options) {
   data_set <- explainers[[1]]$data
   numeric_columns <- which(sapply(data_set, class) != "factor")
   factor_columns <- which(sapply(data_set, class) == "factor")
   variables_data <- kable_styling(kable(psych::describe(data_set[,numeric_columns])), bootstrap_options = c("responsive", "bordered", "hover"))
-
-  y = explainers[[1]]$y
-  audit_img_filename <- make_audit_plot_model(explainers, file.path(output_folder, "img"), y, options)
 
   main_page_data <- list(
     explainers = renderExplainersList(explainers),
@@ -218,17 +222,28 @@ renderMainPage <- function(modules, output_folder, explainers, options) {
     factor_summary = renderFactorTables(data_set, factor_columns),
     observations_count = nrow(explainers[[1]]$data),
     columns_count = ncol(explainers[[1]]$data),
-    roc_img_filename = audit_img_filename$ROC,
-    lift_img_filename = audit_img_filename$LIFT,
-    acf_img_filename = audit_img_filename$ACF,
-    ranking_img_filename = audit_img_filename$ModelRanking,
-    residuals_img_filename = audit_img_filename$Residual,
-    rec_img_filename = audit_img_filename$REC,
-    rroc_img_filename = audit_img_filename$RROC,
-    scale_location_img_filename = audit_img_filename$ScaleLocation
+    auditor_charts = auditor_charts
   )
 
-  content_template <- readLines(system.file("extdata", "template", "index_template.html", package = "modelDown"))
+  if (auditor_charts) {
+    y = explainers[[1]]$y
+    audit_img_filename <-
+      make_audit_plot_model(explainers, file.path(output_folder, "img"), y, options)
+    auditor_plots <- list(
+      roc_img_filename = audit_img_filename$ROC,
+      lift_img_filename = audit_img_filename$LIFT,
+      acf_img_filename = audit_img_filename$ACF,
+      ranking_img_filename = audit_img_filename$ModelRanking,
+      residuals_img_filename = audit_img_filename$Residual,
+      rec_img_filename = audit_img_filename$REC,
+      rroc_img_filename = audit_img_filename$RROC,
+      scale_location_img_filename = audit_img_filename$ScaleLocation
+    )
+    main_page_data <- append(main_page_data, auditor_plots)
+  }
+
+  content_template <-
+    readLines(system.file("extdata", "template", "index_template.html", package = "modelDown"))
   content <- whisker.render(content_template, main_page_data)
   output_path <- file.path(output_folder, "index.html")
   renderPage(content, modules, output_path)
@@ -237,7 +252,16 @@ renderMainPage <- function(modules, output_folder, explainers, options) {
 renderExplainersList <- function(explainers){
   explainers_ul <- "<ul>"
   for(explainer in explainers){
-    explainers_ul <- paste(explainers_ul, "<li>", explainer$label, " <a href='explainers/", explainer$label, ".rda'>(download)</a></li>", sep = "")
+    explainers_ul <-
+      paste(
+        explainers_ul,
+        "<li>",
+        explainer$label,
+        " <a href='explainers/",
+        explainer$label,
+        ".rda'>(download)</a></li>",
+        sep = ""
+      )
   }
   explainers_ul <- paste(explainers_ul, "</ul>", sep = "")
   explainers_ul
@@ -251,11 +275,11 @@ renderFactorTables <- function(data_set, factor_columns){
     for(i in 1:length(factor_columns)){
       column_number <- factor_columns[[i]]
       column_name <- names(factor_columns)[i]
-      temp_table <- kable_styling(kable(table(data_set[,column_number]), col.names = c(column_name, "Frequency")), bootstrap_options = c("responsive", "bordered", "hover"), full_width = FALSE)
+      temp_table <- kable_styling(kable(table(data_set[, column_number]), col.names = c(column_name, "Frequency")),bootstrap_options = c("responsive", "bordered", "hover"),full_width = FALSE)
       factor_data <- paste(factor_data, temp_table, sep="<br>")
     }
   }
 
-  factor_data
+  return(factor_data)
 }
 
