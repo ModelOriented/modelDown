@@ -2,7 +2,6 @@
 #'
 #' @param ... one or more explainers createdwith \code{DALEX::explain()} function
 #' @param modules modules that should be included in the website
-#' @param auditor_charts flag indicating if auditor charts should be generated for main page
 #' @param output_folder folder where the website will be saved
 #'
 #' @details
@@ -12,11 +11,11 @@
 #'   \item{pb.observations} {observations which will be examined in Prediction Breakdown module. When not given it selects worst predicted observations for each model. Example pb.observations = c(1,2,3) where 1,2,3 are observation numbers.}
 #'   \item{vr.type} {types of examinations which will be conducteed in Variable Response module. Defaults to "pdp". Example vr.type = c("ale", "pdp")}
 #'   \item{plot_width default} {width for plots (in inches). Defaults to 8. Example plot_width = 9.5}
+#'   \item{a.plot_width} {Override plot width for Auditor plots. Defaults to plot_width. Example vi.plot_width = 10}
 #'   \item{vr.plot_width} {Override plot width for Variable Response module. Defaults to plot_width. Example vr.plot_width = 10}
 #'   \item{mp.plot_width} {Override plot width for Model Performance module. Defaults to plot_width. Example mp.plot_width = 10}
 #'   \item{pb.plot_width} {Override plot width for Prediction Breakdown module. Defaults to plot_width. Example pb.plot_width = 10}
 #'   \item{vi.plot_width} {Override plot width for Variable Importance module. Defaults to plot_width. Example vi.plot_width = 10}
-#'   \item{a.plot_width} {Override plot width for Auditor plots. Defaults to plot_width. Example vi.plot_width = 10}
 #' }
 #'
 #' @export
@@ -61,8 +60,8 @@
 #'   vr.plot_width=8.4,
 #'   a.plot_width=8.5)
 #' }
-modelDown <- function(..., modules = c("model_performance", "variable_importance", "variable_response", "prediction_breakdown"),
-                      auditor_charts = TRUE, output_folder="output") {
+modelDown <- function(..., modules = c("auditor", "model_performance", "variable_importance", "variable_response", "prediction_breakdown"),
+                      output_folder="output") {
 
   args <- list(..., version=1.0 )
   #named arguments are options (except those specified after ... in function definition)
@@ -81,7 +80,7 @@ modelDown <- function(..., modules = c("model_performance", "variable_importance
   generated_modules <- generateModules(modules, output_folder, explainers, options)
 
   renderModules(generated_modules, output_folder)
-  renderMainPage(generated_modules, auditor_charts, output_folder, explainers, options)
+  renderMainPage(generated_modules, output_folder, explainers, options)
   utils::browseURL(file.path(output_folder, "index.html"))
 }
 
@@ -178,39 +177,9 @@ renderModules <- function(modules, output_folder) {
   })
 }
 
-make_audit_plot_model <- function(explainers, img_folder, y, options) {
-
-  models <- lapply(explainers, function(explainer) {
-    auditor::audit(explainer)
-  })
-
-  width <- getPlotWidth(options, "a.plot_width")
-  audit_plots <- list(c("acf.svg", "ACF"), c("rroc.svg", "RROC"),
-                      c("scale_location.svg", "ScaleLocation"), c("residuals.svg", "Residual"),
-                      c("ranking.svg", "ModelRanking"), c("rec.svg", "REC"))
-  # LIFT and ROC only for binary classification
-  if (class(y) == "numeric" && length(levels(as.factor(y))) == 2) {
-      audit_plots <- append(audit_plots, list(c("roc.svg", "ROC")))
-      audit_plots <- append(audit_plots, list(c("lift.svg", "LIFT")))
-  } else if (class(y) == "factor") {
-    warning("ROC and LIFT charts are supported only for binary classification.")
-  }
-  result <- list()
-  for(audit_plot in audit_plots) {
-    img_filename <- audit_plot[1]
-    img_path <- file.path(img_folder, img_filename)
-
-    file.create(img_path)
-    pl <- do.call(plot, c(models, type = audit_plot[2]))
-    ggsave(img_path, pl, svg, width = width, height = 5, limitsize = TRUE)
-    result[audit_plot[2]] <- img_filename
-  }
-
-  return(result)
-}
 
 
-renderMainPage <- function(modules, auditor_charts, output_folder, explainers, options) {
+renderMainPage <- function(modules, output_folder, explainers, options) {
   data_set <- explainers[[1]]$data
   numeric_columns <- which(sapply(data_set, class) != "factor")
   factor_columns <- which(sapply(data_set, class) == "factor")
@@ -221,26 +190,8 @@ renderMainPage <- function(modules, auditor_charts, output_folder, explainers, o
     data_summary = variables_data,
     factor_summary = renderFactorTables(data_set, factor_columns),
     observations_count = nrow(explainers[[1]]$data),
-    columns_count = ncol(explainers[[1]]$data),
-    auditor_charts = auditor_charts
+    columns_count = ncol(explainers[[1]]$data)
   )
-
-  if (auditor_charts) {
-    y = explainers[[1]]$y
-    audit_img_filename <-
-      make_audit_plot_model(explainers, file.path(output_folder, "img"), y, options)
-    auditor_plots <- list(
-      roc_img_filename = audit_img_filename$ROC,
-      lift_img_filename = audit_img_filename$LIFT,
-      acf_img_filename = audit_img_filename$ACF,
-      ranking_img_filename = audit_img_filename$ModelRanking,
-      residuals_img_filename = audit_img_filename$Residual,
-      rec_img_filename = audit_img_filename$REC,
-      rroc_img_filename = audit_img_filename$RROC,
-      scale_location_img_filename = audit_img_filename$ScaleLocation
-    )
-    main_page_data <- append(main_page_data, auditor_plots)
-  }
 
   content_template <-
     readLines(system.file("extdata", "template", "index_template.html", package = "modelDown"))
