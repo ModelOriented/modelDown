@@ -1,14 +1,14 @@
-library("DALEX")
+library(DALEX)
 library(ggplot2)
 library(DT)
 library(kableExtra)
 
 save_plot_image <- function(file_name, data, options){
 
-  width <- getPlotWidth(options, "pb.plot_width")
+  plot_settings <- getPlotSettings(options, "pb")
 
-  pl <- do.call(plot, data)
-  ggsave(file_name, pl, png, width = width, height = 500, limitsize = FALSE)
+  pl <- do.call(plot, data) + theme(text = element_text(size=plot_settings$font_size))
+  ggsave(file_name, pl, png, width = plot_settings$width, height = 500, limitsize = FALSE)
 }
 
 generate_prediction_breakdown_data <- function(explainer, observation_number){
