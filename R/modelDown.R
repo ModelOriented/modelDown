@@ -46,9 +46,8 @@
 #' modelDown::modelDown(explainer_ranger, explainer_glm) #all defaults
 #'
 #' modelDown::modelDown(explainer_glm,
-#'   modules = c("model_performance", "variable_importance",
+#'   modules = c("auditor", "model_performance", "variable_importance",
 #'               "variable_response", "prediction_breakdown"),
-#'   auditor_charts = TRUE,
 #'   output_folder = "modelDown_output",
 #'   vr.vars= c("average_montly_hours", "time_spend_company"),
 #'   pb.observations = c(1,2,3),
