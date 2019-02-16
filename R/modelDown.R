@@ -10,7 +10,7 @@
 #'   \item{vr.vars} {variables which will be examined in Variable Response module. Defaults to all variables. Example vr.vars = c("var1", "var2")}
 #'   \item{pb.observations} {observations which will be examined in Prediction Breakdown module. When not given it selects worst predicted observations for each model. Example pb.observations = c(1,2,3) where 1,2,3 are observation numbers.}
 #'   \item{vr.type} {types of examinations which will be conducteed in Variable Response module. Defaults to "pdp". Example vr.type = c("ale", "pdp")}
-#'   \item{plot_width default} {width for plots. Defaults to 800. Example plot_width = 750}
+#'   \item{plot_width default} {width for plots (in inches). Defaults to 8. Example plot_width = 750}
 #'   \item{vr.plot_width} {Override plot width for Variable Response module. Defaults to plot_width. Example vr.plot_width = 750}
 #'   \item{mp.plot_width} {Override plot width for Model Performance module. Defaults to plot_width. Example mp.plot_width = 750}
 #'   \item{pb.plot_width} {Override plot width for Prediction Breakdown module. Defaults to plot_width. Example pb.plot_width = 750}
@@ -20,6 +20,9 @@
 #' @export
 #' @import kableExtra
 #' @import whisker
+#' @import ggplot2
+#' @importFrom grDevices svg
+#' @importFrom graphics plot
 #' @author Magda Tatarynowicz, Kamil Romaszko, Mateusz Urabński
 #' @examples
 #' \dontrun{
@@ -61,11 +64,17 @@ modelDown <- function(..., modules = c("model_performance", "variable_importance
   args <- list(..., version=1.0 )
   #named arguments are options (except those specified after ... in function definition)
   options <- args[names(args) != ""]
+  options[["output_folder"]] <- output_folder
   #unnamed arguments are explainers
   explainers <- args[names(args) == ""]
 
   ensureOutputFolderStructureExist(output_folder);
   do.call(file.remove, list(list.files(output_folder, full.names = TRUE, recursive = TRUE)))
+
+  # create local repository
+  repository <- file.path(output_folder, 'repository')
+  archivist::createLocalRepo(repoDir = repository)
+
   # save explainers
   for(explainer in explainers){
     saveRDS(explainer, file = paste0(output_folder,"/explainers/", explainer$label, ".rda"))
@@ -75,7 +84,7 @@ modelDown <- function(..., modules = c("model_performance", "variable_importance
   generated_modules <- generateModules(modules, output_folder, explainers, options)
 
   renderModules(generated_modules, output_folder)
-  renderMainPage(generated_modules, output_folder, explainers)
+  renderMainPage(generated_modules, output_folder, explainers, options)
   utils::browseURL(file.path(output_folder, "index.html"))
 }
 
@@ -111,9 +120,17 @@ getVarOrDefault <- function(options, var1, var2, default_value) {
   return(value)
 }
 
+save_to_repository <- function(artifact, options){
+  # todo - repository name from options
+  repository <- file.path(options[["output_folder"]], "repository")
+  hash <- archivist::saveToLocalRepo(artifact, repoDir=repository)
+  link <- paste("archivist::loadFromLocalRepo(md5hash = '", hash, "', ", "repoDir = '", repository,"')", sep = "")
+}
+
 makeGeneratorEnvironment <- function() {
   e <- new.env()
   e$getPlotSettings <- getPlotSettings
+  e$save_to_repository <- save_to_repository
   e
 }
 
@@ -186,18 +203,61 @@ renderModules <- function(modules, output_folder) {
   })
 }
 
-renderMainPage <- function(modules, output_folder, explainers) {
+make_audit_plot_model <- function(explainers, img_folder, y, options) {
+
+  models <- lapply(explainers, function(explainer) {
+    auditor::audit(explainer)
+  })
+
+  width <- getPlotWidth(options, "a.plot_width")
+  # LIFT only for classification
+  audit_plots <- list(c("acf.svg", "ACF"), c("rroc.svg", "RROC"),
+                      c("scale_location.svg", "ScaleLocation"), c("residuals.svg", "Residual"),
+                      c("ranking.svg", "ModelRanking"), c("rec.svg", "REC"))
+  if (class(y) == "factor") {
+    audit_plots = append(audit_plots, c("lift.svg", "LIFT"))
+    if (nlevels(y) == 2){
+       audit_plots <- append(audit_plots, c("roc.svg", "ROC"))
+    }
+  }
+  result <- list()
+  for(audit_plot in audit_plots) {
+    img_filename <- audit_plot[1]
+    img_path <- file.path(img_folder, img_filename)
+
+    file.create(img_path)
+    pl <- do.call(plot, c(models, type = audit_plot[2]))
+    ggsave(img_path, pl, svg, width = width, height = 5, limitsize = TRUE)
+    result[audit_plot[2]] <- img_filename
+  }
+
+  result
+}
+
+
+renderMainPage <- function(modules, output_folder, explainers, options) {
   data_set <- explainers[[1]]$data
   numeric_columns <- which(sapply(data_set, class) != "factor")
   factor_columns <- which(sapply(data_set, class) == "factor")
   variables_data <- kable_styling(kable(psych::describe(data_set[,numeric_columns])), bootstrap_options = c("responsive", "bordered", "hover"))
+
+  y = explainers[[1]]$y
+  audit_img_filename <- make_audit_plot_model(explainers, file.path(output_folder, "img"), y, options)
 
   main_page_data <- list(
     explainers = renderExplainersList(explainers),
     data_summary = variables_data,
     factor_summary = renderFactorTables(data_set, factor_columns),
     observations_count = nrow(explainers[[1]]$data),
-    columns_count = ncol(explainers[[1]]$data)
+    columns_count = ncol(explainers[[1]]$data),
+    roc_img_filename = audit_img_filename$ROC,
+    lift_img_filename = audit_img_filename$LIFT,
+    acf_img_filename = audit_img_filename$ACF,
+    ranking_img_filename = audit_img_filename$ModelRanking,
+    residuals_img_filename = audit_img_filename$Residual,
+    rec_img_filename = audit_img_filename$REC,
+    rroc_img_filename = audit_img_filename$RROC,
+    scale_location_img_filename = audit_img_filename$ScaleLocation
   )
 
   content_template <- readLines(system.file("extdata", "template", "index_template.html", package = "modelDown"))
