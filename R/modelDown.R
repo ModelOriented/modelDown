@@ -209,7 +209,9 @@ make_audit_plot_model <- function(explainers, img_folder, y, options) {
     auditor::audit(explainer)
   })
 
-  width <- getPlotWidth(options, "a.plot_width")
+  plot_settings <- getPlotSettings(options, "a")
+  width <- plot_settings$width
+
   # LIFT only for classification
   audit_plots <- list(c("acf.svg", "ACF"), c("rroc.svg", "RROC"),
                       c("scale_location.svg", "ScaleLocation"), c("residuals.svg", "Residual"),
