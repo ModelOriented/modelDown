@@ -63,11 +63,17 @@ modelDown <- function(..., modules = c("model_performance", "variable_importance
   args <- list(..., version=1.0 )
   #named arguments are options (except those specified after ... in function definition)
   options <- args[names(args) != ""]
+  options[["output_folder"]] <- output_folder
   #unnamed arguments are explainers
   explainers <- args[names(args) == ""]
 
   ensureOutputFolderStructureExist(output_folder);
   do.call(file.remove, list(list.files(output_folder, full.names = TRUE, recursive = TRUE)))
+
+  # create local repository
+  repository <- file.path(output_folder, 'repository')
+  archivist::createLocalRepo(repoDir = repository)
+
   # save explainers
   for(explainer in explainers){
     saveRDS(explainer, file = paste0(output_folder,"/explainers/", explainer$label, ".rda"))
@@ -96,9 +102,17 @@ getPlotWidth <- function(options, plot_with_variable = NULL, default_width = 8) 
   width
 }
 
+save_to_repository <- function(artifact, options){
+  # todo - repository name from options
+  repository <- file.path(options[["output_folder"]], "repository")
+  hash <- archivist::saveToLocalRepo(artifact, repoDir=repository)
+  link <- paste("archivist::loadFromLocalRepo(md5hash = '", hash, "', ", "repoDir = '", repository,"')", sep = "")
+}
+
 makeGeneratorEnvironment <- function() {
   e <- new.env()
   e$getPlotWidth <- getPlotWidth
+  e$save_to_repository <- save_to_repository
   e
 }
 
