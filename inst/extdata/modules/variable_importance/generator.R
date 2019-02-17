@@ -2,12 +2,9 @@ library(DALEX)
 library(ggplot2)
 library(kableExtra)
 
-save_plot_image <- function(file_name, models, options){
-
-  plot_settings <- getPlotSettings(options, "vi")
-
-  pl <- do.call(plot, models) + theme(text = element_text(size=plot_settings$font_size))
-  ggsave(file_name, pl, png, width = plot_settings$width, height = 500, limitsize = FALSE)
+save_plot_image <- function(file_name, models, settings){
+  pl <- do.call(plot, models) + theme(text = element_text(size=settings$font_size))
+  ggsave(file_name, pl, settings$device, width = settings$width, height = 5)
 }
 
 make_variable_importance_table <- function(explainers) {
@@ -38,11 +35,15 @@ make_variable_importance_table <- function(explainers) {
 }
 
 create_plot_image <- function(models, img_folder, options){
-  img_filename <- 'variable_importance.png'
+  plot_settings <- getPlotSettings(options, "vi")
+
+  img_filename <- paste('variable_importance', plot_settings$device, sep='.')
   img_path <- file.path(img_folder, img_filename)
 
   file.create(img_path)
-  save_plot_image(img_path, models, options)
+  save_plot_image(img_path, models, plot_settings)
+
+  img_filename
 }
 
 generate_models <- function(explainers){
@@ -58,7 +59,7 @@ generator <- function(explainers, options, img_folder) {
 
   models <- generate_models(explainers)
 
-  create_plot_image(models, img_folder, options)
+  filename <- create_plot_image(models, img_folder, options)
 
   link <- save_to_repository(models, options)
 
@@ -66,7 +67,7 @@ generator <- function(explainers, options, img_folder) {
     display_name='Variable Importance',
     name='variable_importance',
     data=list(
-      img_filename='variable_importance.png',
+      img_filename=filename,
       dataframe=variable_importance_table,
       archivist_link = link
     )
