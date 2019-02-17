@@ -7,7 +7,7 @@ save_plot_image <- function(file_name, models, height, img_folder, settings){
   file.create(path)
 
   plot_obj <- do.call(plot, models) + theme(text = element_text(size=settings$font_size))
-  ggsave(path, plot_obj, settings$device, width = settings$width, height = height)
+  ggsave(path, plot_obj, settings$device)
 }
 
 make_model_performance_plot_model <- function(explainers, img_folder, options) {

@@ -3,7 +3,7 @@ library(ggplot2)
 
 save_plot_image <- function(file_name, models, settings){
   pl <- do.call(plot, models) + theme(text = element_text(size=settings$font_size))
-  ggsave(file_name, pl, settings$device, width = settings$width, height = 5)
+  ggsave(file_name, pl, settings$device)
 }
 
 make_variable_plot <- function(variable_name, types, explainers, img_folder, options) {
