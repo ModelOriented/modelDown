@@ -57,7 +57,7 @@
 #'   vi.plot_width=830,
 #'   vr.plot_width=840)
 #' }
-modelDown <- function(..., modules = c("model_performance", "variable_importance", "variable_response"),
+modelDown <- function(..., modules = c("model_performance", "variable_importance", "variable_response", "prediction_breakdown"),
                       output_folder="output") {
 
   source(system.file("extdata", "config.R", package = "modelDown"))
@@ -100,12 +100,10 @@ getPlotSettings <- function(options, options_prefix = NULL, default_width = DEFA
 
   default_font_size <- round(width/DEFAULT_WIDTH_TO_FONT_SIZE_DIVIDER)
   font_size <- getVarOrDefault(options, font_size_variable, "font_size", default_value = default_font_size)
-  device <- DEFAULT_DEVICE
 
   return(list(
     width = width,
-    font_size = font_size,
-    device = device
+    font_size = font_size
   ))
 }
 
