@@ -1,16 +1,14 @@
 library("DALEX")
 library(ggplot2)
 
-save_plot_image <- function(file_name, models, options){
-
-  plot_settings <- getPlotSettings(options, "vr")
-
-  pl <- do.call(plot, models) + theme(text = element_text(size=plot_settings$font_size))
-  ggsave(file_name, pl, png, width = plot_settings$width, height = 500, limitsize = FALSE)
+save_plot_image <- function(file_name, models, settings){
+  pl <- do.call(plot, models) + theme(text = element_text(size=settings$font_size))
+  ggsave(file_name, pl, settings$device, width = settings$width, height = 5)
 }
 
 make_variable_plot <- function(variable_name, types, explainers, img_folder, options) {
-  img_filename <- paste('variable_response_', variable_name, '_', paste(types, collapse=''), '.png', sep='')
+  plot_settings <- getPlotSettings(options, "vr")
+  img_filename <- paste('variable_response_', variable_name, '_', paste(types, collapse=''), '.', plot_settings$device, sep='')
   img_path <- file.path(img_folder, img_filename)
 
   models_per_type <- lapply(types, function(type) {
@@ -20,7 +18,7 @@ make_variable_plot <- function(variable_name, types, explainers, img_folder, opt
   models <- do.call(c, models_per_type)
 
   file.create(img_path)
-  save_plot_image(img_path, models, options)
+  save_plot_image(img_path, models, plot_settings)
 
   return(img_filename)
 }
