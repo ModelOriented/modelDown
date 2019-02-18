@@ -11,15 +11,20 @@ env:
 notifications:
   email: false
 r_packages:
+  - auditor
+  - archivist
   - covr
   - ranger
   - testthat
   - DALEX
 
-after_success:
-  - Rscript -e 'library(covr); codecov()'
-
 addons:
   apt:
     packages:
       - libudunits2-dev
+      - libgdal-dev
+      - libproj-dev
+
+after_success:
+  - Rscript -e 'library(covr); codecov()'
+
