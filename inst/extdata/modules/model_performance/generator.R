@@ -21,22 +21,30 @@ make_model_performance_plot_model <- function(explainers, img_folder, options) {
   })
 
   save_plot_image(img_filename, models, 500, img_folder, options)
+  link_mp <- save_to_repository(models, options)
+
   models$geom <- "boxplot"
   save_plot_image(img_box_filename, models, 400, img_folder, options)
+  link_mp_box <- save_to_repository(models, options)
 
   list(img_filename = img_filename,
-       img_box_filename = img_box_filename)
+       img_box_filename = img_box_filename,
+       archivist_link_mp1 = link_mp,
+       archivist_link_mp2 = link_mp_box)
 }
 
 generator <- function(explainers, options, img_folder) {
 
   img_filename <- make_model_performance_plot_model(explainers, img_folder, options)
+
   list(
     display_name='Model Performance',
     name='model_performance',
     data=list(
       img_filename_mp1 = img_filename$img_filename,
-      img_filename_mp2 = img_filename$img_box_filename
+      img_filename_mp2 = img_filename$img_box_filename,
+      archivist_link_mp1 = img_filename$archivist_link_mp1,
+      archivist_link_mp2 = img_filename$archivist_link_mp2
     )
   )
 }

@@ -9,15 +9,9 @@ save_plot_image <- function(file_name, models, options){
   ggsave(file_name, pl, png, width = plot_settings$width, height = 500, limitsize = FALSE)
 }
 
-make_variable_plot <- function(variable_name, types, explainers, img_folder, options) {
+make_variable_plot <- function(variable_name, types, models, img_folder, options) {
   img_filename <- paste('variable_response_', variable_name, '_', paste(types, collapse=''), '.png', sep='')
   img_path <- file.path(img_folder, img_filename)
-
-  models_per_type <- lapply(types, function(type) {
-    lapply(explainers, function(explainer) { variable_response(explainer, variable_name, type=type) })
-  })
-
-  models <- do.call(c, models_per_type)
 
   file.create(img_path)
   save_plot_image(img_path, models, options)
@@ -32,11 +26,20 @@ make_variable_plot_model <- function(variable_name, explainers, img_folder, opti
     types <- "pdp"
   }
 
-  plot_filename <-make_variable_plot(variable_name, types, explainers, img_folder, options)
+  models_per_type <- lapply(types, function(type) {
+    lapply(explainers, function(explainer) { variable_response(explainer, variable_name, type=type) })
+  })
+
+  models <- do.call(c, models_per_type)
+
+  plot_filename <-make_variable_plot(variable_name, types, models, img_folder, options)
+
+  link <- save_to_repository(models, options)
 
   list(
     variable_name=variable_name,
-    img_filename=plot_filename
+    img_filename=plot_filename,
+    archivist_link = link
   )
 }
 
