@@ -19,3 +19,7 @@ r_packages:
 after_success:
   - Rscript -e 'library(covr); codecov()'
 
+addons:
+  apt:
+    packages:
+      - libudunits2-dev

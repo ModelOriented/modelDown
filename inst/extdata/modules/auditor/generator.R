@@ -3,10 +3,10 @@ library(ggplot2)
 
 save_plot_image <- function(file_name, models, type, options){
 
-  width <- getPlotWidth(options, "a.plot_width")
+  plot_settings <- getPlotSettings(options, "a")
 
   pl <- do.call(plot, c(models, type = type))
-  ggsave(file_name, pl, svg, width = width, height = 5, limitsize = FALSE)
+  ggsave(file_name, pl, svg, width = plot_settings$width, height = 5, limitsize = FALSE)
 }
 
 make_audit_plot_model <- function(explainers, img_folder, y, options) {
@@ -15,7 +15,6 @@ make_audit_plot_model <- function(explainers, img_folder, y, options) {
     auditor::audit(explainer)
   })
 
-  width <- getPlotWidth(options, "a.plot_width")
   audit_plots <- list(c("acf.svg", "ACF"), c("rroc.svg", "RROC"),
                       c("scale_location.svg", "ScaleLocation"), c("residuals.svg", "Residual"),
                       c("ranking.svg", "ModelRanking"), c("rec.svg", "REC"))
@@ -33,7 +32,6 @@ make_audit_plot_model <- function(explainers, img_folder, y, options) {
 
     file.create(img_path)
 
-    #ggsave(img_path, pl, svg, width = width, height = 5, limitsize = TRUE)
     save_plot_image(img_path, models, audit_plot[2], options)
     result[audit_plot[2]] <- img_filename
   }
