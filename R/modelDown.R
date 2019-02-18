@@ -62,14 +62,21 @@
 modelDown <- function(..., modules = c("auditor", "model_performance", "variable_importance", "variable_response", "prediction_breakdown"),
                       output_folder="output") {
 
+  source(system.file("extdata", "config.R", package = "modelDown"))
   args <- list(..., version=1.0 )
   #named arguments are options (except those specified after ... in function definition)
   options <- args[names(args) != ""]
+  options[["output_folder"]] <- output_folder
   #unnamed arguments are explainers
   explainers <- args[names(args) == ""]
 
   ensureOutputFolderStructureExist(output_folder);
   do.call(file.remove, list(list.files(output_folder, full.names = TRUE, recursive = TRUE)))
+
+  # create local repository
+  repository <- file.path(output_folder, 'repository')
+  archivist::createLocalRepo(repoDir = repository)
+
   # save explainers
   for(explainer in explainers){
     saveRDS(explainer, file = paste0(output_folder,"/explainers/", explainer$label, ".rda"))
@@ -84,23 +91,48 @@ modelDown <- function(..., modules = c("auditor", "model_performance", "variable
 }
 
 
-getPlotWidth <- function(options, plot_with_variable = NULL, default_width = 8) {
-  if(!is.null(plot_with_variable)) {
-    width <- options[[plot_with_variable]]
-  }
-  if(is.null(width)) {
-    width <- options[["plot_width"]]
-  }
-  if(is.null(width)) {
-    width <- default_width
+getPlotSettings <- function(options, options_prefix = NULL, default_width = DEFAULT_WIDTH) {
+
+  if(!is.null(options_prefix)) {
+    plot_width_variable <- paste(options_prefix, ".plot_width", sep = "")
+    font_size_variable <- paste(options_prefix, ".font_size", sep = "")
   }
 
-  width
+  width <- getVarOrDefault(options, plot_width_variable, "plot_width", default_value = default_width)
+
+  default_font_size <- round(width/DEFAULT_WIDTH_TO_FONT_SIZE_DIVIDER)
+  font_size <- getVarOrDefault(options, font_size_variable, "font_size", default_value = default_font_size)
+
+  return(list(
+    width = width,
+    font_size = font_size
+  ))
+}
+
+getVarOrDefault <- function(options, var1, var2, default_value) {
+  if(!is.null(var1)) {
+    value <- options[[var1]]
+  }
+  if(is.null(value)) {
+    value <- options[[var2]]
+  }
+  if(is.null(value)) {
+    value <- default_value
+  }
+  return(value)
+}
+
+save_to_repository <- function(artifact, options){
+  # todo - repository name from options
+  repository <- file.path(options[["output_folder"]], "repository")
+  hash <- archivist::saveToLocalRepo(artifact, repoDir=repository)
+  link <- paste("archivist::loadFromLocalRepo(md5hash = '", hash, "', ", "repoDir = '", repository,"')", sep = "")
 }
 
 makeGeneratorEnvironment <- function() {
   e <- new.env()
-  e$getPlotWidth <- getPlotWidth
+  e$getPlotSettings <- getPlotSettings
+  e$save_to_repository <- save_to_repository
   e
 }
 
@@ -175,8 +207,6 @@ renderModules <- function(modules, output_folder) {
     renderPage(content, modules, output_path)
   })
 }
-
-
 
 renderMainPage <- function(modules, output_folder, explainers, options) {
   data_set <- explainers[[1]]$data

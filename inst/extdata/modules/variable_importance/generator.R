@@ -4,10 +4,10 @@ library(kableExtra)
 
 save_plot_image <- function(file_name, models, options){
 
-  width <- getPlotWidth(options, "vi.plot_width")
+  plot_settings <- getPlotSettings(options, "vi")
 
-  pl <- do.call(plot, models)
-  ggsave(file_name, pl, png, width = width, height = 500, limitsize = FALSE)
+  pl <- do.call(plot, models) + theme(text = element_text(size=plot_settings$font_size))
+  ggsave(file_name, pl, png, width = plot_settings$width, height = 500, limitsize = FALSE)
 }
 
 make_variable_importance_table <- function(explainers) {
@@ -37,30 +37,38 @@ make_variable_importance_table <- function(explainers) {
   html
 }
 
-create_plot_image <- function(explainers, img_folder, options){
+create_plot_image <- function(models, img_folder, options){
   img_filename <- 'variable_importance.png'
   img_path <- file.path(img_folder, img_filename)
 
+  file.create(img_path)
+  save_plot_image(img_path, models, options)
+}
+
+generate_models <- function(explainers){
   models <- lapply(explainers, function(explainer) {
     variable_importance(explainer, type="raw")
   })
-
-  file.create(img_path)
-  save_plot_image(img_path, models, options)
+  models
 }
 
 generator <- function(explainers, options, img_folder) {
 
   variable_importance_table <- make_variable_importance_table(explainers)
 
-  create_plot_image(explainers, img_folder, options)
+  models <- generate_models(explainers)
+
+  create_plot_image(models, img_folder, options)
+
+  link <- save_to_repository(models, options)
 
   list(
     display_name='Variable Importance',
     name='variable_importance',
     data=list(
       img_filename='variable_importance.png',
-      dataframe=variable_importance_table
+      dataframe=variable_importance_table,
+      archivist_link = link
     )
   )
 }

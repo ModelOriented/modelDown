@@ -1,32 +1,28 @@
 library("DALEX")
 library(ggplot2)
 
-save_plot_image <- function(file_name, models, options){
+save_plot_image <- function(file_name, models, height, img_folder, options){
 
-  width <- getPlotWidth(options, "mp.plot_width")
+  path <- file.path(img_folder, file_name)
+  file.create(path)
 
-  pl <- do.call(plot, models)
-  ggsave(file_name, pl, png, width = width, height = 500, limitsize = FALSE)
+  plot_settings <- getPlotSettings(options, "mp")
+
+  plot_obj <- do.call(plot, models) + theme(text = element_text(size=plot_settings$font_size))
+  ggsave(path, plot_obj, png, width = plot_settings$width, height = height, limitsize = FALSE)
 }
 
 make_model_performance_plot_model <- function(explainers, img_folder, options) {
   img_filename <- 'model_performance.png'
   img_box_filename <- 'model_performance_box.png'
-  img_path <- file.path(img_folder, img_filename)
-  img_box_path <- file.path(img_folder, img_box_filename)
 
   models <- lapply(explainers, function(explainer) {
     model_performance(explainer)
   })
 
-  file.create(img_path)
-  width <- getPlotWidth(options, "mp.plot_width")
-
-  pl <- do.call(plot, models)
-  ggsave(img_path, pl, png, width = width, height = 500, limitsize = FALSE)
+  save_plot_image(img_filename, models, 500, img_folder, options)
   models$geom <- "boxplot"
-  pl_box <- do.call(plot, models)
-  ggsave(img_box_path, pl_box, png, width = width, height = 400, limitsize = FALSE)
+  save_plot_image(img_box_filename, models, 400, img_folder, options)
 
   list(img_filename = img_filename,
        img_box_filename = img_box_filename)
