@@ -23,7 +23,8 @@ Imports: DALEX (>= 0.2.2),
     psych (>= 1.8.4),
     archivist (>= 2.1.0)
 Suggests: ranger,
-    testthat
+    testthat,
+    devtools
 RoxygenNote: 6.1.1
 URL: https://github.com/MI2DataLab/modelDown
 BugReports: https://github.com/MI2DataLab/modelDown/issues

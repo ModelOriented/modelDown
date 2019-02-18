@@ -17,6 +17,7 @@ r_packages:
   - ranger
   - testthat
   - DALEX
+  - devtools
 
 addons:
   apt:
