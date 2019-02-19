@@ -36,6 +36,8 @@ make_audit_plot_model <- function(explainers, img_folder, y, options) {
     result[audit_plot[2]] <- img_filename
   }
 
+  result$link <- save_to_repository(models, options)
+
   return(result)
 }
 
@@ -53,7 +55,8 @@ generator <- function(explainers, options, img_folder) {
       residuals_img_filename = audit_img_filename$Residual,
       rec_img_filename = audit_img_filename$REC,
       rroc_img_filename = audit_img_filename$RROC,
-      scale_location_img_filename = audit_img_filename$ScaleLocation
+      scale_location_img_filename = audit_img_filename$ScaleLocation,
+      archivist_link=audit_img_filename$link
     )
 
 

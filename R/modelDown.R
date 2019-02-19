@@ -126,7 +126,7 @@ save_to_repository <- function(artifact, options){
   # todo - repository name from options
   repository <- file.path(options[["output_folder"]], "repository")
   hash <- archivist::saveToLocalRepo(artifact, repoDir=repository)
-  link <- paste("archivist::loadFromLocalRepo(md5hash = '", hash, "', ", "repoDir = '", repository,"')", sep = "")
+  link <- paste('archivist::loadFromLocalRepo(md5hash = "', hash, '", ', 'repoDir = "', repository,'")', sep = '')
 }
 
 makeGeneratorEnvironment <- function() {
