@@ -1,0 +1,25 @@
+.variable-selector-panel {
+  position: fixed;
+  width: 300px;
+}
+
+.variable-link {
+  padding: 5px 15px;
+}
+
+.variable-anchor {
+  display: block;
+  position: relative;
+  top: -51px;
+  visibility: hidden;
+}
+
+.main-content {
+  left: 300px;
+  width: auto;
+}
+
+.plot-container {
+  padding: 0px 20px;
+  text-align: center;
+}

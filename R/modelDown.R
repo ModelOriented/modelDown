@@ -133,7 +133,7 @@ makeGeneratorEnvironment <- function() {
   e <- new.env()
   e$getPlotSettings <- getPlotSettings
   e$save_to_repository <- save_to_repository
-  e
+  return(e)
 }
 
 copyAssets <- function(from, to) {
@@ -141,6 +141,7 @@ copyAssets <- function(from, to) {
   css_files <- asset_files[grepl(".*.css", asset_files)]
   css_files_paths <- unlist(lapply(css_files, function(name) {file.path(from, name)}))
   file.copy(css_files_paths, to, recursive=TRUE, overwrite = TRUE)
+  return(css_files)
 }
 
 generateModules <- function(modules_names, output_folder, explainers, options) {
@@ -150,40 +151,42 @@ generateModules <- function(modules_names, output_folder, explainers, options) {
       system.file("extdata", "modules", module_name, "generator.R", package = "modelDown")
     generator_env <- makeGeneratorEnvironment()
     source(generator_path, local = generator_env)
-    data <- generator_env$generator(explainers, options, file.path(output_folder, "img"))
+
+    module_folder <- file.path(output_folder, module_name)
+    img_folder <- file.path(module_folder, "img")
+    createDirIfNotExists(module_folder)
+    createDirIfNotExists(img_folder)
+
+    data <- generator_env$generator(explainers, options, img_folder)
     return(data)
   }))
 }
 
 ensureOutputFolderStructureExist <- function(output_folder) {
-  if(!dir.exists(output_folder)) {
-    dir.create(output_folder)
-  }
+  createDirIfNotExists(output_folder)
 
   img_folder_path <- file.path(output_folder, "explainers")
-  if(!dir.exists(img_folder_path)) {
-    dir.create(img_folder_path)
-  }
+  createDirIfNotExists(img_folder_path)
 
   img_folder_path <- file.path(output_folder, "img")
-  if(!dir.exists(img_folder_path)) {
-    dir.create(img_folder_path)
-  }
+  createDirIfNotExists(img_folder_path)
 }
 
-renderPage <- function(content, modules, output_path) {
+renderPage <- function(content, modules, output_path, root_path, extra_css = c()) {
 
   menu_links <- lapply(modules, function(module) {
     return(list(
       name=module[['display_name']],
-      link=paste(module[['name']],'.html', sep="")
+      link=paste(module[['name']], '/index.html', sep="")
     ))
   })
 
   data <- list(
     content = content,
     menu_links = menu_links,
-    datetime = Sys.time()
+    datetime = Sys.time(),
+    root_path = root_path,
+    extra_css = extra_css
   )
 
   iteratelist(data[['menu_links']], name='menu_links')
@@ -198,13 +201,17 @@ renderPage <- function(content, modules, output_path) {
 
 renderModules <- function(modules, output_folder) {
   lapply(modules, function(module) {
-    module_path <- file.path("modules", module[['name']])
-    content_template <-
-      readLines(system.file("extdata", module_path, "template.html", package = "modelDown"))
+    module_path <- file.path("extdata", "modules", module[['name']])
+    content_template <- 
+      readLines(system.file(module_path, "template.html", package = "modelDown"))
 
+    output_module_folder <- file.path(output_folder, module[['name']])
+    createDirIfNotExists(output_module_folder)
+
+    copied_assets <- copyAssets(system.file(module_path, package = "modelDown"), output_module_folder)
     content <- whisker.render(content_template, module[['data']])
-    output_path <- file.path(output_folder, paste(module[['name']], ".html", sep=""))
-    renderPage(content, modules, output_path)
+    output_path <- file.path(output_module_folder, "index.html")
+    renderPage(content, modules, output_path, "../", copied_assets)
   })
 }
 
@@ -226,7 +233,7 @@ renderMainPage <- function(modules, output_folder, explainers, options) {
     readLines(system.file("extdata", "template", "index_template.html", package = "modelDown"))
   content <- whisker.render(content_template, main_page_data)
   output_path <- file.path(output_folder, "index.html")
-  renderPage(content, modules, output_path)
+  renderPage(content, modules, output_path, "./")
 }
 
 renderExplainersList <- function(explainers){
@@ -261,5 +268,11 @@ renderFactorTables <- function(data_set, factor_columns){
   }
 
   return(factor_data)
+}
+
+createDirIfNotExists <- function(path) {
+  if(!dir.exists(path)) {
+    dir.create(path)
+  }
 }
 
