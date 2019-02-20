@@ -1,20 +1,26 @@
-<div style="position: fixed; width: 300px;">
+<div class="variable-selector-panel">
     <div class="panel panel-default">
         <ul class="list-group">
             {{#variables}}
-            <li class="list-group-item" style="padding: 5px 15px;">
+            <li class="list-group-item variable-link">
                 <a href="#{{variable_name}}">{{variable_name}}</a>
             </li>
             {{/variables}}
         </ul>
     </div>
 </div>
-<div class="col-md-push-3 col-md-9" style="left: 300px; width: auto;">
+<div class="col-md-push-3 col-md-9 main-content">
     {{#variables}}
-    <a id="{{variable_name}}" style="display: block;position: relative;top: -51px;visibility: hidden;"></a>
-    <div style="padding: 0px 20px;">
+    <a id="{{variable_name}}" class="variable-anchor"></a>
+    <div class="plot-container">
         <h2>{{variable_name}}</h2>
         <img src="img/{{img_filename}}" />
+        <br />
+        <div class="help-panel">
+          <div class="title"><i class="fa fa-question" aria-hidden="true"></i> Helpful resources</div>
+          <a href="{{DOCS_LINK}}" target="_blank">Technical documentation</a>
+          <a href="{{HELP_LINK}}" target="_blank">Business description</a>
+        </div>
     </div>
     {{/variables}}
 </div>

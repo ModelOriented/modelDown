@@ -1,6 +1,9 @@
 library("DALEX")
 library(ggplot2)
 
+HELP_LINK <- "https://pbiecek.github.io/DALEX_docs/3-3-variableResponse.html#variableResponse"
+DOCS_LINK <- "https://pbiecek.github.io/DALEX/reference/variable_response.html"
+
 save_plot_image <- function(file_name, models, options){
 
   plot_settings <- getPlotSettings(options, "vr")
@@ -54,7 +57,9 @@ generator <- function(explainers, options, img_folder) {
     display_name='Variable Response',
     name='variable_response',
     data=list(
-      variables=variable_models
+      variables=variable_models,
+      HELP_LINK = HELP_LINK,
+      DOCS_LINK = DOCS_LINK
     )
   )
 }

@@ -1,6 +1,9 @@
 library("DALEX")
 library(ggplot2)
 
+HELP_LINK <- "https://pbiecek.github.io/DALEX_docs/3-1-modelPerformance.html#modelPerformance"
+DOCS_LINK <- "https://pbiecek.github.io/DALEX/reference/model_performance.html"
+
 save_plot_image <- function(file_name, models, height, img_folder, options){
 
   path <- file.path(img_folder, file_name)
@@ -36,7 +39,9 @@ generator <- function(explainers, options, img_folder) {
     name='model_performance',
     data=list(
       img_filename_mp1 = img_filename$img_filename,
-      img_filename_mp2 = img_filename$img_box_filename
+      img_filename_mp2 = img_filename$img_box_filename,
+      HELP_LINK = HELP_LINK,
+      DOCS_LINK = DOCS_LINK
     )
   )
 }
