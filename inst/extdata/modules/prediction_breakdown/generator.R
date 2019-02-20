@@ -3,6 +3,9 @@ library(ggplot2)
 library(DT)
 library(kableExtra)
 
+HELP_LINK <- "https://pbiecek.github.io/DALEX_docs/4-2-predictionBreakdown.html#predictionBreakdown"
+DOCS_LINK <- "https://pbiecek.github.io/DALEX/reference/prediction_breakdown.html"
+
 save_plot_image <- function(file_name, data, options){
 
   plot_settings <- getPlotSettings(options, "pb")
@@ -76,7 +79,9 @@ generator <- function(explainers, options, img_folder) {
     display_name='Prediction BreakDown',
     name='prediction_breakdown',
     data=list(
-      models=new_models
+      models=new_models,
+      HELP_LINK = HELP_LINK,
+      DOCS_LINK = DOCS_LINK
     )
   )
 }

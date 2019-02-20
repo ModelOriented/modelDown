@@ -10,7 +10,10 @@
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1"
     crossorigin="anonymous">
 
-  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" type="text/css" href="{{root_path}}style.css">
+  {{#extra_css}}
+  <link rel="stylesheet" type="text/css" href="{{.}}">
+  {{/extra_css}}
 </head>
 
 <body>
@@ -27,12 +30,12 @@
               <span class="icon-bar"></span>
             </button>
             </a>
-            <a class="navbar-brand navbar-mi2" href="index.html">modelDown</a>
+            <a class="navbar-brand navbar-mi2" href="{{root_path}}index.html">modelDown</a>
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="navbar-mi2 nav navbar-nav">
               <li>
-                <a href="index.html">
+                <a href="{{root_path}}index.html">
                   <span class="fa fa-home fa-lg"></span>
 
                 </a>
@@ -40,7 +43,7 @@
 
               {{#menu_links}}
               <li>
-                  <a href="{{link}}">{{name}}</a>
+                  <a href="{{root_path}}{{link}}">{{name}}</a>
               </li>
               {{/menu_links}}
             </ul>
