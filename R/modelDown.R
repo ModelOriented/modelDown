@@ -3,10 +3,12 @@
 #' @param ... one or more explainers createdwith \code{DALEX::explain()} function
 #' @param modules modules that should be included in the website
 #' @param output_folder folder where the website will be saved
+#' @param repository_name name of local archivist repository that will be created
 #'
 #' @details
 #' Additional arguments that could by passed by name:
 #' \itemize{
+#'   \item{remote_repository_path} {Path to remote repository that stores folder with archivist repository. If not provided, links to local repository will be shown.}
 #'   \item{vr.vars} {variables which will be examined in Variable Response module. Defaults to all variables. Example vr.vars = c("var1", "var2")}
 #'   \item{pb.observations} {observations which will be examined in Prediction Breakdown module. When not given it selects worst predicted observations for each model. Example pb.observations = c(1,2,3) where 1,2,3 are observation numbers.}
 #'   \item{vr.type} {types of examinations which will be conducteed in Variable Response module. Defaults to "pdp". Example vr.type = c("ale", "pdp")}
@@ -49,6 +51,8 @@
 #'   modules = c("auditor", "model_performance", "variable_importance",
 #'               "variable_response", "prediction_breakdown"),
 #'   output_folder = "modelDown_output",
+#'   repository_name = "HR",
+#'   remote_repository_path = "some_user/remote_repo_name",
 #'   vr.vars= c("average_montly_hours", "time_spend_company"),
 #'   pb.observations = c(1,2,3),
 #'   vr.type = "ale",
@@ -215,7 +219,7 @@ renderPage <- function(content, modules, output_path, root_path, extra_css = c()
 renderModules <- function(modules, output_folder) {
   lapply(modules, function(module) {
     module_path <- file.path("extdata", "modules", module[['name']])
-    content_template <- 
+    content_template <-
       readLines(system.file(module_path, "template.html", package = "modelDown"))
 
     output_module_folder <- file.path(output_folder, module[['name']])
