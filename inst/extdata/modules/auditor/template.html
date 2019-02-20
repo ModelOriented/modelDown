@@ -1,0 +1,37 @@
+<script type="text/javascript">
+  function loadOptionalCharts() {
+    if ("{{lift_img_filename}}" !== "") {
+        document.getElementById("lift").innerHTML = '<img src="img/{{lift_img_filename}}" /><br/>'
+    }
+    if ("{{roc_img_filename}}" !== "") {
+        document.getElementById("roc").innerHTML = '<img src="img/{{roc_img_filename}}" /><br/>'
+    }
+  }
+
+  function loadAudit() {
+      document.getElementById("auditor_charts").innerHTML =
+        '<h2>Audit</h2>\
+        <p>Load: <code>{{archivist_link}}</code></p>\
+        <div style="padding: 0px 20px;">\
+            <div id="lift"></div>\
+            <div id="roc"></div>\
+            <img src="img/{{rroc_img_filename}}" />\
+            <br/>\
+            <img src="img/{{ranking_img_filename}}" />\
+            <br/>\
+            <img src="img/{{residuals_img_filename}}" />\
+            <br/>\
+            <img src="img/{{rec_img_filename}}" />\
+            <br/>\
+            <img src="img/{{acf_img_filename}}" />\
+            <br/>\
+            <img src="img/{{scale_location_img_filename}}" />\
+        </div>'
+      loadOptionalCharts()
+  }
+  $(document).ready(function(){
+    loadAudit();
+  });
+</script>
+
+<div id="auditor_charts" style="text-align: center"></div>

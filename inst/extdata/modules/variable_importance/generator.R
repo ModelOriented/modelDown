@@ -2,6 +2,9 @@ library(DALEX)
 library(ggplot2)
 library(kableExtra)
 
+HELP_LINK <- "https://pbiecek.github.io/DALEX_docs/3-2-featureImportance.html#featureImportance"
+DOCS_LINK <- "https://pbiecek.github.io/DALEX/reference/variable_importance.html"
+
 save_plot_image <- function(file_name, models, settings){
   pl <- do.call(plot, models) + theme(text = element_text(size=settings$font_size))
   ggsave(file_name, pl, settings$device)
@@ -69,7 +72,9 @@ generator <- function(explainers, options, img_folder) {
     data=list(
       img_filename=filename,
       dataframe=variable_importance_table,
-      archivist_link = link
+      archivist_link = link,
+      HELP_LINK = HELP_LINK,
+      DOCS_LINK = DOCS_LINK
     )
   )
 }
