@@ -59,14 +59,18 @@
 #'   vr.plot_width=8.4,
 #'   a.plot_width=8.5)
 #' }
-modelDown <- function(..., modules = c("auditor", "model_performance", "variable_importance", "variable_response", "prediction_breakdown"),
-                      output_folder="output") {
+modelDown <- function(...,
+                      modules = c("auditor", "model_performance", "variable_importance", "variable_response", "prediction_breakdown"),
+                      output_folder="output",
+                      repository_name="repository") {
 
   source(system.file("extdata", "config.R", package = "modelDown"))
   args <- list(..., version=1.0 )
   #named arguments are options (except those specified after ... in function definition)
   options <- args[names(args) != ""]
   options[["output_folder"]] <- output_folder
+  options[["repository_name"]] <- repository_name
+
   #unnamed arguments are explainers
   explainers <- args[names(args) == ""]
 
@@ -74,7 +78,7 @@ modelDown <- function(..., modules = c("auditor", "model_performance", "variable
   do.call(file.remove, list(list.files(output_folder, full.names = TRUE, recursive = TRUE)))
 
   # create local repository
-  repository <- file.path(output_folder, 'repository')
+  repository <- file.path(output_folder, options[["repository_name"]])
   archivist::createLocalRepo(repoDir = repository)
 
   # save explainers
@@ -124,9 +128,18 @@ getVarOrDefault <- function(options, var1, var2, default_value) {
 
 save_to_repository <- function(artifact, options){
   # todo - repository name from options
-  repository <- file.path(options[["output_folder"]], "repository")
+  repository <- file.path(options[["output_folder"]], options[["repository_name"]])
   hash <- archivist::saveToLocalRepo(artifact, repoDir=repository)
-  link <- paste("archivist::loadFromLocalRepo(md5hash = '", hash, "', ", "repoDir = '", repository,"')", sep = "")
+
+  remote_path <- options[["remote_repository_path"]]
+  link <- ''
+  if(is.null(remote_path)) {
+    link <- paste('archivist::loadFromLocalRepo(md5hash = "', hash, '", ', 'repoDir = "', repository,'")', sep = '')
+  }
+  else {
+    link <- paste('archivist::aread("', remote_path, '/', repository, '/', hash, '")', sep = '')
+  }
+  return(link)
 }
 
 makeGeneratorEnvironment <- function() {
