@@ -1,10 +1,10 @@
 <script type="text/javascript">
   function loadOptionalCharts() {
     if ("{{lift_img_filename}}" !== "") {
-        document.getElementById("lift").innerHTML = '<img src="img/{{lift_img_filename}}" /><br/>'
+        document.getElementById("lift").innerHTML = '<img class="plot" src="img/{{lift_img_filename}}" /><br/>'
     }
     if ("{{roc_img_filename}}" !== "") {
-        document.getElementById("roc").innerHTML = '<img src="img/{{roc_img_filename}}" /><br/>'
+        document.getElementById("roc").innerHTML = '<img class="plot" src="img/{{roc_img_filename}}" /><br/>'
     }
   }
 
@@ -12,20 +12,20 @@
       document.getElementById("auditor_charts").innerHTML =
         '<h2>Audit</h2>\
         <p>Load: <code>{{archivist_link}}</code></p>\
-        <div style="padding: 0px 20px;">\
+        <div class="data-container">\
             <div id="lift"></div>\
             <div id="roc"></div>\
-            <img src="img/{{rroc_img_filename}}" />\
+            <img class="plot" src="img/{{rroc_img_filename}}" />\
             <br/>\
-            <img src="img/{{ranking_img_filename}}" />\
+            <img class="plot" src="img/{{ranking_img_filename}}" />\
             <br/>\
-            <img src="img/{{residuals_img_filename}}" />\
+            <img class="plot" src="img/{{residuals_img_filename}}" />\
             <br/>\
-            <img src="img/{{rec_img_filename}}" />\
+            <img class="plot" src="img/{{rec_img_filename}}" />\
             <br/>\
-            <img src="img/{{acf_img_filename}}" />\
+            <img class="plot" src="img/{{acf_img_filename}}" />\
             <br/>\
-            <img src="img/{{scale_location_img_filename}}" />\
+            <img class="plot" src="img/{{scale_location_img_filename}}" />\
         </div>'
       loadOptionalCharts()
   }

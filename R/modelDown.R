@@ -100,21 +100,17 @@ modelDown <- function(...,
 }
 
 
-getPlotSettings <- function(options, options_prefix = NULL, default_width = DEFAULT_WIDTH) {
+getPlotSettings <- function(options, options_prefix = NULL, default_font_size = DEFAULT_FONT_SIZE, default_device = DEFAULT_DEVICE) {
 
   if(!is.null(options_prefix)) {
-    plot_width_variable <- paste(options_prefix, ".plot_width", sep = "")
     font_size_variable <- paste(options_prefix, ".font_size", sep = "")
+    device_variable <- paste(options_prefix, ".device", sep = "")
   }
 
-  width <- getVarOrDefault(options, plot_width_variable, "plot_width", default_value = default_width)
-
-  default_font_size <- round(width/DEFAULT_WIDTH_TO_FONT_SIZE_DIVIDER)
   font_size <- getVarOrDefault(options, font_size_variable, "font_size", default_value = default_font_size)
-  device <- DEFAULT_DEVICE
+  device <- getVarOrDefault(options, device_variable, "device", default_value = default_device)
 
   return(list(
-    width = width,
     font_size = font_size,
     device = device
   ))

@@ -9,7 +9,7 @@ save_plot_image <- function(file_name, models, settings){
   ggsave(file_name, pl, settings$device)
 }
 
-make_variable_plot <- function(variable_name, types, explainers, img_folder, options) {
+make_variable_plot <- function(variable_name, types, models, img_folder, options) {
   plot_settings <- getPlotSettings(options, "vr")
   img_filename <- paste('variable_response_', variable_name, '_', paste(types, collapse=''), '.', plot_settings$device, sep='')
 

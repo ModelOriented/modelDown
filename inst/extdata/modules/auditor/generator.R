@@ -1,12 +1,9 @@
 library("DALEX")
 library(ggplot2)
 
-save_plot_image <- function(file_name, models, type, options){
-
-  plot_settings <- getPlotSettings(options, "a")
-
+save_plot_image <- function(file_name, models, type, settings){
   pl <- do.call(plot, c(models, type = type))
-  ggsave(file_name, pl, svg, width = plot_settings$width, height = 5, limitsize = FALSE)
+  ggsave(file_name, pl, settings$device)
 }
 
 make_audit_plot_model <- function(explainers, img_folder, y, options) {
@@ -15,13 +12,19 @@ make_audit_plot_model <- function(explainers, img_folder, y, options) {
     auditor::audit(explainer)
   })
 
-  audit_plots <- list(c("acf.svg", "ACF"), c("rroc.svg", "RROC"),
-                      c("scale_location.svg", "ScaleLocation"), c("residuals.svg", "Residual"),
-                      c("ranking.svg", "ModelRanking"), c("rec.svg", "REC"))
+  plot_settings <- getPlotSettings(options, "a")
+  extension <- plot_settings$device
+
+  audit_plots <- list(c(paste("acf", extension, sep = '.'), "ACF"),
+                      c(paste("rroc", extension, sep = '.'), "RROC"),
+                      c(paste("scale_location", extension, sep = '.'), "ScaleLocation"),
+                      c(paste("residuals", extension, sep = '.'), "Residual"),
+                      c(paste("ranking", extension, sep = '.'), "ModelRanking"),
+                      c(paste("rec", extension, sep = '.'), "REC"))
   # LIFT and ROC only for binary classification
   if (class(y) == "numeric" && length(levels(as.factor(y))) == 2) {
-    audit_plots <- append(audit_plots, list(c("roc.svg", "ROC")))
-    audit_plots <- append(audit_plots, list(c("lift.svg", "LIFT")))
+    audit_plots <- append(audit_plots, list(c(paste("roc", extension, sep = '.'), "ROC")))
+    audit_plots <- append(audit_plots, list(c(paste("lift", extension, sep = '.'), "LIFT")))
   } else if (class(y) == "factor") {
     warning("ROC and LIFT charts are supported only for binary classification.")
   }
@@ -32,7 +35,7 @@ make_audit_plot_model <- function(explainers, img_folder, y, options) {
 
     file.create(img_path)
 
-    save_plot_image(img_path, models, audit_plot[2], options)
+    save_plot_image(img_path, models, audit_plot[2], plot_settings)
     result[audit_plot[2]] <- img_filename
   }
 
