@@ -4,20 +4,19 @@ library(ggplot2)
 HELP_LINK <- "https://pbiecek.github.io/DALEX_docs/3-3-variableResponse.html#variableResponse"
 DOCS_LINK <- "https://pbiecek.github.io/DALEX/reference/variable_response.html"
 
-save_plot_image <- function(file_name, models, options){
-
-  plot_settings <- getPlotSettings(options, "vr")
-
-  pl <- do.call(plot, models) + theme(text = element_text(size=plot_settings$font_size))
-  ggsave(file_name, pl, png, width = plot_settings$width, height = 500, limitsize = FALSE)
+save_plot_image <- function(file_name, models, settings){
+  pl <- do.call(plot, models) + theme(text = element_text(size=settings$font_size))
+  ggsave(file_name, pl, settings$device)
 }
 
 make_variable_plot <- function(variable_name, types, models, img_folder, options) {
-  img_filename <- paste('variable_response_', variable_name, '_', paste(types, collapse=''), '.png', sep='')
+  plot_settings <- getPlotSettings(options, "vr")
+  img_filename <- paste('variable_response_', variable_name, '_', paste(types, collapse=''), '.', plot_settings$device, sep='')
+
   img_path <- file.path(img_folder, img_filename)
 
   file.create(img_path)
-  save_plot_image(img_path, models, options)
+  save_plot_image(img_path, models, plot_settings)
 
   return(img_filename)
 }

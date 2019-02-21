@@ -9,15 +9,9 @@
 #' Additional arguments that could by passed by name:
 #' \itemize{
 #'   \item{remote_repository_path} {Path to remote repository that stores folder with archivist repository. If not provided, links to local repository will be shown.}
+#'   \item{device} {Device to use. Tested for "png" and "svg", but values from \code{ggplot2::ggsave} function should be working fine. Defaults to "png".}
 #'   \item{vr.vars} {variables which will be examined in Variable Response module. Defaults to all variables. Example vr.vars = c("var1", "var2")}
-#'   \item{pb.observations} {observations which will be examined in Prediction Breakdown module. When not given it selects worst predicted observations for each model. Example pb.observations = c(1,2,3) where 1,2,3 are observation numbers.}
 #'   \item{vr.type} {types of examinations which will be conducteed in Variable Response module. Defaults to "pdp". Example vr.type = c("ale", "pdp")}
-#'   \item{plot_width default} {width for plots (in inches). Defaults to 8. Example plot_width = 9.5}
-#'   \item{a.plot_width} {Override plot width for Auditor plots. Defaults to plot_width. Example vi.plot_width = 10}
-#'   \item{vr.plot_width} {Override plot width for Variable Response module. Defaults to plot_width. Example vr.plot_width = 10}
-#'   \item{mp.plot_width} {Override plot width for Model Performance module. Defaults to plot_width. Example mp.plot_width = 10}
-#'   \item{pb.plot_width} {Override plot width for Prediction Breakdown module. Defaults to plot_width. Example pb.plot_width = 10}
-#'   \item{vi.plot_width} {Override plot width for Variable Importance module. Defaults to plot_width. Example vi.plot_width = 10}
 #' }
 #'
 #' @export
@@ -26,7 +20,7 @@
 #' @import ggplot2
 #' @importFrom grDevices svg
 #' @importFrom graphics plot
-#' @author Magda Tatarynowicz, Kamil Romaszko, Mateusz Urabński
+#' @author Magda Tatarynowicz, Kamil Romaszko, Mateusz Urbański
 #' @examples
 #' \dontrun{
 #' require("ranger")
@@ -53,18 +47,13 @@
 #'   output_folder = "modelDown_output",
 #'   repository_name = "HR",
 #'   remote_repository_path = "some_user/remote_repo_name",
+#'   device = "png",
 #'   vr.vars= c("average_montly_hours", "time_spend_company"),
-#'   pb.observations = c(1,2,3),
-#'   vr.type = "ale",
-#'   plot_width=7,
-#'   pb.plot_width=8.1,
-#'   mp.plot_width=8.2,
-#'   vi.plot_width=8.3,
-#'   vr.plot_width=8.4,
-#'   a.plot_width=8.5)
+#'   vr.type = "ale")
 #' }
+
 modelDown <- function(...,
-                      modules = c("auditor", "model_performance", "variable_importance", "variable_response", "prediction_breakdown"),
+                      modules = c("auditor", "model_performance", "variable_importance", "variable_response"),
                       output_folder="output",
                       repository_name="repository") {
 
@@ -99,21 +88,19 @@ modelDown <- function(...,
 }
 
 
-getPlotSettings <- function(options, options_prefix = NULL, default_width = DEFAULT_WIDTH) {
+getPlotSettings <- function(options, options_prefix = NULL, default_font_size = DEFAULT_FONT_SIZE, default_device = DEFAULT_DEVICE) {
 
   if(!is.null(options_prefix)) {
-    plot_width_variable <- paste(options_prefix, ".plot_width", sep = "")
     font_size_variable <- paste(options_prefix, ".font_size", sep = "")
+    device_variable <- paste(options_prefix, ".device", sep = "")
   }
 
-  width <- getVarOrDefault(options, plot_width_variable, "plot_width", default_value = default_width)
-
-  default_font_size <- round(width/DEFAULT_WIDTH_TO_FONT_SIZE_DIVIDER)
   font_size <- getVarOrDefault(options, font_size_variable, "font_size", default_value = default_font_size)
+  device <- getVarOrDefault(options, device_variable, "device", default_value = default_device)
 
   return(list(
-    width = width,
-    font_size = font_size
+    font_size = font_size,
+    device = device
   ))
 }
 
