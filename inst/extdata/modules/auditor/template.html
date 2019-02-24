@@ -1,12 +1,12 @@
 <script type="text/javascript">
   function loadOptionalCharts() {
     if ("{{lift_img_filename}}" !== "") {
-        document.getElementById("lift").innerHTML = 
+        document.getElementById("lift").innerHTML =
         '<img class="plot" src="img/{{lift_img_filename}}" /><br/>\
          <help-panel help-url="{{LIFT_HELP_LINK}}" docs-url="{{LIFT_DOCS_LINK}}"></help-panel><br />';
     }
     if ("{{roc_img_filename}}" !== "") {
-        document.getElementById("roc").innerHTML = 
+        document.getElementById("roc").innerHTML =
           '<img class="plot" src="img/{{roc_img_filename}}" /><br/>\
            <help-panel help-url="{{ROC_HELP_LINK}}" docs-url="{{ROC_DOCS_LINK}}"></help-panel><br />';
     }
@@ -14,7 +14,7 @@
 
   function loadAudit() {
       document.getElementById("auditor_charts").innerHTML =
-        '<h2>Audit</h2>\
+        '<h2>Model Audit</h2>\
         <p>Load: <code>{{archivist_link}}</code></p>\
         <div class="data-container">\
             <div id="lift"></div>\
