@@ -78,6 +78,10 @@ modelDown <- function(...,
   for(explainer in explainers){
     saveRDS(explainer, file = paste0(output_folder,"/explainers/", explainer$label, ".rda"))
   }
+
+  #save session info
+  writeLines(capture.output(devtools::session_info()), paste0(output_folder,"/session_info/session_info.txt"))
+
   copyAssets(system.file("extdata", "template", package = "modelDown"), output_folder)
 
   generated_modules <- generateModules(modules, output_folder, explainers, options)
@@ -174,6 +178,9 @@ ensureOutputFolderStructureExist <- function(output_folder) {
 
   img_folder_path <- file.path(output_folder, "img")
   createDirIfNotExists(img_folder_path)
+
+  session_folder_path <- file.path(output_folder, "session_info")
+  createDirIfNotExists(session_folder_path)
 }
 
 renderPage <- function(content, modules, output_path, root_path, extra_css = c()) {
