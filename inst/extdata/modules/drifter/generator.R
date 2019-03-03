@@ -1,48 +1,5 @@
 library("DALEX")
-library(ggplot2)
-
-save_plot_image <- function(file_name, models, type, settings){
-  pl <- do.call(plot, c(models, type = type))
-  ggsave(file_name, pl, settings$device)
-}
-
-make_audit_plot_model <- function(explainers, img_folder, y, options) {
-
-  models <- lapply(explainers, function(explainer) {
-    auditor::audit(explainer)
-  })
-
-  plot_settings <- getPlotSettings(options, "a")
-  extension <- plot_settings$device
-
-  audit_plots <- list(c(paste("acf", extension, sep = '.'), "ACF"),
-                      c(paste("rroc", extension, sep = '.'), "RROC"),
-                      c(paste("scale_location", extension, sep = '.'), "ScaleLocation"),
-                      c(paste("residuals", extension, sep = '.'), "Residual"),
-                      c(paste("ranking", extension, sep = '.'), "ModelRanking"),
-                      c(paste("rec", extension, sep = '.'), "REC"))
-  # LIFT and ROC only for binary classification
-  if (class(y) == "numeric" && length(levels(as.factor(y))) == 2) {
-    audit_plots <- append(audit_plots, list(c(paste("roc", extension, sep = '.'), "ROC")))
-    audit_plots <- append(audit_plots, list(c(paste("lift", extension, sep = '.'), "LIFT")))
-  } else if (class(y) == "factor") {
-    warning("ROC and LIFT charts are supported only for binary classification.")
-  }
-  result <- list()
-  for(audit_plot in audit_plots) {
-    img_filename <- audit_plot[1]
-    img_path <- file.path(img_folder, img_filename)
-
-    file.create(img_path)
-
-    save_plot_image(img_path, models, audit_plot[2], plot_settings)
-    result[audit_plot[2]] <- img_filename
-  }
-
-  result$link <- save_to_repository(models, options)
-
-  return(result)
-}
+library(drifter)
 
 renderModelDriftTables <- function(data_set, factor_columns){
   factor_data <- vector()
@@ -52,7 +9,7 @@ renderModelDriftTables <- function(data_set, factor_columns){
     for(i in 1:length(factor_columns)){
       column_number <- factor_columns[[i]]
       column_name <- names(factor_columns)[i]
-      temp_table <- kable_styling(kable(table(data_set[, column_number]), col.names = c(column_name, "Frequency")),bootstrap_options = c("responsive", "bordered", "hover"),full_width = FALSE)
+      temp_table <- kable_styling(kable(table(data_set[, column_number]), col.names = c(column_name, "Frequency")), bootstrap_options = c("responsive", "bordered", "hover"),full_width = FALSE)
       factor_data <- paste(factor_data, temp_table, sep="<br>")
     }
   }
