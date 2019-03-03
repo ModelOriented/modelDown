@@ -9,7 +9,7 @@ modelDown(..., modules = c("auditor", "model_performance",
   repository_name = "repository")
 }
 \arguments{
-\item{...}{one or more explainers createdwith \code{DALEX::explain()} function}
+\item{...}{one or more explainers created with \code{DALEX::explain()} function}
 
 \item{modules}{modules that should be included in the website}
 
@@ -50,8 +50,8 @@ explainer_glm <- explain(HR_glm_model, data=HR_data, y = HR_data$left)
 modelDown::modelDown(explainer_ranger, explainer_glm) #all defaults
 
 modelDown::modelDown(explainer_glm,
-  modules = c("auditor", "model_performance", "variable_importance",
-              "variable_response"),
+  modules = c("auditor", "drifter", "model_performance", "variable_importance",
+              "variable_response", "prediction_breakdown"),
   output_folder = "modelDown_output",
   repository_name = "HR",
   remote_repository_path = "some_user/remote_repo_name",

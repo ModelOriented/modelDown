@@ -1,0 +1,15 @@
+.data-container {
+  padding: 0px 20px;
+}
+
+.plot {
+  width: 100%;
+}
+
+.model-label {
+  font-size: 200%;
+}
+
+.section-label {
+  font-size: 120%;
+}

@@ -25,7 +25,10 @@ Imports: DALEX (>= 0.2.2),
     svglite (>= 1.2.1)
 Suggests: ranger,
     testthat,
-    devtools
+    devtools,
+    drifter,
+    useful
+Additional_repositories: https://github.com/ModelOriented/drifter
 RoxygenNote: 6.1.1
 URL: https://github.com/MI2DataLab/modelDown
 BugReports: https://github.com/MI2DataLab/modelDown/issues
