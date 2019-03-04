@@ -80,7 +80,9 @@ modelDown <- function(...,
   }
 
   #save session info
-  writeLines(capture.output(devtools::session_info()), paste0(output_folder,"/session_info/session_info.txt"))
+  session_info <- devtools::session_info()
+  writeLines(capture.output(session_info), paste0(output_folder,"/session_info/session_info.txt"))
+  save(session_info, file = paste0(output_folder,"/session_info/session_info.rda"))
 
   copyAssets(system.file("extdata", "template", package = "modelDown"), output_folder)
 
