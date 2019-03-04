@@ -4,6 +4,7 @@
 #' @param modules modules that should be included in the website
 #' @param output_folder folder where the website will be saved
 #' @param repository_name name of local archivist repository that will be created
+#' @param should_open_website should generated website be automatically opened in default browser
 #'
 #' @details
 #' Additional arguments that could by passed by name:
@@ -55,7 +56,8 @@
 modelDown <- function(...,
                       modules = c("auditor", "model_performance", "variable_importance", "variable_response"),
                       output_folder="output",
-                      repository_name="repository") {
+                      repository_name="repository",
+                      should_open_website=TRUE) {
 
   source(system.file("extdata", "config.R", package = "modelDown"))
   args <- list(..., version=1.0 )
@@ -90,7 +92,9 @@ modelDown <- function(...,
 
   renderModules(generated_modules, output_folder)
   renderMainPage(generated_modules, output_folder, explainers, options)
-  utils::browseURL(file.path(output_folder, "index.html"))
+  if(should_open_website){
+    utils::browseURL(file.path(output_folder, "index.html"))
+  }
 }
 
 
