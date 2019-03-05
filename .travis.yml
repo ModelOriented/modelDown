@@ -19,6 +19,9 @@ r_packages:
   - DALEX
   - devtools
 
+r_github_packages:
+  ModelOriented/drifter
+
 addons:
   apt:
     packages:

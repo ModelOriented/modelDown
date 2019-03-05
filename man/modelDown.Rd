@@ -57,7 +57,7 @@ modelDown::modelDown(explainer_ranger, list(explainer_glm1, explainer_glm2)) #al
 
 modelDown::modelDown(list(explainer_glm1, explainer_glm2)
   modules = c("auditor", "drifter", "model_performance", "variable_importance",
-              "variable_response", "prediction_breakdown"),
+              "variable_response"),
   output_folder = "modelDown_output",
   repository_name = "HR",
   remote_repository_path = "some_user/remote_repo_name",
