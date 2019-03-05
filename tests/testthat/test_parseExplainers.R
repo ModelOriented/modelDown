@@ -1,12 +1,13 @@
 context("Check parseExplainers() function")
 library(useful)
-library(bigmemory)
+
 createFakeExplainer <- function(name) {
   object <- list()
   object$name <- name
   class(object) <- "explainer"
   return(object)
 }
+
 old1 <- createFakeExplainer("old1")
 new1 <- createFakeExplainer("new1")
 old2 <- createFakeExplainer("old2")

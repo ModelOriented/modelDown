@@ -20,7 +20,8 @@ r_packages:
   - devtools
 
 r_github_packages:
-  ModelOriented/drifter
+  - ModelOriented/ceterisParibus2
+  - ModelOriented/drifter
 
 addons:
   apt:
