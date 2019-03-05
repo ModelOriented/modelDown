@@ -22,7 +22,8 @@ Imports: DALEX (>= 0.2.2),
     kableExtra (>= 0.9.0),
     psych (>= 1.8.4),
     archivist (>= 2.1.0),
-    svglite (>= 1.2.1)
+    svglite (>= 1.2.1),
+    devtools (>= 2.0.1)
 Suggests: ranger,
     testthat,
     devtools,
