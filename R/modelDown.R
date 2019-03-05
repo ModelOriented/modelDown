@@ -48,7 +48,7 @@
 #'
 #' modelDown::modelDown(list(explainer_glm1, explainer_glm2)
 #'   modules = c("auditor", "drifter", "model_performance", "variable_importance",
-#'               "variable_response", "prediction_breakdown"),
+#'               "variable_response"),
 #'   output_folder = "modelDown_output",
 #'   repository_name = "HR",
 #'   remote_repository_path = "some_user/remote_repo_name",
@@ -75,6 +75,11 @@ modelDown <- function(...,
   explainers_parsed <- parseExplainers(explainers_list)
   explainers <- explainers_parsed$basic_explainers
   drifter_explainer_pairs <- explainers_parsed$drifter_explainer_pairs
+
+  # Do not render drifter tab if there are no explainer pairs
+  if(length(drifter_explainer_pairs) == 0) {
+    modules <- modules['drifter' != modules]
+  }
 
   ensureOutputFolderStructureExist(output_folder);
   do.call(file.remove, list(list.files(output_folder, full.names = TRUE, recursive = TRUE)))
