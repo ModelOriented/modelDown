@@ -151,11 +151,11 @@ makeGeneratorEnvironment <- function() {
 }
 
 copyAssets <- function(from, to) {
-  asset_files <- list.files(from)
-  css_files <- asset_files[grepl(".*.css", asset_files)]
-  css_files_paths <- unlist(lapply(css_files, function(name) {file.path(from, name)}))
-  file.copy(css_files_paths, to, recursive=TRUE, overwrite = TRUE)
-  return(css_files)
+  files <- list.files(from)
+  asset_files <- files[grepl(".*.(css|svg|png|gif)", files)]
+  asset_files_paths <- unlist(lapply(asset_files, function(name) {file.path(from, name)}))
+  file.copy(asset_files_paths, to, recursive=TRUE, overwrite = TRUE)
+  return(asset_files)
 }
 
 generateModules <- function(modules_names, output_folder, explainers, options) {

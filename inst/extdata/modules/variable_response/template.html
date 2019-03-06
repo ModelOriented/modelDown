@@ -9,11 +9,13 @@
         </ul>
     </div>
 </div>
-<div class="col-md-push-3 col-md-9 main-content">
+<div class="col-md-push-3 col-md-9 main-content contents">
     {{#variables}}
-    <a id="{{variable_name}}" class="variable-anchor"></a>
     <div class="plot-container">
-        <h2>{{variable_name}}</h2>
+        <h2 id="{{variable_name}}" class="hasAnchor">
+            <a href="#{{variable_name}}" class="anchor"></a>
+            {{variable_name}}
+        </h2>
         <p>Load: <code>{{archivist_link}}</code></p>
         <img class="plot" src="img/{{img_filename}}" />
         <br />
