@@ -40,9 +40,3 @@ Output of function `variable_importance` is presented in form of a plot as well 
 <center><img width="600" src="https://raw.githubusercontent.com/MI2DataLab/modelDown/master/misc/response.PNG"></center>
 
 For each variable, plot is created by using function `variable_response`. Plots can be easily navigated using links on the left side. One can provide names of variables to include in the module with argument `vr.vars` (if argument is not used, plots for all variables of first explainer are generated).
-
-## Prediction BreakDown
-
-<center><img width="600" src="https://raw.githubusercontent.com/MI2DataLab/modelDown/master/misc/prediction.PNG"></center>
-
-Module presents plot generated with function `prediction_breakdown` for particular observations. Observations to be presented can be provided by user as input parameter (named `pb.observations`), otherwise, for each explainer, observation with highest residual value is presented. You can also see exact values of the observation in the generated table.

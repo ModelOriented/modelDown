@@ -6,7 +6,7 @@
 \usage{
 modelDown(..., modules = c("auditor", "model_performance",
   "variable_importance", "variable_response"), output_folder = "output",
-  repository_name = "repository")
+  repository_name = "repository", should_open_website = TRUE)
 }
 \arguments{
 \item{...}{one or more explainers createdwith \code{DALEX::explain()} function}
@@ -16,6 +16,8 @@ modelDown(..., modules = c("auditor", "model_performance",
 \item{output_folder}{folder where the website will be saved}
 
 \item{repository_name}{name of local archivist repository that will be created}
+
+\item{should_open_website}{should generated website be automatically opened in default browser}
 }
 \description{
 Generates a website with HTML summaries for predictive models
@@ -51,7 +53,7 @@ modelDown::modelDown(explainer_ranger, explainer_glm) #all defaults
 
 modelDown::modelDown(explainer_glm,
   modules = c("auditor", "model_performance", "variable_importance",
-              "variable_response", "prediction_breakdown"),
+              "variable_response"),
   output_folder = "modelDown_output",
   repository_name = "HR",
   remote_repository_path = "some_user/remote_repo_name",
