@@ -1,4 +1,5 @@
 <div class="variable-selector-panel">
+    <b>Features</b>
     <div class="panel panel-default">
         <ul class="list-group">
             {{#variables}}
@@ -13,15 +14,11 @@
     {{#variables}}
     <a id="{{variable_name}}" class="variable-anchor"></a>
     <div class="plot-container">
-        <h2>{{variable_name}}</h2>
-        <p>Load: <code>{{archivist_link}}</code></p>
+        <h2>Feature: {{variable_name}}</h2>
         <img class="plot" src="img/{{img_filename}}" />
         <br />
-        <div class="help-panel">
-          <div class="title"><i class="fa fa-question" aria-hidden="true"></i> Helpful resources</div>
-          <a href="{{DOCS_LINK}}" target="_blank">Technical documentation</a>
-          <a href="{{HELP_LINK}}" target="_blank">Business description</a>
-        </div>
+        <help-panel help-url="{{HELP_LINK}}" docs-url="{{DOCS_LINK}}"></help-panel>
+        <div class="archivist-code"><p>Get this object: <code>{{archivist_link}}</code></p></div>
     </div>
     {{/variables}}
 </div>
