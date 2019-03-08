@@ -76,13 +76,13 @@ modelDown <- function(...,
   explainers <- explainers_parsed$basic_explainers
   drifter_explainer_pairs <- explainers_parsed$drifter_explainer_pairs
 
+  # arguments validation
+  validateParameters(explainers, options, modules, output_folder, repository_name, should_open_website)
+
   # Do not render drifter tab if there are no explainer pairs
   if(length(drifter_explainer_pairs) == 0) {
     modules <- modules['drifter' != modules]
   }
-
-  # arguments validation
-  validateParameters(explainers, options, modules, output_folder, repository_name, should_open_website)
 
   ensureOutputFolderStructureExist(output_folder);
   do.call(file.remove, list(list.files(output_folder, full.names = TRUE, recursive = TRUE)))
@@ -112,7 +112,6 @@ modelDown <- function(...,
   }
 }
 
-<<<<<<< HEAD
 validateParameters <- function(explainers, options, modules, output_folder, repository_name, should_open_website){
   validateExplainers(explainers)
   validateOptions(options, explainers)
@@ -122,7 +121,7 @@ validateParameters <- function(explainers, options, modules, output_folder, repo
   }
 
   # todo - put modules names into one variable
-  correct_modules <- c("auditor", "model_performance", "variable_importance", "variable_response")
+  correct_modules <- c("auditor", "drifter", "model_performance", "variable_importance", "variable_response")
   if(!all(modules %in% correct_modules)){
     stop("Parameter 'modules' contains invalid names. Please refer to documentation.")
   }
@@ -141,16 +140,16 @@ validateExplainers <- function(explainers){
 
   # Check if explainers have the same columns
   # Comparing with first explainer
-  explainer1 <- explainers[1]
+  explainer1 <- explainers[[1]]
 
   for(explainer2 in tail(explainers,-1)){
-    for (i in names(explainer1)) {
-      if (!(i %in% names(explainer2))) {
+    for (i in names(explainer1$data)) {
+      if (!(i %in% names(explainer2$data))) {
         stop("Explainers data variables must be identical")
       }
     }
-    for (i in names(explainer2)) {
-      if (!(i %in% names(explainer1))) {
+    for (i in names(explainer2$data)) {
+      if (!(i %in% names(explainer1$data))) {
         stop("Explainers data variables must be identical")
       }
     }
