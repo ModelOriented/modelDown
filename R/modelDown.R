@@ -1,6 +1,6 @@
 #' Generates a website with HTML summaries for predictive models
 #'
-#' @param ... one or more explainers createdwith \code{DALEX::explain()} function
+#' @param ... one or more explainers created with \code{DALEX::explain()} function. Pair of explainer could be provided to check drift of models
 #' @param modules modules that should be included in the website
 #' @param output_folder folder where the website will be saved
 #' @param repository_name name of local archivist repository that will be created
@@ -37,13 +37,17 @@
 #' }, na.rm=TRUE)
 #'
 #' # glm
-#' HR_glm_model <- glm(left~., HR_data, family = "binomial")
-#' explainer_glm <- explain(HR_glm_model, data=HR_data, y = HR_data$left)
+#' HR_data1 <- HR_data[1:4000,]
+#' HR_data2 <- HR_data[4000:nrow(HR_data),]
+#' HR_glm_model1 <- glm(left~., HR_data1, family = "binomial")
+#' HR_glm_model2 <- glm(left~., HR_data2, family = "binomial")
+#' explainer_glm1 <- explain(HR_glm_model1, data=HR_data1, y = HR_data1$left)
+#' explainer_glm2 <- explain(HR_glm_model2, data=HR_data2, y = HR_data2$left)
 #'
-#' modelDown::modelDown(explainer_ranger, explainer_glm) #all defaults
+#' modelDown::modelDown(explainer_ranger, list(explainer_glm1, explainer_glm2)) #all defaults
 #'
-#' modelDown::modelDown(explainer_glm,
-#'   modules = c("auditor", "model_performance", "variable_importance",
+#' modelDown::modelDown(list(explainer_glm1, explainer_glm2)
+#'   modules = c("auditor", "drifter", "model_performance", "variable_importance",
 #'               "variable_response"),
 #'   output_folder = "modelDown_output",
 #'   repository_name = "HR",
@@ -52,9 +56,8 @@
 #'   vr.vars= c("average_montly_hours", "time_spend_company"),
 #'   vr.type = "ale")
 #' }
-
 modelDown <- function(...,
-                      modules = c("auditor", "model_performance", "variable_importance", "variable_response"),
+                      modules = c("auditor", "drifter", "model_performance", "variable_importance", "variable_response"),
                       output_folder="output",
                       repository_name="repository",
                       should_open_website=TRUE) {
@@ -67,7 +70,16 @@ modelDown <- function(...,
   options[["repository_name"]] <- repository_name
 
   #unnamed arguments are explainers
-  explainers <- args[names(args) == ""]
+  explainers_list <- args[names(args) == ""]
+
+  explainers_parsed <- parseExplainers(explainers_list)
+  explainers <- explainers_parsed$basic_explainers
+  drifter_explainer_pairs <- explainers_parsed$drifter_explainer_pairs
+
+  # Do not render drifter tab if there are no explainer pairs
+  if(length(drifter_explainer_pairs) == 0) {
+    modules <- modules['drifter' != modules]
+  }
 
   ensureOutputFolderStructureExist(output_folder);
   do.call(file.remove, list(list.files(output_folder, full.names = TRUE, recursive = TRUE)))
@@ -88,7 +100,7 @@ modelDown <- function(...,
 
   copyAssets(system.file("extdata", "template", package = "modelDown"), output_folder)
 
-  generated_modules <- generateModules(modules, output_folder, explainers, options)
+  generated_modules <- generateModules(modules, output_folder, explainers, drifter_explainer_pairs, options)
 
   renderModules(generated_modules, output_folder)
   renderMainPage(generated_modules, output_folder, explainers, options)
@@ -97,6 +109,30 @@ modelDown <- function(...,
   }
 }
 
+parseExplainers <- function(explainers) {
+  basic_explainers <- list()
+  drifter_explainer_pairs <- list()
+
+  basic_i <- 1
+  drifter_i <- 1
+  for(explainer in explainers) {
+    if(!(class(explainer) == "explainer" || length(explainer) <= 2)) {
+      stop("Length of explainers vector shouldn't be higher than 2")
+    }
+
+    if(length(explainer) == 2) {
+      drifter_explainer_pairs[[drifter_i]] <- explainer
+      basic_explainers[[basic_i]]  <- explainer[[1]]
+      drifter_i <- drifter_i + 1
+    } else{
+      basic_explainers[[basic_i]] <- explainer
+    }
+    basic_i <- basic_i + 1
+  }
+
+  result <- list(basic_explainers=basic_explainers, drifter_explainer_pairs=drifter_explainer_pairs)
+  return(result)
+}
 
 getPlotSettings <- function(options, options_prefix = NULL, default_font_size = DEFAULT_FONT_SIZE, default_device = DEFAULT_DEVICE) {
 
@@ -158,7 +194,7 @@ copyAssets <- function(from, to) {
   return(asset_files)
 }
 
-generateModules <- function(modules_names, output_folder, explainers, options) {
+generateModules <- function(modules_names, output_folder, explainers, drifter_explainer_pairs, options) {
   return(lapply(modules_names, function(module_name) {
     print(paste("Generating ", module_name, "...", sep = ""))
     generator_path <-
@@ -170,8 +206,11 @@ generateModules <- function(modules_names, output_folder, explainers, options) {
     img_folder <- file.path(module_folder, "img")
     createDirIfNotExists(module_folder)
     createDirIfNotExists(img_folder)
-
-    data <- generator_env$generator(explainers, options, img_folder)
+    if(module_name == "drifter") {
+      data <- generator_env$generator(drifter_explainer_pairs, options, img_folder)
+    } else {
+      data <- generator_env$generator(explainers, options, img_folder)
+    }
     return(data)
   }))
 }
