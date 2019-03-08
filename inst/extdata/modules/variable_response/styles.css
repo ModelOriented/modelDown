@@ -14,11 +14,15 @@
 
 .plot-container {
   padding: 0px 20px;
-  text-align: center;
+/*  text-align: center; */
 }
 
 .plot {
-  width: 100%;
+  width: 60%;
+}
+
+.archivist-code {
+  width: 60%;
 }
 
 .contents h1, .contents h2, .contents h3, .contents h4 {

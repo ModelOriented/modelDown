@@ -3,5 +3,10 @@
 }
 
 .plot {
-  width: 100%;
+  width: 60%;
+}
+
+.archivist-code {
+  width: 60%;
+  margin: auto;
 }
