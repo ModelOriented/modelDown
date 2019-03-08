@@ -19,6 +19,10 @@ r_packages:
   - DALEX
   - devtools
 
+r_github_packages:
+  - ModelOriented/ceterisParibus2
+  - ModelOriented/drifter
+
 addons:
   apt:
     packages:
