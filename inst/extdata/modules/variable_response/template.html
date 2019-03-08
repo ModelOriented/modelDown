@@ -10,11 +10,13 @@
         </ul>
     </div>
 </div>
-<div class="col-md-push-3 col-md-9 main-content">
+<div class="col-md-push-3 col-md-9 main-content contents">
     {{#variables}}
-    <a id="{{variable_name}}" class="variable-anchor"></a>
     <div class="plot-container">
-        <h2>Feature: {{variable_name}}</h2>
+        <h2 id="{{variable_name}}" class="hasAnchor">
+            <a href="#{{variable_name}}" class="anchor"></a>
+            Feature: {{variable_name}}
+        </h2>
         <img class="plot" src="img/{{img_filename}}" />
         <br />
         <help-panel help-url="{{HELP_LINK}}" docs-url="{{DOCS_LINK}}"></help-panel>

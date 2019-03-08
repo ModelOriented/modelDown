@@ -7,13 +7,6 @@
   padding: 5px 15px;
 }
 
-.variable-anchor {
-  display: block;
-  position: relative;
-  top: -51px;
-  visibility: hidden;
-}
-
 .main-content {
   left: 300px;
   width: auto;
@@ -30,4 +23,9 @@
 
 .archivist-code {
   width: 60%;
+}
+
+.contents h1, .contents h2, .contents h3, .contents h4 {
+  padding-top: 50px;
+  margin-top: -50px;
 }
