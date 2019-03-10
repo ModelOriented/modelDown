@@ -1,5 +1,16 @@
 body {font-family: Arial;}
 
+table {
+  display: table;
+}
+
+.intro-header {
+  border-radius: 10px;
+  background-color: #6d60a9;
+  box-shadow: 5px 5px 15px -5px #444;
+  color: #fff;
+}
+
 .footer {
    position: fixed;
    left: 0;
