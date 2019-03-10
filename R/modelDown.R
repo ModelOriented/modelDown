@@ -76,8 +76,7 @@ modelDown <- function(...,
   explainers <- explainers_parsed$basic_explainers
   drifter_explainer_pairs <- explainers_parsed$drifter_explainer_pairs
 
-  # arguments validation
-  validateParameters(explainers, options, modules, output_folder, repository_name, should_open_website)
+  validateParameters(explainers, options, modules, should_open_website)
 
   # Do not render drifter tab if there are no explainer pairs
   if(length(drifter_explainer_pairs) == 0) {
@@ -112,7 +111,7 @@ modelDown <- function(...,
   }
 }
 
-validateParameters <- function(explainers, options, modules, output_folder, repository_name, should_open_website){
+validateParameters <- function(explainers, options, modules, should_open_website){
   validateExplainers(explainers)
   validateOptions(options, explainers)
 
@@ -143,15 +142,10 @@ validateExplainers <- function(explainers){
   explainer1 <- explainers[[1]]
 
   for(explainer2 in tail(explainers,-1)){
-    for (i in names(explainer1$data)) {
-      if (!(i %in% names(explainer2$data))) {
-        stop("Explainers data variables must be identical")
-      }
-    }
-    for (i in names(explainer2$data)) {
-      if (!(i %in% names(explainer1$data))) {
-        stop("Explainers data variables must be identical")
-      }
+    names_1 <- names(explainer1$data)
+    names_2 <- names(explainer2$data)
+    if(length(c(setdiff(names_1, names_2), setdiff(names_2, names_1))) > 0) {
+      stop("Explainers data variables must be identical")
     }
   }
 }
