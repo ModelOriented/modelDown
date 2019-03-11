@@ -12,12 +12,21 @@ table {
 }
 
 .footer {
-   position: fixed;
-   left: 0;
-   bottom: 0;
-   width: 100%;
-   background-color: #f1f1f1;
-   text-align: center;
+    width: 100%;
+    background-color: #4a3c89;
+    text-align: center;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+    box-shadow: 5px 5px 15px -5px #444;
+}
+
+.footer a {
+  color: #c8c3dc;
+}
+
+.footer a:hover {
+  color: #aea7cc;
 }
 
 /* Help panel */
