@@ -158,7 +158,7 @@ validateOptions <- function(options, explainers){
 
   vr.vars <- options[["vr.vars"]]
   if(!is.null(vr.vars)){
-    explainer <- explainers[1]
+    explainer <- explainers[[1]]
     if(!all(vr.vars %in% colnames(explainer$data))) {
       stop("All variables in 'vr.vars' must be contained in data frame columns.")
     }
