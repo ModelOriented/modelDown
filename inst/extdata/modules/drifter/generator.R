@@ -24,7 +24,7 @@ renderTable <- function(data_table) {
 renderDrifterSection <- function(section_name, data_table) {
   section_header <- paste0("<h3 class='section-label'>", section_name, "</h3>")
   section_data <- renderTable(data_table)
-  return(paste0(section_header, section_data, "</br>"))
+  return(paste0("<div class='column'>", section_header, section_data, "</div>"))
 }
 
 generator <- function(explainer_pairs, options, img_folder) {
@@ -33,17 +33,17 @@ generator <- function(explainer_pairs, options, img_folder) {
   for(pair in explainer_pairs) {
     old_explainer <- pair[[1]]
     new_explainer <- pair[[2]]
-    drifter_data <- paste0(drifter_data, "<h3 class='model-label'>", old_explainer$label, "</h3>")
+    drifter_data <- paste0(drifter_data, "<div class='row'>", "<h3 class='model-label'>", old_explainer$label, "</h3>")
     drift <- check_drift(old_explainer$model, new_explainer$model,
                          old_explainer$data, new_explainer$data,
                          old_explainer$y, new_explainer$y,
                          predict_function = old_explainer$predict_function)
 
+    model_drift <- renderDrifterSection("Model Drift", drift$model_drift)
     covariate_drift <- renderDrifterSection("Covariate Drift", data.frame(Variable = drift$covariate_drift$variables , Drift = drift$covariate_drift$drift))
     residual_drift <- renderDrifterSection("Residual Drift", drift$residual_drift)
-    model_drift <- renderDrifterSection("Model Drift", drift$model_drift)
 
-    drifter_data <- paste0(drifter_data, covariate_drift, residual_drift, model_drift, "</br>")
+    drifter_data <- paste0(drifter_data, model_drift, covariate_drift, residual_drift, "</div>")
   }
 
 

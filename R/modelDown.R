@@ -91,8 +91,13 @@ modelDown <- function(...,
   archivist::createLocalRepo(repoDir = repository)
 
   # save explainers
-  for(explainer in explainers){
-    saveRDS(explainer, file = paste0(output_folder,"/explainers/", explainer$label, ".rda"))
+  for(explainer in explainers_list){
+    if(class(explainer) == "list"){
+      saveRDS(explainer[[1]], file = paste0(output_folder,"/explainers/", explainer[[1]]$label, "_new", ".rda"))
+      saveRDS(explainer[[2]], file = paste0(output_folder,"/explainers/", explainer[[2]]$label, "_old", ".rda"))
+    } else {
+      saveRDS(explainer, file = paste0(output_folder,"/explainers/", explainer$label, ".rda"))
+    }
   }
 
   #save session info
@@ -105,7 +110,7 @@ modelDown <- function(...,
   generated_modules <- generateModules(modules, output_folder, explainers, drifter_explainer_pairs, options)
 
   renderModules(generated_modules, output_folder)
-  renderMainPage(generated_modules, output_folder, explainers, options)
+  renderMainPage(generated_modules, output_folder, explainers, explainers_list, options)
   if(should_open_website){
     utils::browseURL(file.path(output_folder, "index.html"))
   }
@@ -187,7 +192,7 @@ parseExplainers <- function(explainers) {
   drifter_i <- 1
   for(explainer in explainers) {
     if(!(class(explainer) == "explainer" || length(explainer) <= 2)) {
-      stop("Length of explainers vector shouldn't be higher than 2")
+      stop("Multiple explainers should be passed in list and length shouldn't be higher than 2.\nUse:\nmodelDown(list(explainer_old, explainer_new), ...)")
     }
 
     if(length(explainer) == 2) {
@@ -341,14 +346,14 @@ renderModules <- function(modules, output_folder) {
   })
 }
 
-renderMainPage <- function(modules, output_folder, explainers, options) {
+renderMainPage <- function(modules, output_folder, explainers, explainers_list, options) {
   data_set <- explainers[[1]]$data
   numeric_columns <- which(sapply(data_set, class) != "factor")
   factor_columns <- which(sapply(data_set, class) == "factor")
   variables_data <- kable_styling(kable(psych::describe(data_set[,numeric_columns])), bootstrap_options = c("responsive", "bordered", "hover"))
 
   main_page_data <- list(
-    explainers = renderExplainersList(explainers),
+    explainers = renderExplainersList(explainers_list),
     data_summary = variables_data,
     factor_summary = renderFactorTables(data_set, factor_columns),
     observations_count = nrow(explainers[[1]]$data),
@@ -361,20 +366,39 @@ renderMainPage <- function(modules, output_folder, explainers, options) {
   output_path <- file.path(output_folder, "index.html")
   renderPage(content, modules, output_path, "./")
 }
-
+download_link <- function(label, download_path){
+  link_element = paste0(
+    "<li>",
+   label,
+    " <a href='explainers/",
+   download_path,
+    ".rda'>(download)</a></li>"
+  )
+  return(link_element)
+}
 renderExplainersList <- function(explainers){
   explainers_ul <- "<ul>"
   for(explainer in explainers){
-    explainers_ul <-
-      paste(
-        explainers_ul,
-        "<li>",
-        explainer$label,
-        " <a href='explainers/",
-        explainer$label,
-        ".rda'>(download)</a></li>",
-        sep = ""
-      )
+    if(class(explainer)=="list"){
+      explainers_ul <-
+        paste(
+          explainers_ul,
+          "<li>",
+          explainer[[1]]$label,
+          "<ul>",
+          download_link("new", paste0(explainer[[1]]$label, "_new")),
+          download_link("old", paste0(explainer[[2]]$label, "_old")),
+          "</ul>",
+          "</li>",
+          sep = ""
+        )
+    }else{
+      explainers_ul <-
+        paste(
+          explainers_ul, download_link(explainer$label, explainer$label),
+          sep = ""
+        )
+    }
   }
   explainers_ul <- paste(explainers_ul, "</ul>", sep = "")
   explainers_ul
