@@ -187,7 +187,7 @@ parseExplainers <- function(explainers) {
   drifter_i <- 1
   for(explainer in explainers) {
     if(!(class(explainer) == "explainer" || length(explainer) <= 2)) {
-      stop("Length of explainers vector shouldn't be higher than 2")
+      stop("Multiple explainers should be passed in list and length shouldn't be higher than 2.\nUse:\nmodelDown(list(explainer_old, explainer_new), ...)")
     }
 
     if(length(explainer) == 2) {

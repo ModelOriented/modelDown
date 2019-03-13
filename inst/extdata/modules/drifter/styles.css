@@ -1,3 +1,14 @@
+.column {
+  float: left;
+  width: 33%;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
 .model-label {
   font-size: 200%;
 }
