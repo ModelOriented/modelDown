@@ -56,13 +56,18 @@ sort_by_importance <- function(explainers, variables) {
   return(sorted_variables)
 }
 
-generator <- function(explainers, options, img_folder) {
+generator <- function(explainers, options, img_folder, sort_by_importance = TRUE) {
 
   variables <- options[["vr.vars"]]
   if(is.null(variables)) {
     variables <- colnames(explainers[[1]]$data)
   }
-  variables <- sort_by_importance(explainers, variables)
+  # how to sort variables?
+  if (sort_by_importance) {
+    variables <- sort_by_importance(explainers, variables)
+  } else {
+    variables <- sort(variables)
+  }
 
   variable_models <- lapply(variables, make_variable_plot_model, explainers, img_folder, options)
 
