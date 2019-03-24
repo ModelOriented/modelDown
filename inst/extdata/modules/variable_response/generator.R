@@ -45,13 +45,24 @@ make_variable_plot_model <- function(variable_name, explainers, img_folder, opti
   )
 }
 
+sort_by_importance <- function(explainers, variables) {
+  importance <- variable_importance(explainers[[1]])
+  variable_dropouts <- importance$dropout_loss[
+    sapply(variables, function(var_name) {
+      index <- which(importance$variable == var_name)
+    })]
+  variables_order <- order(variable_dropouts, decreasing = TRUE)
+  sorted_variables <- variables[variables_order]
+  return(sorted_variables)
+}
+
 generator <- function(explainers, options, img_folder) {
 
   variables <- options[["vr.vars"]]
   if(is.null(variables)) {
     variables <- colnames(explainers[[1]]$data)
   }
-  variables <- sort(variables)
+  variables <- sort_by_importance(explainers, variables)
 
   variable_models <- lapply(variables, make_variable_plot_model, explainers, img_folder, options)
 
