@@ -270,7 +270,25 @@ copyAssets <- function(from, to) {
 }
 
 generateModules <- function(modules_names, output_folder, explainers, drifter_explainer_pairs, options) {
-  return(lapply(modules_names, function(module_name) {
+
+  result <- lapply(modules_names, function(module_name) {
+    tryCatch(
+      generateModule(module_name, output_folder, explainers, drifter_explainer_pairs, options)
+      , error = function(err) {
+        warning(paste(
+          "Module '", module_name, "' generation failed. Skipping it.",
+          "The detailed error is: ", err
+          , sep = ""))
+      }
+    )
+  })
+
+  result <- result[lapply(result, is.list) == TRUE]
+
+  return(result)
+}
+
+generateModule <- function(module_name, output_folder, explainers, drifter_explainer_pairs, options) {
     print(paste("Generating ", module_name, "...", sep = ""))
     generator_path <-
       system.file("extdata", "modules", module_name, "generator.R", package = "modelDown")
@@ -287,7 +305,6 @@ generateModules <- function(modules_names, output_folder, explainers, drifter_ex
       data <- generator_env$generator(explainers, options, img_folder)
     }
     return(data)
-  }))
 }
 
 ensureOutputFolderStructureExist <- function(output_folder) {
