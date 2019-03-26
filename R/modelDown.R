@@ -239,7 +239,6 @@ getVarOrDefault <- function(options, var1, var2, default_value) {
 }
 
 save_to_repository <- function(artifact, options){
-  # todo - repository name from options
   repository <- file.path(options[["output_folder"]], options[["repository_name"]])
   hash <- archivist::saveToLocalRepo(artifact, repoDir=repository)
 
@@ -249,7 +248,7 @@ save_to_repository <- function(artifact, options){
     link <- paste('archivist::loadFromLocalRepo(md5hash = "', hash, '", ', 'repoDir = "', repository,'")', sep = '')
   }
   else {
-    link <- paste('archivist::aread("', remote_path, '/', repository, '/', hash, '")', sep = '')
+    link <- paste('archivist::aread("', remote_path, '/', options[["repository_name"]], '/', hash, '")', sep = '')
   }
   return(link)
 }
