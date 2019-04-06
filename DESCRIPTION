@@ -24,7 +24,8 @@ Imports: DALEX (>= 0.2.8),
     psych (>= 1.8.4),
     archivist (>= 2.1.0),
     svglite (>= 1.2.1),
-    devtools (>= 2.0.1)
+    devtools (>= 2.0.1),
+    breakDown (>= 0.1.6)
 Suggests: ranger,
     testthat,
     drifter,

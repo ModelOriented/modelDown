@@ -21,6 +21,7 @@
 #' @import ggplot2
 #' @importFrom grDevices svg
 #' @importFrom graphics plot
+#' @importFrom utils capture.output tail
 #' @author Magda Tatarynowicz, Kamil Romaszko, Mateusz Urbański
 #' @examples
 #' \dontrun{
@@ -62,7 +63,6 @@ modelDown <- function(...,
                       repository_name="repository",
                       should_open_website=TRUE) {
 
-  source(system.file("extdata", "config.R", package = "modelDown"))
   args <- list(..., version=1.0 )
   #named arguments are options (except those specified after ... in function definition)
   options <- args[names(args) != ""]
@@ -114,6 +114,18 @@ modelDown <- function(...,
   if(should_open_website){
     utils::browseURL(file.path(output_folder, "index.html"))
   }
+}
+
+.onLoad <- function(libname, pkgname) {
+  op <- options()
+  op.modelDown <- list(
+    modelDown.default_font_size = 16,
+    modelDown.default_device = "png"
+  )
+  toset <- !(names(op.modelDown) %in% names(op))
+  if(any(toset)) options(op.modelDown[toset])
+
+  invisible()
 }
 
 validateParameters <- function(explainers, options, modules, should_open_website){
@@ -209,7 +221,7 @@ parseExplainers <- function(explainers) {
   return(result)
 }
 
-getPlotSettings <- function(options, options_prefix = NULL, default_font_size = DEFAULT_FONT_SIZE, default_device = DEFAULT_DEVICE) {
+getPlotSettings <- function(options, options_prefix = NULL, default_font_size = getOption("modelDown.default_font_size"), default_device = getOption("modelDown.default_device")) {
 
   if(!is.null(options_prefix)) {
     font_size_variable <- paste(options_prefix, ".font_size", sep = "")

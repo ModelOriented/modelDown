@@ -5,8 +5,8 @@ test_that("Default arguments", {
     require("ranger")
     require("breakDown")
     require("DALEX")
-    HR_data_subset = head(HR_data, 3000)
-    HR_data_subset2 = head(HR_data, 4000)
+    HR_data_subset = head(breakDown::HR_data, 3000)
+    HR_data_subset2 = head(breakDown::HR_data, 4000)
 
     # ranger
     HR_ranger_model <- ranger(

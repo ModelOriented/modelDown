@@ -18,6 +18,7 @@ r_packages:
   - testthat
   - DALEX
   - devtools
+  - breakDown
 
 r_github_packages:
   - ModelOriented/ceterisParibus2
