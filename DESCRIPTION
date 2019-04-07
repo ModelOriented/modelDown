@@ -4,13 +4,15 @@ Version: 1.0.0
 Authors@R: c(person("Magda", "Tatarynowicz", email = "magda.tatarynowicz@gmail.com", role = c("aut")), 
     person("Kamil", "Romaszko", email = "kamil.romaszko@gmail.com", role = c("aut", "cre")), 
     person("Mateusz", "Urbański", email = "matiszak@gmail.com", role = c("aut")))
-Description: `modelDown` generates a website with HTML summaries for predictive models.
-    This package uses DALEX explainers to describe global model behavior. 
-    We can see how well models behave (Model Performance, Auditor),
-    how much each variable contributes to predictions (Variable Response) 
-    and which variables are the most important for a given model (Variable Importance).
-    We can also compare Concept Drift for pairs of models (Drifter).
+Description: The package 'modelDown' generates a website with HTML summaries for predictive models.
+    This package uses 'DALEX' explainers to describe global model behavior. 
+    We can see how well models behave (tabs: Model Performance, Auditor),
+    how much each variable contributes to predictions (tabs: Variable Response) 
+    and which variables are the most important for a given model (tabs: Variable Importance).
+    We can also compare Concept Drift for pairs of models (tabs: Drifter).
     Additionally, data available on the website can be easily recreated in current R session.
+    Work on this package was financially supported by the NCN Opus grant 2017/27/B/ST6/01307 
+    at Warsaw University of Technology, Faculty of Mathematics and Information Science.
 Depends: R (>= 3.4.0)
 License: GPL-3
 Encoding: UTF-8
