@@ -10,7 +10,42 @@
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1"
     crossorigin="anonymous">
 
-  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" type="text/css" href="{{root_path}}mi2template.css">
+  <link rel="stylesheet" type="text/css" href="{{root_path}}style.css">
+  {{#extra_css}}
+  <link rel="stylesheet" type="text/css" href="{{.}}">
+  {{/extra_css}}
+
+  <script>
+    function makeHelpPanel(help_link, docs_link) {
+      return '\
+            <div class="help-panel">\
+              <div class="title"><i class="fa fa-question" aria-hidden="true"></i> Helpful resources</div>\
+              <a href="' + docs_link + '" target="_blank">Technical documentation</a>\
+              <a href="' + help_link + '" target="_blank">Business description</a>\
+            </div>\
+            ';
+    };
+
+    function renderHelpPanels() {
+      var panel = document.getElementsByTagName("help-panel")[0];
+
+      while(panel) {
+        var docs_url = panel.attributes["docs-url"].value; 
+        var help_url = panel.attributes["help-url"].value;
+        
+        var html = makeHelpPanel(help_url, docs_url);
+        panel.outerHTML = html;
+
+        panel = document.getElementsByTagName("help-panel")[0]; 
+        // Not iterating the result because it changes after each iteration
+      }
+    }
+
+    $(document).ready(function(){
+      renderHelpPanels();
+    });
+  </script>
 </head>
 
 <body>
@@ -27,12 +62,12 @@
               <span class="icon-bar"></span>
             </button>
             </a>
-            <a class="navbar-brand navbar-mi2" href="index.html">modelDown</a>
+            <a class="navbar-brand navbar-mi2" href="{{root_path}}index.html">modelDown</a>
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="navbar-mi2 nav navbar-nav">
               <li>
-                <a href="index.html">
+                <a href="{{root_path}}index.html">
                   <span class="fa fa-home fa-lg"></span>
 
                 </a>
@@ -40,7 +75,7 @@
 
               {{#menu_links}}
               <li>
-                  <a href="{{link}}">{{name}}</a>
+                  <a href="{{root_path}}{{link}}">{{name}}</a>
               </li>
               {{/menu_links}}
             </ul>
@@ -61,7 +96,7 @@
   <footer>
     <div class="footer">
       <div class="text-center">Site built with <a href="https://github.com/MI2DataLab/modelDown">modelDown</a>.</div>
-      <div class="text-center" style="margin: 0px 0px 5px;">Last updated: {{datetime}}</div>
+      <div class="text-center" style="margin: 0px 0px 5px;">Last updated: {{datetime}} (session_info: <a href="session_info/session_info.txt">.txt</a>, <a href="session_info/session_info.rda">.rda</a>)</div>
     </div>
   </footer>
 

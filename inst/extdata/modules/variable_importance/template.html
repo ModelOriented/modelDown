@@ -1,9 +1,12 @@
-<div style="text-align: center">
-    <div style="padding: 0px 20px;">
-      <h2>Variable Importance</h2>
-      <img src="img/{{img_filename}}" />
+<div class="text-center">
+    <div class="data-container">
+      <h2>Feature Importance</h2>
+      <img class="plot" src="img/{{img_filename}}" />
+      <br />
+      <help-panel help-url="{{HELP_LINK}}" docs-url="{{DOCS_LINK}}"></help-panel>
+      <div class="archivist-code"><p>Get this object: <code>{{archivist_link}}</code></p></div>
     </div>
-    <div style="padding: 0px 20px;">
+    <div class="data-container">
       <br>
       {{{dataframe}}}
     </div>

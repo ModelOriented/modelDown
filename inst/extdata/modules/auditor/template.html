@@ -1,35 +1,47 @@
 <script type="text/javascript">
   function loadOptionalCharts() {
     if ("{{lift_img_filename}}" !== "") {
-        document.getElementById("lift").innerHTML = '<img src="img/{{lift_img_filename}}" /><br/>'
+        document.getElementById("lift").innerHTML =
+        '<img class="plot" src="img/{{lift_img_filename}}" /><br/>\
+         <help-panel help-url="{{LIFT_HELP_LINK}}" docs-url="{{LIFT_DOCS_LINK}}"></help-panel><br />';
     }
     if ("{{roc_img_filename}}" !== "") {
-        document.getElementById("roc").innerHTML = '<img src="img/{{roc_img_filename}}" /><br/>'
+        document.getElementById("roc").innerHTML =
+          '<img class="plot" src="img/{{roc_img_filename}}" /><br/>\
+           <help-panel help-url="{{ROC_HELP_LINK}}" docs-url="{{ROC_DOCS_LINK}}"></help-panel><br />';
     }
   }
 
   function loadAudit() {
       document.getElementById("auditor_charts").innerHTML =
-        '<h2>Audit</h2>\
-        <div style="padding: 0px 20px;">\
+        '<h2>Model Audit</h2>\
+        <p>Get this object: <code>{{archivist_link}}</code></p>\
+        <div class="data-container">\
             <div id="lift"></div>\
             <div id="roc"></div>\
-            <img src="img/{{rroc_img_filename}}" />\
+            <img class="plot" src="img/{{rroc_img_filename}}" /><br />\
+            <help-panel help-url="{{RROC_HELP_LINK}}" docs-url="{{RROC_DOCS_LINK}}"></help-panel>\
             <br/>\
-            <img src="img/{{ranking_img_filename}}" />\
+            <img class="plot" src="img/{{ranking_img_filename}}" /><br />\
+            <help-panel help-url="{{RANKING_HELP_LINK}}" docs-url="{{RANKING_DOCS_LINK}}"></help-panel>\
             <br/>\
-            <img src="img/{{residuals_img_filename}}" />\
+            <img class="plot" src="img/{{residuals_img_filename}}" /><br />\
+            <help-panel help-url="{{RESIDUALS_HELP_LINK}}" docs-url="{{RESIDUALS_DOCS_LINK}}"></help-panel>\
             <br/>\
-            <img src="img/{{rec_img_filename}}" />\
+            <img class="plot" src="img/{{rec_img_filename}}" /><br />\
+            <help-panel help-url="{{REC_HELP_LINK}}" docs-url="{{REC_DOCS_LINK}}"></help-panel>\
             <br/>\
-            <img src="img/{{acf_img_filename}}" />\
+            <img class="plot" src="img/{{acf_img_filename}}" /><br />\
+            <help-panel help-url="{{ACF_HELP_LINK}}" docs-url="{{ACF_DOCS_LINK}}"></help-panel>\
             <br/>\
-            <img src="img/{{scale_location_img_filename}}" />\
+            <img class="plot" src="img/{{scale_location_img_filename}}" /><br />\
+            <help-panel help-url="{{SCALE_HELP_LINK}}" docs-url="{{SCALE_DOCS_LINK}}"></help-panel>\
         </div>'
       loadOptionalCharts()
   }
   $(document).ready(function(){
     loadAudit();
+    renderHelpPanels();
   });
 </script>
 

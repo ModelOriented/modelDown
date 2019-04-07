@@ -2,12 +2,12 @@ library(DALEX)
 library(ggplot2)
 library(kableExtra)
 
-save_plot_image <- function(file_name, models, options){
+HELP_LINK <- "https://pbiecek.github.io/DALEX_docs/3-2-featureImportance.html#featureImportance"
+DOCS_LINK <- "https://pbiecek.github.io/DALEX/reference/variable_importance.html"
 
-  width <- getPlotWidth(options, "vi.plot_width")
-
-  pl <- do.call(plot, models)
-  ggsave(file_name, pl, png, width = width, height = 500, limitsize = FALSE)
+save_plot_image <- function(file_name, models, settings){
+  pl <- do.call(plot, models) + theme(text = element_text(size=settings$font_size))
+  ggsave(file_name, pl, settings$device)
 }
 
 make_variable_importance_table <- function(explainers) {
@@ -37,30 +37,44 @@ make_variable_importance_table <- function(explainers) {
   html
 }
 
-create_plot_image <- function(explainers, img_folder, options){
-  img_filename <- 'variable_importance.png'
+create_plot_image <- function(models, img_folder, options){
+  plot_settings <- getPlotSettings(options, "vi")
+
+  img_filename <- paste('variable_importance', plot_settings$device, sep='.')
   img_path <- file.path(img_folder, img_filename)
 
+  file.create(img_path)
+  save_plot_image(img_path, models, plot_settings)
+
+  img_filename
+}
+
+generate_models <- function(explainers){
   models <- lapply(explainers, function(explainer) {
     variable_importance(explainer, type="raw")
   })
-
-  file.create(img_path)
-  save_plot_image(img_path, models, options)
+  models
 }
 
 generator <- function(explainers, options, img_folder) {
 
   variable_importance_table <- make_variable_importance_table(explainers)
 
-  create_plot_image(explainers, img_folder, options)
+  models <- generate_models(explainers)
+
+  filename <- create_plot_image(models, img_folder, options)
+
+  link <- save_to_repository(models, options)
 
   list(
     display_name='Variable Importance',
     name='variable_importance',
     data=list(
-      img_filename='variable_importance.png',
-      dataframe=variable_importance_table
+      img_filename=filename,
+      dataframe=variable_importance_table,
+      archivist_link = link,
+      HELP_LINK = HELP_LINK,
+      DOCS_LINK = DOCS_LINK
     )
   )
 }
