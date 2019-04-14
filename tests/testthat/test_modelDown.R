@@ -36,3 +36,18 @@ test_that("Default arguments", {
   })
 })
 
+
+test_that("Validation for character variable in explainer dataset", {
+  expect_error({
+    require("DALEX")
+
+    titanic_char <- titanic
+    titanic_char$country_character <- as.character(titanic$country)
+
+    titanic_glm_model <- glm(survived == "yes" ~ ., titanic_char, family = "binomial")
+
+    explainer_glm <-
+      explain(titanic_glm_model, data = titanic_char, y = titanic_char$survived)
+    modelDown::modelDown(explainer_glm)
+  })
+})
