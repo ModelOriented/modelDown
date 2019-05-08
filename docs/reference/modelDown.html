@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create page with summary for your models — modelDown • modelDown</title>
+<title>Generates a website with HTML summaries for predictive models — modelDown • modelDown</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -18,22 +18,11 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
-<!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-
-
-
-<meta property="og:title" content="Create page with summary for your models — modelDown" />
-
-<meta property="og:description" content="Create page with summary for your models" />
-<meta name="twitter:card" content="summary" />
-
-
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -48,7 +37,7 @@
   <body>
     <div class="container template-reference-topic">
       <header>
-      <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="navbar navbar-default navbar-fixed-top navbar-mi2" role="navigation">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
@@ -56,17 +45,16 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">modelDown</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.1</span>
-      </span>
+	  <a class = "navbar-mi2logo" href="http://DrWhy.AI/">
+        <img src = "https://github.com/ModelOriented/DrWhyTemplate/blob/master/inst/pkgdown/assets/drwhy_znak_violet_small.jpg?raw=true" alt = "MI2" height = 46 title = "MI2">
+	  </a>
+      <a class="navbar-brand navbar-mi2" href="../index.html">Generates a website with HTML summaries for predictive models</a>
     </div>
-
     <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
+      <ul class="navbar-mi2 nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -78,12 +66,11 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/MI2DataLab/modelDown">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
       </ul>
-      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -91,87 +78,91 @@
       
       </header>
 
-<div class="row">
+      <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create page with summary for your models</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MI2DataLab/modelDown/blob/master/R/modelDown.R'><code>R/modelDown.R</code></a></small>
-    <div class="hidden name"><code>modelDown.Rd</code></div>
+    <h1>Generates a website with HTML summaries for predictive models</h1>
     </div>
 
-    <div class="ref-description">
     
-    <p>Create page with summary for your models</p>
+    <p>Generates a website with HTML summaries for predictive models</p>
     
-    </div>
 
-    <pre class="usage"><span class='fu'>modelDown</span>(<span class='no'>...</span>, <span class='kw'>modules</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"model_performance"</span>, <span class='st'>"variable_importance"</span>,
-  <span class='st'>"variable_response"</span>), <span class='kw'>output_folder</span> <span class='kw'>=</span> <span class='st'>"output"</span>)</pre>
+    <pre class="usage"><span class='fu'>modelDown</span>(<span class='no'>...</span>, <span class='kw'>modules</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"auditor"</span>, <span class='st'>"drifter"</span>, <span class='st'>"model_performance"</span>,
+  <span class='st'>"variable_importance"</span>, <span class='st'>"variable_response"</span>), <span class='kw'>output_folder</span> <span class='kw'>=</span> <span class='st'>"output"</span>,
+  <span class='kw'>repository_name</span> <span class='kw'>=</span> <span class='st'>"repository"</span>, <span class='kw'>should_open_website</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>...</th>
-      <td><p>explainers</p></td>
+      <td><p>one or more explainers created with <code><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>DALEX::explain()</a></code> function. Pair of explainer could be provided to check drift of models</p></td>
     </tr>
     <tr>
       <th>modules</th>
-      <td><p>selected modules to generate</p></td>
+      <td><p>modules that should be included in the website</p></td>
     </tr>
     <tr>
       <th>output_folder</th>
-      <td><p>folder where generated page will be stored</p></td>
+      <td><p>folder where the website will be saved</p></td>
+    </tr>
+    <tr>
+      <th>repository_name</th>
+      <td><p>name of local archivist repository that will be created</p></td>
+    </tr>
+    <tr>
+      <th>should_open_website</th>
+      <td><p>should generated website be automatically opened in default browser</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Additional argument that could by passed by name:</p><ul>
+    <p>Additional arguments that could by passed by name:</p><ul>
+<li><p>remote_repository_path Path to remote repository that stores folder with archivist repository. If not provided, links to local repository will be shown.</p></li>
+<li><p>device Device to use. Tested for "png" and "svg", but values from <code><a href='https://rdrr.io/pkg/ggplot2/man/ggsave.html'>ggplot2::ggsave</a></code> function should be working fine. Defaults to "png".</p></li>
 <li><p>vr.vars variables which will be examined in Variable Response module. Defaults to all variables. Example vr.vars = c("var1", "var2")</p></li>
-<li><p>pb.observations observations which will be examined in Prediction Breakdown module. When not given it selects worst predicted observations for each model. Example pb.observations = c(1,2,3) where 1,2,3 are observation numbers.</p></li>
-<li><p>vr.type types of examinations which will be conducteed in Variable Response module. Defaults to c("ale", "pdb"). Example vr.type = "ale"</p></li>
-<li><p>plot_width default width for plots. Defaults to 800. Example plot_width = 750</p></li>
-<li><p>vr.plot_width Override plot width for Variable Response module. Defaults to plot_width. Example vr.plot_width = 750</p></li>
-<li><p>mp.plot_width Override plot width for Model Performance module. Defaults to plot_width. Example mp.plot_width = 750</p></li>
-<li><p>pb.plot_width Override plot width for Prediction Breakdown module. Defaults to plot_width. Example pb.plot_width = 750</p></li>
-<li><p>vi.plot_width Override plot width for Variable Importance module. Defaults to plot_width. Example vi.plot_width = 750</p></li>
+<li><p>vr.type types of examinations which will be conducteed in Variable Response module. Defaults to "pdp". Example vr.type = c("ale", "pdp")</p></li>
 </ul>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='fu'>require</span>(<span class='no'>ranger</span>)
-<span class='fu'>require</span>(<span class='no'>breakDown</span>)
-<span class='fu'>require</span>(<span class='no'>DALEX</span>)
+    <pre class="examples"><div class='input'>require("ranger")
+require("breakDown")
+require("DALEX")
 
-<span class='co'># ranger</span>
-<span class='no'>HR_ranger_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/ranger/topics/ranger'>ranger</a></span>(<span class='fu'>as.factor</span>(<span class='no'>left</span>) ~ <span class='no'>.</span>,
-                      <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR_data</span>, <span class='kw'>num.trees</span> <span class='kw'>=</span> <span class='fl'>500</span>, <span class='kw'>classification</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>probability</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='no'>explainer_ranger</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/DALEX/topics/explain'>explain</a></span>(<span class='no'>HR_ranger_model</span>,
-                      <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HR_data</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR_data</span>$<span class='no'>left</span>, <span class='kw'>function</span>(<span class='no'>model</span>, <span class='no'>data</span>) {
- <span class='fu'>return</span>(<span class='fu'>predict</span>(<span class='no'>model</span>, <span class='no'>data</span>)$<span class='no'>prediction</span>[,<span class='fl'>2</span>])
-}, <span class='kw'>na.rm</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+# ranger
+HR_ranger_model <- ranger(as.factor(left) ~ .,
+                      data = HR_data, num.trees = 500, classification = TRUE, probability = TRUE)
+explainer_ranger <- explain(HR_ranger_model,
+                      data = HR_data, y = HR_data$left, function(model, data) {
+ return(predict(model, data)$prediction[,2])
+}, na.rm=TRUE)
 
-<span class='co'># glm</span>
-<span class='no'>HR_glm_model</span> <span class='kw'>&lt;-</span> <span class='fu'>glm</span>(<span class='no'>left</span>~<span class='no'>.</span>, <span class='no'>HR_data</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>)
-<span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/DALEX/topics/explain'>explain</a></span>(<span class='no'>HR_glm_model</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>HR_data</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>HR_data</span>$<span class='no'>left</span>)
+# glm
+HR_data1 <- HR_data[1:4000,]
+HR_data2 <- HR_data[4000:nrow(HR_data),]
+HR_glm_model1 <- glm(left~., HR_data1, family = "binomial")
+HR_glm_model2 <- glm(left~., HR_data2, family = "binomial")
+explainer_glm1 <- explain(HR_glm_model1, data=HR_data1, y = HR_data1$left)
+explainer_glm2 <- explain(HR_glm_model2, data=HR_data2, y = HR_data2$left)
 
-<span class='kw pkg'>modelDown</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/modelDown/topics/modelDown'>modelDown</a></span>(<span class='no'>explainer_ranger</span>, <span class='no'>explainer_glm</span>) <span class='co'>#all defaults</span>
+modelDown::modelDown(explainer_ranger, list(explainer_glm1, explainer_glm2)) #all defaults
 
-<span class='kw pkg'>modelDown</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/modelDown/topics/modelDown'>modelDown</a></span>(<span class='no'>explainer_glm</span>,
-  <span class='kw'>modules</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"model_performance"</span>, <span class='st'>"variable_importance"</span>,
-              <span class='st'>"variable_response"</span>),
-  <span class='kw'>output_folder</span> <span class='kw'>=</span> <span class='st'>"modelDown_output"</span>,
-  <span class='kw'>vr.vars</span><span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"average_montly_hours"</span>, <span class='st'>"time_spend_company"</span>),
-  <span class='kw'>pb.observations</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>3</span>),
-  <span class='kw'>vr.type</span> <span class='kw'>=</span> <span class='st'>"ale"</span>,
-  <span class='kw'>plot_width</span><span class='kw'>=</span><span class='fl'>700</span>,
-  <span class='kw'>pb.plot_width</span><span class='kw'>=</span><span class='fl'>810</span>,
-  <span class='kw'>mp.plot_width</span><span class='kw'>=</span><span class='fl'>820</span>,
-  <span class='kw'>vi.plot_width</span><span class='kw'>=</span><span class='fl'>830</span>,
-  <span class='kw'>vr.plot_width</span><span class='kw'>=</span><span class='fl'>840</span>)
-<span class='co'># }</span></pre>
+modelDown::modelDown(list(explainer_glm1, explainer_glm2)
+  modules = c("auditor", "drifter", "model_performance", "variable_importance",
+              "variable_response"),
+  output_folder = "modelDown_output",
+  repository_name = "HR",
+  remote_repository_path = "some_user/remote_repo_name",
+  device = "png",
+  vr.vars= c("average_montly_hours", "time_spend_company"),
+  vr.type = "ale")
+</div><div class='output co'>#&gt; <span class='error'>Error: &lt;text&gt;:24:3: unexpected symbol</span>
+#&gt; <span class='error'>23: modelDown::modelDown(list(explainer_glm1, explainer_glm2)</span>
+#&gt; <span class='error'>24:   modules</span>
+#&gt; <span class='error'>      ^</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -184,9 +175,7 @@
     </ul>
 
     <h2>Author</h2>
-    
-Magda Tatarynowicz, Kamil Romaszko, Mateusz Urabński
-
+    <p>Magda Tatarynowicz, Kamil Romaszko, Mateusz Urbański</p>
   </div>
 </div>
 
@@ -196,13 +185,11 @@ Magda Tatarynowicz, Kamil Romaszko, Mateusz Urabński
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
-
-  
 
   </body>
 </html>

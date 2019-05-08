@@ -8,23 +8,15 @@
 <title>Make Static HTML Website for Predictive Models • modelDown</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="jquery.sticky-kit.min.js"></script><script src="pkgdown.js"></script><meta property="og:title" content="Make Static HTML Website for Predictive Models">
-<meta property="og:description" content="`modelDown` generates a website with HTML summaries for predictive models.
-    This package uses DALEX explainers to describe local and global model behavior. 
-    We can see how exactly scores for predictions were calculated (Prediction BreakDown), 
-    how much each variable contributes to predictions (Variable Response), 
-    which variables are the most important for a given model (Variable Importance) 
-    and how well out models behave (Model Performance).">
-<meta name="twitter:card" content="summary">
-<!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
+<!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
+<script src="jquery.sticky-kit.min.js"></script><script src="pkgdown.js"></script><!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
 <body>
     <div class="container template-home">
-      <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <header><div class="navbar navbar-default navbar-fixed-top navbar-mi2" role="navigation">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
@@ -32,17 +24,15 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">modelDown</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.1</span>
-      </span>
+	  <a class="navbar-mi2logo" href="http://DrWhy.AI/">
+        <img src="https://github.com/ModelOriented/DrWhyTemplate/blob/master/inst/pkgdown/assets/drwhy_znak_violet_small.jpg?raw=true" alt="MI2" height="46" title="MI2"></a>
+      <a class="navbar-brand navbar-mi2" href="index.html"></a>
     </div>
-
     <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
+      <ul class="navbar-mi2 nav navbar-nav">
 <li>
   <a href="index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -53,7 +43,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/MI2DataLab/modelDown">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -72,37 +62,69 @@
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#modeldown" class="anchor"></a>modelDown</h1></div>
 
-<p><code>modelDown</code> generates a website with HTML summaries for predictive models. Is uses <a href="https://github.com/pbiecek/DALEX">DALEX</a> explainers to compute and plot summaries of how given models behave. We can see how exactly scores for predictions were calculated (Prediction BreakDown), how much each variable contributes to predictions (Variable Response), which variables are the most important for a given model (Variable Importance) and how well out models behave (Model Performance).</p>
+<p><a href="https://github.com/MI2DataLab/modelDown"><img src="misc/modelDownSticker.png" alt="" align="right" width="200px"></a></p>
+<p><code>modelDown</code> generates a website with HTML summaries for predictive models. Is uses <a href="https://github.com/pbiecek/DALEX">DALEX</a> explainers to compute and plot summaries of how given models behave. We can see how well models behave (Model Performance, Auditor), how much each variable contributes to predictions (Variable Response) and which variables are the most important for a given model (Variable Importance). We can also compare Concept Drift for pairs of models (Drifter). Additionally, data available on the website can be easily recreated in current R session (using <code>archivist</code> package).</p>
 <p><code>pkgdown</code> documentation: <a href="https://mi2datalab.github.io/modelDown/" class="uri">https://mi2datalab.github.io/modelDown/</a></p>
 <p>An example website for regression models: <a href="https://mi2datalab.github.io/modelDown_example/" class="uri">https://mi2datalab.github.io/modelDown_example/</a></p>
+<div id="getting-started" class="section level2">
+<h2 class="hasAnchor">
+<a href="#getting-started" class="anchor"></a>Getting started</h2>
+<p>Do you want to start right now ? Check out our <a href="https://mi2datalab.github.io/modelDown/getting-started">getting started</a> guide.</p>
+</div>
 <div id="index-page" class="section level2">
 <h2 class="hasAnchor">
 <a href="#index-page" class="anchor"></a>Index page</h2>
-<center><img width="600" src="https://raw.githubusercontent.com/MI2DataLab/modelDown/master/misc/index.PNG"></center>
+<center><img width="600" src="misc/index.png"></center>
 <p>Index page presents basic information about data provided in explainers. You can also see types of all explainers given as parameters. Additionally, summary statistics are available for numerical variables. For categorical variables, tables with frequencies of factor levels are presented.</p>
+</div>
+<div id="auditor" class="section level2">
+<h2 class="hasAnchor">
+<a href="#auditor" class="anchor"></a>Auditor</h2>
+<center><img width="600" src="misc/auditor.png"></center>
+<p>Module shows plots generated by <code>auditor</code> package.</p>
+</div>
+<div id="drifter" class="section level2">
+<h2 class="hasAnchor">
+<a href="#drifter" class="anchor"></a>Drifter</h2>
+<p>Results of <code>drifter</code> package are displayed in this tab. In order to see the comparision charts, you have to provide pair of explainers as parameters (for example: <code><a href="https://rdrr.io/r/base/list.html">list(explainer_glm_old, explainer_glm_new)</a></code>).</p>
 </div>
 <div id="model-performance" class="section level2">
 <h2 class="hasAnchor">
 <a href="#model-performance" class="anchor"></a>Model Performance</h2>
-<center><img width="600" src="https://raw.githubusercontent.com/MI2DataLab/modelDown/master/misc/performance.PNG"></center>
+<center><img width="600" src="misc/performance.png"></center>
 <p>Module shows result of function <code>model_performance</code>.</p>
 </div>
 <div id="variable-importance" class="section level2">
 <h2 class="hasAnchor">
 <a href="#variable-importance" class="anchor"></a>Variable Importance</h2>
-<center><img width="600" src="https://raw.githubusercontent.com/MI2DataLab/modelDown/master/misc/importance.PNG"></center>
+<center><img width="600" src="misc/importance.png"></center>
 <p>Output of function <code>variable_importance</code> is presented in form of a plot as well as a table.</p>
 </div>
 <div id="variable-response" class="section level2">
 <h2 class="hasAnchor">
 <a href="#variable-response" class="anchor"></a>Variable Response</h2>
-<center><img width="600" src="https://raw.githubusercontent.com/MI2DataLab/modelDown/master/misc/response.PNG"></center>
+<center><img width="600" src="misc/response.png"></center>
 <p>For each variable, plot is created by using function <code>variable_response</code>. Plots can be easily navigated using links on the left side. One can provide names of variables to include in the module with argument <code>vr.vars</code> (if argument is not used, plots for all variables of first explainer are generated).</p>
+</div>
+<div id="loading-data-in-r" class="section level2">
+<h2 class="hasAnchor">
+<a href="#loading-data-in-r" class="anchor"></a>Loading data in R</h2>
+<p>In each tab you can find links with R commands. If you execute them, you can load relevant objects into current R session (<code>archivist</code> package is necessary). By default data is stored and loaded from local repository. If you wish to store data on GitHub repository, please provide argument <code>remote_repository_path</code>. After generating modelDown website, <code>repository</code> folder must be placed under this path.</p>
+</div>
+<div id="acknowledgments" class="section level2">
+<h2 class="hasAnchor">
+<a href="#acknowledgments" class="anchor"></a>Acknowledgments</h2>
+<p>Work on this package is financially supported by Warsaw University of Technology, Faculty of Mathematics and Information Science.</p>
 </div>
 </div>
   </div>
 
   <div class="col-md-3" id="sidebar">
+  	<div class="sidebar-logo">
+	 <p>
+		This package is a part of <a href="http://DrWhy.AI">DrWhy.AI</a> universe. It is developed by the <a href="http://DrWhy.AI">MI^2 group</a> of mathematicians and computer scientists that love to play with data. We create tools, do consulting and share our positive attitude. 
+	 </p>
+	</div>
     <div class="links">
 <h2>Links</h2>
 <ul class="list-unstyled">
@@ -130,7 +152,9 @@
   <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
+<li><a href="https://cran.r-project.org/package=modelDown"><img src="http://www.r-pkg.org/badges/version/modelDown" alt="CRAN_Status_Badge"></a></li>
 <li><a href="https://travis-ci.org/MI2DataLab/modelDown"><img src="https://travis-ci.org/MI2DataLab/modelDown.svg?branch=master" alt="Travis-CI Build Status"></a></li>
+<li><a href="https://codecov.io/github/MI2DataLab/modelDown?branch=master"><img src="https://img.shields.io/codecov/c/github/MI2DataLab/modelDown/master.svg" alt="Coverage Status"></a></li>
 </ul>
 </div>
 </div>
@@ -142,13 +166,11 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
 </div>
 
       </footer>
 </div>
-
-  
 
   </body>
 </html>
