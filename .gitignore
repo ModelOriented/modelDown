@@ -37,3 +37,5 @@ rsconnect/
 .Rproj.user
 #modelDown output
 output/
+
+cran-comments.md
