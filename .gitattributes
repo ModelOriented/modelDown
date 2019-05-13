@@ -1,3 +1,10 @@
 # Set the default behavior, in case people don't have core.autocrlf set.
 * text eol=lf
 * eol=lf
+
+#
+## These files are binary and should be left untouched
+#
+
+# (binary is a macro for -text -diff)
+*.png binary
