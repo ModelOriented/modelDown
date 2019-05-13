@@ -6,3 +6,6 @@
 ^_pkgdown\.yml$
 .travis.yml
 vignettes/
+^paper.bib$
+^paper.md$
+^LICENSE$
