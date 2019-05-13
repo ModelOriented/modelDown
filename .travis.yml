@@ -4,7 +4,12 @@ language: R
 sudo: false
 cache: packages
 warnings_are_errors: true
-dist: trusty
+os:
+  - linux
+  - osx
+
+r: release
+
 env:
   global:
   - R_CHECK_ARGS="--no-build-vignettes --no-manual --timings"
