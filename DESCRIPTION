@@ -14,7 +14,7 @@ Description: The package 'modelDown' generates a website with HTML summaries for
     Work on this package was financially supported by the NCN Opus grant 2017/27/B/ST6/01307 
     at Warsaw University of Technology, Faculty of Mathematics and Information Science.
 Depends: R (>= 3.4.0)
-License: GPL-3
+License: Apache 2.0
 Encoding: UTF-8
 LazyData: true
 Imports: DALEX (>= 0.2.8),
