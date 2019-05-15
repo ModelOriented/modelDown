@@ -8,3 +8,4 @@
 vignettes/
 ^paper.bib$
 ^paper.md$
+^cran-comments.md$

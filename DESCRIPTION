@@ -5,7 +5,7 @@ Authors@R: c(person("Przemysław", "Biecek", email = "przemyslaw.biecek@gmail.co
     person("Magda", "Tatarynowicz", email = "magda.tatarynowicz@gmail.com", role = c("aut")), 
     person("Kamil", "Romaszko", email = "kamil.romaszko@gmail.com", role = c("aut", "cre")), 
     person("Mateusz", "Urbański", email = "matiszak@gmail.com", role = c("aut")))
-Description: The package 'modelDown' generates a website with HTML summaries for predictive models.
+Description: Website generator with HTML summaries for predictive models.
     This package uses 'DALEX' explainers to describe global model behavior. 
     We can see how well models behave (tabs: Model Performance, Auditor),
     how much each variable contributes to predictions (tabs: Variable Response) 
