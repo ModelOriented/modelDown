@@ -18,4 +18,4 @@ There were 2 NOTEs:
 * Suggests or Enhances not in mainstream repositories:
     drifter
 
-This package is part of our organisation and could be found here: https://github.com/ModelOriented/drifter. It's not required for 
+This package is part of our organisation and could be found here: https://github.com/ModelOriented/drifter. It's not required for main functionality of modelDown. 
