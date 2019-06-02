@@ -78,7 +78,7 @@ The 'Auditor' tab presents different ways of validating predictive models by ana
 
 The 'Model performance' tab uses functions from DALEX package [@DALEX]. It shows contrastive comparisons of model predictive power by analyzing residuals. Read more about this type of model diagnostic in [@PM_VEE].
 
-The 'Model performance' tab lets you compare different models. The same applies for all tabs created with modelDown. This allows users not only to validate one model, but to pick the best model among many. Below we can see that the best ROC curve is obtained for the Random Forest model.
+The 'Model performance' tab lets you compare different models. The same applies for all tabs created with modelDown. This allows users not only to validate one model, but to pick the best model among many. Below we can see different distributions of residuals for the models.
 
 -![Example model performance tab.](paper_images/model_performance.png)
 
