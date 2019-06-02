@@ -18,17 +18,26 @@ An example website for regression models: https://mi2datalab.github.io/modelDown
 
 Do you want to start right now ? Check out our [getting started](https://mi2datalab.github.io/modelDown/getting-started) guide.
 
-Or just simply install it like here:
+Or just simply install it like below:
 
 Stable version: `devtools::install_github("MI2DataLab/modelDown")`
 
-And if you want to get latest changes:
+And if you want to get the latest changes:
 
 Development version: `devtools::install_github("MI2DataLab/modelDown@dev")`
 
 ## Contributing
 
-If you spot any bug or you have feature proposal feel free to create an issue in this repository. We are also open to contributions in a form of pull requests. Just create an issue and a pull request associated with it to branch `dev`.
+If you spot a bug or you have a feature proposal feel free to create an issue in this repository. We are also open to contributions in a form of pull requests. Just follow steps below:
+
+1. Open a new issue (specify an issue type as a label - a bug or an enhancement).
+
+Additionally you can:
+
+2. Start a new branch from the `dev` branch. It should be named `bugfix/XX-short-description` or `feature/XX-short-description` where `XX` is an issue number.
+3. Create commits with descriptive messages starting with `#XX`.
+4. Create a pull request of the created branch to the `dev` branch.
+5. Wait for a review from one of the `modelDown` maintainers.
 
 Help us build better software!
 
