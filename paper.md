@@ -36,6 +36,40 @@ The modelDown package is designed in a similar way to the pkgdown [@pkgdown] lib
 
 The modelDown package builds on the set of tools for model exploration implemented in the DALEX [@DALEX] package. By creating explainer objects, DALEX provides uniform interface for model agnostic exploration of models. Other R packages compatible with DALEX are also used to provide data, tables and charts available on the website.
 
+# Example code
+
+Basic example of using the package is as straightforward as below.
+
+```
+require("ranger")
+require("breakDown")
+require("DALEX")
+
+devtools::install_github("MI2DataLab/modelDown")
+
+# ranger
+HR_ranger_model <- ranger(as.factor(left) ~ .,
+                          data = HR_data, num.trees = 500,
+                          classification = TRUE, probability = TRUE)
+
+# glm
+HR_data1 <- HR_data[1:4000,]
+HR_data2 <- HR_data[4000:nrow(HR_data),]
+HR_glm_model1 <- glm(left~., HR_data1, family = "binomial")
+HR_glm_model2 <- glm(left~., HR_data2, family = "binomial")
+
+# generating explainers
+explainer_ranger <- explain(HR_ranger_model,
+                            data = HR_data, y = HR_data$left,
+                            function(model, data) {
+                              return(predict(model, data)$prediction[,2])
+                            }, na.rm=TRUE)
+explainer_glm1 <- explain(HR_glm_model1, data=HR_data1, y = HR_data1$left)
+explainer_glm2 <- explain(HR_glm_model2, data=HR_data2, y = HR_data2$left)
+
+modelDown::modelDown(explainer_ranger, list(explainer_glm1, explainer_glm2))
+```
+
 # Available features
 
 The modelDown package is highly modular. The primary outcome is a website with set of tabs. Each tab explains a particular aspect of the model. Features are available across tabs. By default, all tabs are generated, and each of them can be parameterized. 
@@ -44,13 +78,13 @@ The 'Auditor' tab presents different ways of validating predictive models by ana
 
 The 'Model performance' tab uses functions from DALEX package [@DALEX]. It shows contrastive comparisons of model predictive power by analyzing residuals. Read more about this type of model diagnostic in [@PM_VEE].
 
-The 'Model performance' lab lets you compare different models. The same applies for all tabs created with modelDown. This allows user not only to validate one model, but to pick the best model among many. Below we can see that the best ROC curve is obtained for Random Forest model.
+The 'Model performance' tab lets you compare different models. The same applies for all tabs created with modelDown. This allows user not only to validate one model, but to pick the best model among many. Below we can see that the best ROC curve is obtained for Random Forest model.
 
--![Example model performance tab.](model_performance.png)
+-![Example model performance tab.](paper_images/model_performance.png)
 
 The 'Feature importance' tab also uses functions from DALEX package. It shows how much impact each variable has when it comes to generating predictions. You can compare these model agnostic feature importance scores against the domain knowledge in order to see if model works in expected way. 
 
--![Example variable importance tab.](variable_importance.png)
+-![Example variable importance tab.](paper_images/variable_importance.png)
 
 All examples presented in this paper are based on models generated with the Titanic dataset. In this example, three considered models picked gender as the most important variable. Only k-Nearest Neighbors algorithm picked different features. It may suggest that this model does not give the best results for this data.
 
