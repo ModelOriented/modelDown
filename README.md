@@ -18,6 +18,20 @@ An example website for regression models: https://mi2datalab.github.io/modelDown
 
 Do you want to start right now ? Check out our [getting started](https://mi2datalab.github.io/modelDown/getting-started) guide.
 
+Or just simply install it like here:
+
+Stable version: `devtools::install_github("MI2DataLab/modelDown")`
+
+And if you want to get latest changes:
+
+Development version: `devtools::install_github("MI2DataLab/modelDown@dev")`
+
+## Contributing
+
+If you spot any bug or you have feature proposal feel free to create an issue in this repository. We are also open to contributions in a form of pull requests. Just create an issue and a pull request associated with it to branch `dev`.
+
+Help us build better software!
+
 ## Index page
 
 <center><img width="600" src="misc/index.png"></center>
