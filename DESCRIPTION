@@ -1,6 +1,6 @@
 Package: modelDown
 Title: Make Static HTML Website for Predictive Models
-Version: 1.0.0
+Version: 1.0.1
 Authors@R: c(person("Przemysław", "Biecek", email = "przemyslaw.biecek@gmail.com", role = c("aut")), 
     person("Magda", "Tatarynowicz", email = "magda.tatarynowicz@gmail.com", role = c("aut")), 
     person("Kamil", "Romaszko", email = "kamil.romaszko@gmail.com", role = c("aut", "cre")), 
