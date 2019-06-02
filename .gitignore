@@ -37,3 +37,10 @@ rsconnect/
 .Rproj.user
 #modelDown output
 output/
+
+# JOSS review compilation files
+apa.csl
+latex.template
+compile
+paper.pdf
+joss-logo.png
