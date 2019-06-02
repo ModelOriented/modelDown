@@ -54,7 +54,7 @@
       <ul class="navbar-mi2 nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -66,7 +66,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/MI2DataLab/modelDown">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -88,7 +88,7 @@
     <p>Generates a website with HTML summaries for predictive models</p>
     
 
-    <pre class="usage"><span class='fu'>modelDown</span>(<span class='no'>...</span>, <span class='kw'>modules</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"auditor"</span>, <span class='st'>"drifter"</span>, <span class='st'>"model_performance"</span>,
+    <pre class="usage"><span class='fu'>modelDown</span>(<span class='no'>...</span>, <span class='kw'>modules</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"auditor"</span>, <span class='st'>"drifter"</span>, <span class='st'>"model_performance"</span>,
   <span class='st'>"variable_importance"</span>, <span class='st'>"variable_response"</span>), <span class='kw'>output_folder</span> <span class='kw'>=</span> <span class='st'>"output"</span>,
   <span class='kw'>repository_name</span> <span class='kw'>=</span> <span class='st'>"repository"</span>, <span class='kw'>should_open_website</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
@@ -97,7 +97,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>...</th>
-      <td><p>one or more explainers created with <code><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>DALEX::explain()</a></code> function. Pair of explainer could be provided to check drift of models</p></td>
+      <td><p>one or more explainers created with <code><a href='https://www.rdocumentation.org/packages/DALEX/topics/explain'>DALEX::explain()</a></code> function. Pair of explainer could be provided to check drift of models</p></td>
     </tr>
     <tr>
       <th>modules</th>
@@ -121,14 +121,15 @@
 
     <p>Additional arguments that could by passed by name:</p><ul>
 <li><p>remote_repository_path Path to remote repository that stores folder with archivist repository. If not provided, links to local repository will be shown.</p></li>
-<li><p>device Device to use. Tested for "png" and "svg", but values from <code><a href='https://rdrr.io/pkg/ggplot2/man/ggsave.html'>ggplot2::ggsave</a></code> function should be working fine. Defaults to "png".</p></li>
+<li><p>device Device to use. Tested for "png" and "svg", but values from <code><a href='https://www.rdocumentation.org/packages/ggplot2/topics/ggsave'>ggplot2::ggsave</a></code> function should be working fine. Defaults to "png".</p></li>
 <li><p>vr.vars variables which will be examined in Variable Response module. Defaults to all variables. Example vr.vars = c("var1", "var2")</p></li>
 <li><p>vr.type types of examinations which will be conducteed in Variable Response module. Defaults to "pdp". Example vr.type = c("ale", "pdp")</p></li>
 </ul>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>require("ranger")
+    <pre class="examples"># NOT RUN {
+require("ranger")
 require("breakDown")
 require("DALEX")
 
@@ -159,10 +160,8 @@ modelDown::modelDown(list(explainer_glm1, explainer_glm2)
   device = "png",
   vr.vars= c("average_montly_hours", "time_spend_company"),
   vr.type = "ale")
-</div><div class='output co'>#&gt; <span class='error'>Error: &lt;text&gt;:24:3: unexpected symbol</span>
-#&gt; <span class='error'>23: modelDown::modelDown(list(explainer_glm1, explainer_glm2)</span>
-#&gt; <span class='error'>24:   modules</span>
-#&gt; <span class='error'>      ^</span></div></pre>
+# }
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -181,7 +180,7 @@ modelDown::modelDown(list(explainer_glm1, explainer_glm2)
 
       <footer>
       <div class="copyright">
-  <p>Developed by Magda Tatarynowicz, Kamil Romaszko, Mateusz Urbański.</p>
+  <p>Developed by Przemysław Biecek, Magda Tatarynowicz, Kamil Romaszko, Mateusz Urbański.</p>
 </div>
 
 <div class="pkgdown">
