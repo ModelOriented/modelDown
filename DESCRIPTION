@@ -28,10 +28,10 @@ Imports: DALEX (>= 0.2.8),
     archivist (>= 2.1.0),
     svglite (>= 1.2.1),
     devtools (>= 2.0.1),
-    breakDown (>= 0.1.6)
+    breakDown (>= 0.1.6),
+    drifter (>= 0.2.1)
 Suggests: ranger,
     testthat,
-    drifter,
     useful
 RoxygenNote: 6.1.1
 URL: https://github.com/MI2DataLab/modelDown
