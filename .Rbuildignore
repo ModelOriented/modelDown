@@ -9,3 +9,5 @@ vignettes/
 ^paper.bib$
 ^paper.md$
 ^cran-comments.md$
+paper_images/
+scripts/
