@@ -31,41 +31,6 @@ Additional arguments that could by passed by name:
   \item{vr.type} {types of examinations which will be conducteed in Variable Response module. Defaults to "pdp". Example vr.type = c("ale", "pdp")}
 }
 }
-\examples{
-\dontrun{
-require("ranger")
-require("breakDown")
-require("DALEX")
-
-# ranger
-HR_ranger_model <- ranger(as.factor(left) ~ .,
-                      data = HR_data, num.trees = 500, classification = TRUE, probability = TRUE)
-explainer_ranger <- explain(HR_ranger_model,
-                      data = HR_data, y = HR_data$left, function(model, data) {
- return(predict(model, data)$prediction[,2])
-}, na.rm=TRUE)
-
-# glm
-HR_data1 <- HR_data[1:4000,]
-HR_data2 <- HR_data[4000:nrow(HR_data),]
-HR_glm_model1 <- glm(left~., HR_data1, family = "binomial")
-HR_glm_model2 <- glm(left~., HR_data2, family = "binomial")
-explainer_glm1 <- explain(HR_glm_model1, data=HR_data1, y = HR_data1$left)
-explainer_glm2 <- explain(HR_glm_model2, data=HR_data2, y = HR_data2$left)
-
-modelDown::modelDown(explainer_ranger, list(explainer_glm1, explainer_glm2)) #all defaults
-
-modelDown::modelDown(list(explainer_glm1, explainer_glm2)
-  modules = c("auditor", "drifter", "model_performance", "variable_importance",
-              "variable_response"),
-  output_folder = "modelDown_output",
-  repository_name = "HR",
-  remote_repository_path = "some_user/remote_repo_name",
-  device = "png",
-  vr.vars= c("average_montly_hours", "time_spend_company"),
-  vr.type = "ale")
-}
-}
 \author{
-Magda Tatarynowicz, Kamil Romaszko, Mateusz Urbański
+Przemysław Biecek, Magda Tatarynowicz, Kamil Romaszko, Mateusz Urbański
 }
