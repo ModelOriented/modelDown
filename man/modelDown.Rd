@@ -52,8 +52,8 @@ modelDown::modelDown(explainer_glm,
                      vr.vars= c("average_montly_hours"),
                      vr.type = "ale")
 
-# More complex example with all pages
 \donttest{
+# More complex example with all modules
 HR_ranger_model <- ranger(as.factor(left) ~ .,
                       data = HR_data, num.trees = 500, classification = TRUE, probability = TRUE)
 explainer_ranger <- explain(HR_ranger_model,
