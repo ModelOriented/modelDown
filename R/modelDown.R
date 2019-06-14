@@ -24,24 +24,53 @@
 #' @importFrom utils capture.output tail
 #' @author Przemysław Biecek, Magda Tatarynowicz, Kamil Romaszko, Mateusz Urbański
 #' @examples
-#` require("DALEX")
-#` require("breakDown")
-#`
-#`
-#` HR_data_selected <- HR_data[1000:3000,]
-#` HR_glm_model <- glm(left~., HR_data_selected, family = "binomial")
-#` explainer_glm <- explain(HR_glm_model, data=HR_data_selected, y = HR_data_selected$left)
-#`
-#` modelDown::modelDown(explainer_glm,
-#`                      modules = c("model_performance", "variable_importance",
-#`                                  "variable_response"),
-#`                      output_folder = tempdir(),
-#`                      repository_name = "HR",
-#`                      device = "png",
-#`                      vr.vars= c("average_montly_hours"),
-#`                      vr.type = "ale")
-#`
-
+#'
+#' require("DALEX")
+#' require("breakDown")
+#' require("DALEX")
+#'
+#'
+#' # Generate simple modelDown page
+#' HR_data_selected <- HR_data[1000:3000,]
+#' HR_glm_model <- glm(left~., HR_data_selected, family = "binomial")
+#' explainer_glm <- explain(HR_glm_model, data=HR_data_selected, y = HR_data_selected$left)
+#'
+#' modelDown::modelDown(explainer_glm,
+#'                      modules = c("model_performance", "variable_importance",
+#'                                  "variable_response"),
+#'                      output_folder = tempdir(),
+#'                      repository_name = "HR",
+#'                      device = "png",
+#'                      vr.vars= c("average_montly_hours"),
+#'                      vr.type = "ale")
+#'
+#' # More complex example with all pages
+#' \donttest{
+#' HR_ranger_model <- ranger(as.factor(left) ~ .,
+#'                       data = HR_data, num.trees = 500, classification = TRUE, probability = TRUE)
+#' explainer_ranger <- explain(HR_ranger_model,
+#'                       data = HR_data, y = HR_data$left, function(model, data) {
+#'  return(predict(model, data)$prediction[,2])
+#' }, na.rm=TRUE)
+#'
+#' # Two glm models used for drift detection
+#' HR_data1 <- HR_data[1:4000,]
+#' HR_data2 <- HR_data[4000:nrow(HR_data),]
+#' HR_glm_model1 <- glm(left~., HR_data1, family = "binomial")
+#' HR_glm_model2 <- glm(left~., HR_data2, family = "binomial")
+#' explainer_glm1 <- explain(HR_glm_model1, data=HR_data1, y = HR_data1$left)
+#' explainer_glm2 <- explain(HR_glm_model2, data=HR_data2, y = HR_data2$left)
+#'
+#' modelDown::modelDown(list(explainer_glm1, explainer_glm2),
+#'   modules = c("auditor", "drifter", "model_performance", "variable_importance",
+#'               "variable_response"),
+#'   output_folder = tempdir(),
+#'   repository_name = "HR",
+#'   remote_repository_path = "some_user/remote_repo_name",
+#'   device = "png",
+#'   vr.vars= c("average_montly_hours", "time_spend_company"),
+#'   vr.type = "ale")
+#' }
 modelDown <- function(...,
                       modules = c("auditor", "drifter", "model_performance", "variable_importance", "variable_response"),
                       output_folder="output",
