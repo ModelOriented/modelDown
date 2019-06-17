@@ -14,7 +14,7 @@ authors:
     affiliation: 1
   - name: Mateusz Urbański
     affiliation: 1
-  - name: Przemyslaw Biecek
+  - name: Przemysław Biecek
     orcid: 0000-0001-8423-1823
     affiliation: 1
 affiliations:
