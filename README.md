@@ -2,6 +2,8 @@
 
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/modelDown)](https://cran.r-project.org/package=modelDown)
 [![Travis-CI Build Status](https://travis-ci.org/MI2DataLab/modelDown.svg?branch=master)](https://travis-ci.org/MI2DataLab/modelDown)
+[![DOI](http://joss.theoj.org/papers/10.21105/joss.01444/status.svg)](https://doi.org/10.21105/joss.01444)
+
 [![Coverage
 Status](https://img.shields.io/codecov/c/github/MI2DataLab/modelDown/master.svg)](https://codecov.io/github/MI2DataLab/modelDown?branch=master)
 
