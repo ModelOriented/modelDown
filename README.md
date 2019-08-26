@@ -2,30 +2,30 @@
 
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/modelDown)](https://cran.r-project.org/package=modelDown)
 [![DOI](http://joss.theoj.org/papers/10.21105/joss.01444/status.svg)](https://doi.org/10.21105/joss.01444)
-[![Travis-CI Build Status](https://travis-ci.org/MI2DataLab/modelDown.svg?branch=master)](https://travis-ci.org/MI2DataLab/modelDown)
+[![Travis-CI Build Status](https://travis-ci.org/ModelOriented/modelDown.svg?branch=master)](https://travis-ci.org/ModelOriented/modelDown)
 [![Coverage
-Status](https://img.shields.io/codecov/c/github/MI2DataLab/modelDown/master.svg)](https://codecov.io/github/MI2DataLab/modelDown?branch=master)
+Status](https://img.shields.io/codecov/c/github/ModelOriented/modelDown/master.svg)](https://codecov.io/github/ModelOriented/modelDown?branch=master)
 
-<a href="https://github.com/MI2DataLab/modelDown"><img src="misc/modelDownSticker.png" alt="" align="right" width="200px"/></a>
+<a href="https://github.com/ModelOriented/modelDown"><img src="misc/modelDownSticker.png" alt="" align="right" width="200px"/></a>
 
 `modelDown` generates a website with HTML summaries for predictive models.
 Is uses [DALEX](https://github.com/pbiecek/DALEX) explainers to compute and plot summaries of how given models behave.  We can see how well models behave (Model Performance, Auditor), how much each variable contributes to predictions (Variable Response) and which variables are the most important for a given model (Variable Importance). We can also compare Concept Drift for pairs of models (Drifter). Additionally, data available on the website can be easily recreated in current R session (using `archivist` package).
 
-`pkgdown` documentation: https://mi2datalab.github.io/modelDown/
+`pkgdown` documentation: https://ModelOriented.github.io/modelDown/
 
 An example website for regression models: https://mi2datalab.github.io/modelDown_example/
 
 ## Getting started
 
-Do you want to start right now ? Check out our [getting started](https://mi2datalab.github.io/modelDown/getting-started) guide.
+Do you want to start right now ? Check out our [getting started](https://ModelOriented.github.io/modelDown/getting-started) guide.
 
 Or just simply install it like below:
 
-Stable version: `devtools::install_github("MI2DataLab/modelDown")`
+Stable version: `devtools::install_github("ModelOriented/modelDown")`
 
 And if you want to get the latest changes:
 
-Development version: `devtools::install_github("MI2DataLab/modelDown@dev")`
+Development version: `devtools::install_github("ModelOriented/modelDown@dev")`
 
 ## Contributing
 
