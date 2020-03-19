@@ -12,7 +12,7 @@ r: release
 
 env:
   global:
-  - R_CHECK_ARGS="--no-build-vignettes --no-manual --timings"
+  - R_CHECK_ARGS="--no-build-vignettes --no-manual --timings --as-cran --run-donttest"
 notifications:
   email: false
 r_packages:
@@ -24,10 +24,7 @@ r_packages:
   - DALEX
   - devtools
   - breakDown
-
-r_github_packages:
-  - ModelOriented/ceterisParibus2
-  - ModelOriented/drifter
+  - drifter
 
 addons:
   apt:
