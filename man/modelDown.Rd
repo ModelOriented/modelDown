@@ -4,9 +4,14 @@
 \alias{modelDown}
 \title{Generates a website with HTML summaries for predictive models}
 \usage{
-modelDown(..., modules = c("auditor", "drifter", "model_performance",
-  "variable_importance", "variable_response"), output_folder = "output",
-  repository_name = "repository", should_open_website = TRUE)
+modelDown(
+  ...,
+  modules = c("auditor", "drifter", "model_performance", "variable_importance",
+    "variable_response"),
+  output_folder = "output",
+  repository_name = "repository",
+  should_open_website = TRUE
+)
 }
 \arguments{
 \item{...}{one or more explainers created with \code{DALEX::explain()} function. Pair of explainer could be provided to check drift of models}

@@ -1,6 +1,6 @@
 Package: modelDown
 Title: Make Static HTML Website for Predictive Models
-Version: 1.0.1
+Version: 1.1
 Authors@R: c(person("Przemysław", "Biecek", email = "przemyslaw.biecek@gmail.com", role = c("aut")), 
     person("Magda", "Tatarynowicz", email = "magda.tatarynowicz@gmail.com", role = c("aut")), 
     person("Kamil", "Romaszko", email = "kamil.romaszko@gmail.com", role = c("aut", "cre")), 
@@ -18,7 +18,7 @@ Depends: R (>= 3.4.0)
 License: Apache License 2.0
 Encoding: UTF-8
 LazyData: true
-Imports: DALEX (>= 0.2.8),
+Imports: DALEX (>= 1.0),
     auditor (>= 0.3.0),
     ggplot2 (>= 3.1.0),
     whisker (>= 0.3-2),
@@ -33,6 +33,6 @@ Imports: DALEX (>= 0.2.8),
 Suggests: ranger,
     testthat,
     useful
-RoxygenNote: 6.1.1
-URL: https://github.com/MI2DataLab/modelDown
-BugReports: https://github.com/MI2DataLab/modelDown/issues
+RoxygenNote: 7.1.0
+URL: https://github.com/ModelOriented/modelDown
+BugReports: https://github.com/ModelOriented/modelDown/issues
