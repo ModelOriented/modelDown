@@ -9,7 +9,7 @@ Status](https://img.shields.io/codecov/c/github/ModelOriented/modelDown/master.s
 <a href="https://github.com/ModelOriented/modelDown"><img src="misc/modelDownSticker.png" alt="" align="right" width="200px"/></a>
 
 `modelDown` generates a website with HTML summaries for predictive models.
-Is uses [DALEX](https://github.com/pbiecek/DALEX) explainers to compute and plot summaries of how given models behave.  We can see how well models behave (Model Performance, Auditor), how much each variable contributes to predictions (Variable Response) and which variables are the most important for a given model (Variable Importance). We can also compare Concept Drift for pairs of models (Drifter). Additionally, data available on the website can be easily recreated in current R session (using `archivist` package).
+Is uses [DALEX](https://github.com/ModelOriented/DALEX) explainers to compute and plot summaries of how given models behave.  We can see how well models behave (Model Performance, Auditor), how much each variable contributes to predictions (Variable Response) and which variables are the most important for a given model (Variable Importance). We can also compare Concept Drift for pairs of models (Drifter). Additionally, data available on the website can be easily recreated in current R session (using `archivist` package).
 
 `pkgdown` documentation: https://ModelOriented.github.io/modelDown/
 
