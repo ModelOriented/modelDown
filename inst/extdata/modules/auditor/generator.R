@@ -1,29 +1,29 @@
 library("DALEX")
 library(ggplot2)
 
-ROC_HELP_LINK <- "https://mi2datalab.github.io/auditor/articles/model_evaluation_audit.html#receiver-operating-characteristic-roc"
-ROC_DOCS_LINK <- "https://mi2datalab.github.io/auditor/reference/plotROC.html"
+ROC_HELP_LINK <- "https://modeloriented.github.io/auditor/articles/model_evaluation_audit.html#receiver-operating-characteristic-roc"
+ROC_DOCS_LINK <- "https://modeloriented.github.io/auditor/reference/plotROC.html"
 # LIFT
-LIFT_HELP_LINK <- "https://mi2datalab.github.io/auditor/articles/model_evaluation_audit.html#lift-chart"
-LIFT_DOCS_LINK <- "https://mi2datalab.github.io/auditor/reference/plotLIFT.html"
+LIFT_HELP_LINK <- "https://modeloriented.github.io/auditor/articles/model_evaluation_audit.html#lift-chart"
+LIFT_DOCS_LINK <- "https://modeloriented.github.io/auditor/reference/plotLIFT.html"
 #ACF
-ACF_HELP_LINK <- "https://mi2datalab.github.io/auditor/articles/model_residuals_audit.html#plotacf---autocorrelation-function-of-residuals"
-ACF_DOCS_LINK <- "https://mi2datalab.github.io/auditor/reference/plotACF.html"
+ACF_HELP_LINK <- "https://modeloriented.github.io/auditor/articles/model_residuals_audit.html#plotacf---autocorrelation-function-of-residuals"
+ACF_DOCS_LINK <- "https://modeloriented.github.io/auditor/reference/plotACF.html"
 # RANKING
-RANKING_HELP_LINK <- "https://mi2datalab.github.io/auditor/articles/model_performance_audit.html#model-ranking-radar-plot"
-RANKING_DOCS_LINK <- "https://mi2datalab.github.io/auditor/reference/plotModelRanking.html"
+RANKING_HELP_LINK <- "https://modeloriented.github.io/auditor/articles/model_performance_audit.html#model-ranking-radar-plot"
+RANKING_DOCS_LINK <- "https://modeloriented.github.io/auditor/reference/plotModelRanking.html"
 # RESIDUALS
-RESIDUALS_HELP_LINK <- "https://mi2datalab.github.io/auditor/articles/model_residuals_audit.html#plotresidual---plot-residuals-vs-observed-fitted-or-variable-values"
-RESIDUALS_DOCS_LINK <- "https://mi2datalab.github.io/auditor/reference/plotResidual.html"
+RESIDUALS_HELP_LINK <- "https://modeloriented.github.io/auditor/articles/model_residuals_audit.html#plotresidual---plot-residuals-vs-observed-fitted-or-variable-values"
+RESIDUALS_DOCS_LINK <- "https://modeloriented.github.io/auditor/reference/plotResidual.html"
 # REC
-REC_HELP_LINK <- "https://mi2datalab.github.io/auditor/articles/model_residuals_audit.html#plotrec---regression-error-characteristic-rec-curve"
-REC_DOCS_LINK <- "https://mi2datalab.github.io/auditor/reference/plotREC.html"
+REC_HELP_LINK <- "https://modeloriented.github.io/auditor/articles/model_residuals_audit.html#plotrec---regression-error-characteristic-rec-curve"
+REC_DOCS_LINK <- "https://modeloriented.github.io/auditor/reference/plotREC.html"
 # RROC
-RROC_HELP_LINK <- "https://mi2datalab.github.io/auditor/articles/model_residuals_audit.html#plotrroc---regression-receiver-operating-characteristic-rroc"
-RROC_DOCS_LINK <- "https://mi2datalab.github.io/auditor/reference/plotRROC.html"
+RROC_HELP_LINK <- "https://modeloriented.github.io/auditor/articles/model_residuals_audit.html#plotrroc---regression-receiver-operating-characteristic-rroc"
+RROC_DOCS_LINK <- "https://modeloriented.github.io/auditor/reference/plotRROC.html"
 # SCALE
-SCALE_HELP_LINK <- "https://mi2datalab.github.io/auditor/articles/model_residuals_audit.html#plotscalelocation---scale-location-plot"
-SCALE_DOCS_LINK <- "https://mi2datalab.github.io/auditor/reference/plotScaleLocation.html"
+SCALE_HELP_LINK <- "https://modeloriented.github.io/auditor/articles/model_residuals_audit.html#plotscalelocation---scale-location-plot"
+SCALE_DOCS_LINK <- "https://modeloriented.github.io/auditor/reference/plotScaleLocation.html"
 
 
 save_plot_image <- function(file_name, models, type, settings){
@@ -34,7 +34,7 @@ save_plot_image <- function(file_name, models, type, settings){
 make_audit_plot_model <- function(explainers, img_folder, y, options) {
 
   models <- lapply(explainers, function(explainer) {
-    auditor::audit(explainer)
+    explainer
   })
 
   plot_settings <- getPlotSettings(options, "a")

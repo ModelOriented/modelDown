@@ -1,8 +1,8 @@
 library("DALEX")
 library(ggplot2)
 
-HELP_LINK <- "https://pbiecek.github.io/DALEX_docs/3-1-modelPerformance.html#modelPerformance"
-DOCS_LINK <- "https://pbiecek.github.io/DALEX/reference/model_performance.html"
+HELP_LINK <- "https://pbiecek.github.io/ema/modelPerformance.html"
+DOCS_LINK <- "https://modeloriented.github.io/DALEX/reference/model_performance.html"
 
 save_plot_image <- function(file_name, models, height, img_folder, settings){
 
