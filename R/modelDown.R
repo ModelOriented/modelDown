@@ -74,7 +74,7 @@ modelDown <- function(...,
                       modules = c("auditor", "drifter", "model_performance", "variable_importance", "variable_response"),
                       output_folder="output",
                       repository_name="repository",
-                      should_open_website=TRUE) {
+                      should_open_website=interactive()) {
 
   args <- list(..., version=1.0 )
   #named arguments are options (except those specified after ... in function definition)
