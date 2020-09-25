@@ -12,7 +12,7 @@
 #'   \item{remote_repository_path} {Path to remote repository that stores folder with archivist repository. If not provided, links to local repository will be shown.}
 #'   \item{device} {Device to use. Tested for "png" and "svg", but values from \code{ggplot2::ggsave} function should be working fine. Defaults to "png".}
 #'   \item{vr.vars} {variables which will be examined in Variable Response module. Defaults to all variables. Example vr.vars = c("var1", "var2")}
-#'   \item{vr.type} {types of examinations which will be conducteed in Variable Response module. Defaults to "pdp". Example vr.type = c("ale", "pdp")}
+#'   \item{vr.type} {types of examinations which will be conducteed in Variable Response module. Defaults to "partial". Example vr.type = c("partial", "conditional", "accumulated")}
 #' }
 #'
 #' @export
@@ -42,7 +42,7 @@
 #'                      repository_name = "HR",
 #'                      device = "png",
 #'                      vr.vars= c("average_montly_hours"),
-#'                      vr.type = "ale")
+#'                      vr.type = "partial")
 #'
 #' # More complex example with all modules
 #' HR_ranger_model <- ranger(as.factor(left) ~ .,
@@ -68,7 +68,7 @@
 #'   remote_repository_path = "some_user/remote_repo_name",
 #'   device = "png",
 #'   vr.vars= c("average_montly_hours", "time_spend_company"),
-#'   vr.type = "ale")
+#'   vr.type = "partial")
 #' }
 modelDown <- function(...,
                       modules = c("auditor", "drifter", "model_performance", "variable_importance", "variable_response"),
@@ -188,8 +188,8 @@ validateExplainers <- function(explainers){
 
 validateOptions <- function(options, explainers){
   vr.type <- options[["vr.type"]]
-  if(!is.null(vr.type) && !vr.type %in% c("pdp", "ale")){
-    stop("Invalid 'vr.type' value. Must be 'pdp' or 'ale'.")
+  if(!is.null(vr.type) && !vr.type %in% c("partial", "conditional", "accumulated")){
+    stop("Invalid 'vr.type' value. Must be 'partial', 'conditional' or 'accumulated'.")
   }
 
   vr.vars <- options[["vr.vars"]]
