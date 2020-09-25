@@ -1,0 +1,22 @@
+.column {
+  float: left;
+  width: 33%;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.model-label {
+  font-size: 200%;
+}
+
+.section-label {
+  font-size: 120%;
+}
+
+.archivist-code {
+  margin: auto;
+}

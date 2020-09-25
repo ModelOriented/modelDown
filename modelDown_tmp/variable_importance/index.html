@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+    crossorigin="anonymous">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+    crossorigin="anonymous"></script>
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1"
+    crossorigin="anonymous">
+
+  <link rel="stylesheet" type="text/css" href="../mi2template.css">
+  <link rel="stylesheet" type="text/css" href="../style.css">
+  <link rel="stylesheet" type="text/css" href="styles.css">
+
+  <script>
+    function makeHelpPanel(help_link, docs_link) {
+      return '\
+            <div class="help-panel">\
+              <div class="title"><i class="fa fa-question" aria-hidden="true"></i> Helpful resources</div>\
+              <a href="' + docs_link + '" target="_blank">Technical documentation</a>\
+              <a href="' + help_link + '" target="_blank">Business description</a>\
+            </div>\
+            ';
+    };
+
+    function renderHelpPanels() {
+      var panel = document.getElementsByTagName("help-panel")[0];
+
+      while(panel) {
+        var docs_url = panel.attributes["docs-url"].value; 
+        var help_url = panel.attributes["help-url"].value;
+        
+        var html = makeHelpPanel(help_url, docs_url);
+        panel.outerHTML = html;
+
+        panel = document.getElementsByTagName("help-panel")[0]; 
+        // Not iterating the result because it changes after each iteration
+      }
+    }
+
+    $(document).ready(function(){
+      renderHelpPanels();
+    });
+  </script>
+</head>
+
+<body>
+
+  <div class="container template-home">
+
+    <header>
+      <div class="navbar navbar-default navbar-fixed-top navbar-mi2" role="navigation">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            </a>
+            <a class="navbar-brand navbar-mi2" href="../index.html">modelDown</a>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-mi2 nav navbar-nav">
+              <li>
+                <a href="../index.html">
+                  <span class="fa fa-home fa-lg"></span>
+
+                </a>
+              </li>
+
+              <li>
+                  <a href="../drifter/index.html">Drifter</a>
+              </li>
+              <li>
+                  <a href="../model_performance/index.html">Model Performance</a>
+              </li>
+              <li>
+                  <a href="../variable_importance/index.html">Variable Importance</a>
+              </li>
+              <li>
+                  <a href="../variable_response/index.html">Variable Response</a>
+              </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right"></ul>
+          </div>
+          <!--/.nav-collapse -->
+        </div>
+        <!--/.container -->
+      </div>
+      <!--/.navbar -->
+    </header>
+
+    <div class="row" style="position: relative; margin-bottom:60px;">
+      <div class="text-center">
+    <div class="data-container">
+      <h2>Feature Importance</h2>
+      <img class="plot" src="img/variable_importance.png" />
+      <br />
+      <help-panel help-url="https://pbiecek.github.io/ema/featureImportance.html" docs-url="https://modeloriented.github.io/DALEX/reference/variable_importance.html"></help-panel>
+      <div class="archivist-code"><p>Get this object: <code>archivist::loadFromLocalRepo(md5hash = &quot;a70647397802f4e5ac6c870cfb060a4d&quot;, repoDir = &quot;modelDown_tmp/repository&quot;)</code></p></div>
+    </div>
+    <div class="data-container">
+      <br>
+      <table class="table table-responsive table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> variable </th>
+   <th style="text-align:right;"> dropout_loss </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr grouplength="12"><td colspan="2" style="border-bottom: 1px solid;"><strong>ranger</strong></td></tr>
+<tr>
+   <td style="text-align:left; padding-left:  2em;" indentlevel="1"> _full_model_ </td>
+   <td style="text-align:right;"> 0.0003108 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left; padding-left:  2em;" indentlevel="1"> left </td>
+   <td style="text-align:right;"> 0.0003108 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left; padding-left:  2em;" indentlevel="1"> promotion_last_5years </td>
+   <td style="text-align:right;"> 0.0005670 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left; padding-left:  2em;" indentlevel="1"> Work_accident </td>
+   <td style="text-align:right;"> 0.0006180 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left; padding-left:  2em;" indentlevel="1"> salary </td>
+   <td style="text-align:right;"> 0.0008065 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left; padding-left:  2em;" indentlevel="1"> sales </td>
+   <td style="text-align:right;"> 0.0016076 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left; padding-left:  2em;" indentlevel="1"> last_evaluation </td>
+   <td style="text-align:right;"> 0.0212063 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left; padding-left:  2em;" indentlevel="1"> average_montly_hours </td>
+   <td style="text-align:right;"> 0.0271339 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left; padding-left:  2em;" indentlevel="1"> number_project </td>
+   <td style="text-align:right;"> 0.0286264 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left; padding-left:  2em;" indentlevel="1"> time_spend_company </td>
+   <td style="text-align:right;"> 0.1000268 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left; padding-left:  2em;" indentlevel="1"> satisfaction_level </td>
+   <td style="text-align:right;"> 0.1920308 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left; padding-left:  2em;" indentlevel="1"> _baseline_ </td>
+   <td style="text-align:right;"> 0.5034610 </td>
+  </tr>
+  <tr grouplength="12"><td colspan="2" style="border-bottom: 1px solid;"><strong>lm</strong></td></tr>
+<tr>
+   <td style="text-align:left; padding-left:  2em;" indentlevel="1"> _full_model_ </td>
+   <td style="text-align:right;"> 0.1427928 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left; padding-left:  2em;" indentlevel="1"> left </td>
+   <td style="text-align:right;"> 0.1427928 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left; padding-left:  2em;" indentlevel="1"> salary </td>
+   <td style="text-align:right;"> 0.1431872 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left; padding-left:  2em;" indentlevel="1"> sales </td>
+   <td style="text-align:right;"> 0.1446127 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left; padding-left:  2em;" indentlevel="1"> last_evaluation </td>
+   <td style="text-align:right;"> 0.1448956 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left; padding-left:  2em;" indentlevel="1"> promotion_last_5years </td>
+   <td style="text-align:right;"> 0.1454896 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left; padding-left:  2em;" indentlevel="1"> average_montly_hours </td>
+   <td style="text-align:right;"> 0.1497248 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left; padding-left:  2em;" indentlevel="1"> Work_accident </td>
+   <td style="text-align:right;"> 0.1529976 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left; padding-left:  2em;" indentlevel="1"> number_project </td>
+   <td style="text-align:right;"> 0.2107320 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left; padding-left:  2em;" indentlevel="1"> time_spend_company </td>
+   <td style="text-align:right;"> 0.3071155 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left; padding-left:  2em;" indentlevel="1"> satisfaction_level </td>
+   <td style="text-align:right;"> 0.3310028 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left; padding-left:  2em;" indentlevel="1"> _baseline_ </td>
+   <td style="text-align:right;"> 0.5027456 </td>
+  </tr>
+</tbody>
+</table>
+    </div>
+</div>
+    </div>
+
+
+  <footer>
+    <div class="footer">
+      <div class="text-center">Site built with <a href="https://github.com/MI2DataLab/modelDown">modelDown</a>.</div>
+      <div class="text-center" style="margin: 0px 0px 5px;">Last updated: 2020-09-25 19:01:23 (session_info: <a href="session_info/session_info.txt">.txt</a>, <a href="session_info/session_info.rda">.rda</a>)</div>
+    </div>
+  </footer>
+
+  </div>
+
+</body>
+</html>
