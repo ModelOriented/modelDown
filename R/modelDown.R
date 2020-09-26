@@ -24,7 +24,7 @@
 #' @importFrom utils capture.output tail
 #' @author Przemysław Biecek, Magda Tatarynowicz, Kamil Romaszko, Mateusz Urbański
 #' @examples
-#' \dontrun{
+#' if(FALSE){
 #' require("ranger")
 #' require("breakDown")
 #' require("DALEX")
