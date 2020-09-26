@@ -37,7 +37,7 @@ Additional arguments that could by passed by name:
 }
 }
 \examples{
-\donttest{
+if(FALSE){
 require("ranger")
 require("breakDown")
 require("DALEX")
