@@ -1,32 +1,39 @@
 library("DALEX")
+library("auditor")
 library(ggplot2)
 
-ROC_HELP_LINK <- "https://mi2datalab.github.io/auditor/articles/model_evaluation_audit.html#receiver-operating-characteristic-roc"
-ROC_DOCS_LINK <- "https://mi2datalab.github.io/auditor/reference/plotROC.html"
+ROC_HELP_LINK <- "https://modeloriented.github.io/auditor/articles/model_evaluation_audit.html#receiver-operating-characteristic-roc"
+ROC_DOCS_LINK <- "https://modeloriented.github.io/auditor/reference/plotROC.html"
 # LIFT
-LIFT_HELP_LINK <- "https://mi2datalab.github.io/auditor/articles/model_evaluation_audit.html#lift-chart"
-LIFT_DOCS_LINK <- "https://mi2datalab.github.io/auditor/reference/plotLIFT.html"
+LIFT_HELP_LINK <- "https://modeloriented.github.io/auditor/articles/model_evaluation_audit.html#lift-chart"
+LIFT_DOCS_LINK <- "https://modeloriented.github.io/auditor/reference/plotLIFT.html"
 #ACF
-ACF_HELP_LINK <- "https://mi2datalab.github.io/auditor/articles/model_residuals_audit.html#plotacf---autocorrelation-function-of-residuals"
-ACF_DOCS_LINK <- "https://mi2datalab.github.io/auditor/reference/plotACF.html"
+ACF_HELP_LINK <- "https://modeloriented.github.io/auditor/articles/model_residuals_audit.html#plotacf---autocorrelation-function-of-residuals"
+ACF_DOCS_LINK <- "https://modeloriented.github.io/auditor/reference/plotACF.html"
 # RANKING
-RANKING_HELP_LINK <- "https://mi2datalab.github.io/auditor/articles/model_performance_audit.html#model-ranking-radar-plot"
-RANKING_DOCS_LINK <- "https://mi2datalab.github.io/auditor/reference/plotModelRanking.html"
+RANKING_HELP_LINK <- "https://modeloriented.github.io/auditor/articles/model_performance_audit.html#model-ranking-radar-plot"
+RANKING_DOCS_LINK <- "https://modeloriented.github.io/auditor/reference/plotModelRanking.html"
 # RESIDUALS
-RESIDUALS_HELP_LINK <- "https://mi2datalab.github.io/auditor/articles/model_residuals_audit.html#plotresidual---plot-residuals-vs-observed-fitted-or-variable-values"
-RESIDUALS_DOCS_LINK <- "https://mi2datalab.github.io/auditor/reference/plotResidual.html"
+RESIDUALS_HELP_LINK <- "https://modeloriented.github.io/auditor/articles/model_residuals_audit.html#plotresidual---plot-residuals-vs-observed-fitted-or-variable-values"
+RESIDUALS_DOCS_LINK <- "https://modeloriented.github.io/auditor/reference/plotResidual.html"
 # REC
-REC_HELP_LINK <- "https://mi2datalab.github.io/auditor/articles/model_residuals_audit.html#plotrec---regression-error-characteristic-rec-curve"
-REC_DOCS_LINK <- "https://mi2datalab.github.io/auditor/reference/plotREC.html"
+REC_HELP_LINK <- "https://modeloriented.github.io/auditor/articles/model_residuals_audit.html#plotrec---regression-error-characteristic-rec-curve"
+REC_DOCS_LINK <- "https://modeloriented.github.io/auditor/reference/plotREC.html"
 # RROC
-RROC_HELP_LINK <- "https://mi2datalab.github.io/auditor/articles/model_residuals_audit.html#plotrroc---regression-receiver-operating-characteristic-rroc"
-RROC_DOCS_LINK <- "https://mi2datalab.github.io/auditor/reference/plotRROC.html"
+RROC_HELP_LINK <- "https://modeloriented.github.io/auditor/articles/model_residuals_audit.html#plotrroc---regression-receiver-operating-characteristic-rroc"
+RROC_DOCS_LINK <- "https://modeloriented.github.io/auditor/reference/plotRROC.html"
 # SCALE
-SCALE_HELP_LINK <- "https://mi2datalab.github.io/auditor/articles/model_residuals_audit.html#plotscalelocation---scale-location-plot"
-SCALE_DOCS_LINK <- "https://mi2datalab.github.io/auditor/reference/plotScaleLocation.html"
+SCALE_HELP_LINK <- "https://modeloriented.github.io/auditor/articles/model_residuals_audit.html#plotscalelocation---scale-location-plot"
+SCALE_DOCS_LINK <- "https://modeloriented.github.io/auditor/reference/plotScaleLocation.html"
 
 
 save_plot_image <- function(file_name, models, type, settings){
+  if (type %in% c("roc", "lift")) {
+    models <- lapply(models, function(x) model_evaluation(x))
+  } else {
+    models <- lapply(models, function(x) model_residual(x))
+  }
+
   pl <- do.call(plot, c(models, type = type))
   ggsave(file_name, pl, settings$device)
 }
@@ -34,22 +41,22 @@ save_plot_image <- function(file_name, models, type, settings){
 make_audit_plot_model <- function(explainers, img_folder, y, options) {
 
   models <- lapply(explainers, function(explainer) {
-    auditor::audit(explainer)
+    explainer
   })
 
   plot_settings <- getPlotSettings(options, "a")
   extension <- plot_settings$device
 
-  audit_plots <- list(c(paste("acf", extension, sep = '.'), "ACF"),
-                      c(paste("rroc", extension, sep = '.'), "RROC"),
-                      c(paste("scale_location", extension, sep = '.'), "ScaleLocation"),
-                      c(paste("residuals", extension, sep = '.'), "Residual"),
-                      c(paste("ranking", extension, sep = '.'), "ModelRanking"),
-                      c(paste("rec", extension, sep = '.'), "REC"))
+  audit_plots <- list(c(paste("acf", extension, sep = '.'), "acf"),
+                      c(paste("rroc", extension, sep = '.'), "rroc"),
+                      c(paste("scale_location", extension, sep = '.'), "scalelocation"),
+                      c(paste("residuals", extension, sep = '.'), "residual"),
+                      #c(paste("ranking", extension, sep = '.'), "ModelRanking"),
+                      c(paste("rec", extension, sep = '.'), "rec"))
   # LIFT and ROC only for binary classification
   if (class(y) == "numeric" && length(levels(as.factor(y))) == 2) {
-    audit_plots <- append(audit_plots, list(c(paste("roc", extension, sep = '.'), "ROC")))
-    audit_plots <- append(audit_plots, list(c(paste("lift", extension, sep = '.'), "LIFT")))
+    audit_plots <- append(audit_plots, list(c(paste("roc", extension, sep = '.'), "roc")))
+    audit_plots <- append(audit_plots, list(c(paste("lift", extension, sep = '.'), "lift")))
   } else if (class(y) == "factor") {
     warning("ROC and LIFT charts are supported only for binary classification.")
   }
@@ -78,15 +85,15 @@ generator <- function(explainers, options, img_folder) {
 
     data <- list(
       # ROC
-      roc_img_filename = audit_img_filename$ROC,
+      roc_img_filename = audit_img_filename$roc,
       ROC_HELP_LINK = ROC_HELP_LINK,
       ROC_DOCS_LINK = ROC_DOCS_LINK,
       # LIFT
-      lift_img_filename = audit_img_filename$LIFT,
+      lift_img_filename = audit_img_filename$lift,
       LIFT_HELP_LINK = LIFT_HELP_LINK,
       LIFT_DOCS_LINK = LIFT_DOCS_LINK,
       #ACF
-      acf_img_filename = audit_img_filename$ACF,
+      acf_img_filename = audit_img_filename$acf,
       ACF_HELP_LINK = ACF_HELP_LINK,
       ACF_DOCS_LINK = ACF_DOCS_LINK,
       # RANKING
@@ -94,19 +101,19 @@ generator <- function(explainers, options, img_folder) {
       RANKING_HELP_LINK = RANKING_HELP_LINK,
       RANKING_DOCS_LINK = RANKING_DOCS_LINK,
       # RESIDUALS
-      residuals_img_filename = audit_img_filename$Residual,
+      residuals_img_filename = audit_img_filename$residual,
       RESIDUALS_HELP_LINK = RESIDUALS_HELP_LINK,
       RESIDUALS_DOCS_LINK = RESIDUALS_DOCS_LINK,
       # REC
-      rec_img_filename = audit_img_filename$REC,
+      rec_img_filename = audit_img_filename$rec,
       REC_HELP_LINK = REC_HELP_LINK,
       REC_DOCS_LINK = REC_DOCS_LINK,
       # RROC
-      rroc_img_filename = audit_img_filename$RROC,
+      rroc_img_filename = audit_img_filename$rroc,
       RROC_HELP_LINK = RROC_HELP_LINK,
       RROC_DOCS_LINK = RROC_DOCS_LINK,
       # SCALE
-      scale_location_img_filename = audit_img_filename$ScaleLocation,
+      scale_location_img_filename = audit_img_filename$scalelocation,
       SCALE_HELP_LINK = SCALE_HELP_LINK,
       SCALE_DOCS_LINK = SCALE_DOCS_LINK,
       archivist_link=audit_img_filename$link

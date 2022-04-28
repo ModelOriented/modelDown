@@ -14,7 +14,7 @@ authors:
     affiliation: 1
   - name: Mateusz Urbański
     affiliation: 1
-  - name: Przemyslaw Biecek
+  - name: Przemysław Biecek
     orcid: 0000-0001-8423-1823
     affiliation: 1
 affiliations:
@@ -26,15 +26,15 @@ bibliography: paper.bib
 
 # Introduction
 
-We live in times where machine learning is used almost everywhere. With the amount of accessible tools available, generation of predictive model for your own benefit is fairly straightforward. 
+We live in times where machine learning is used almost everywhere. With the large number of accessible tools available, generation of predictive model for your own benefit is fairly straightforward. 
 
-The models may be simple to create and use, but most of the time they are not simple to understand. Larger models may contain thousands or millions of parameters. It can be challenging to see how the model works and how the inputs impacts obtained results. Numerous tools for explainable Artificial Intelligence can help with that, but it may be cumbersome and repetitive to use different tools every time you test the model. 
+The models may be simple to create and use, but most of the time they are not simple to understand. Larger models may contain thousands or millions of parameters. It can be challenging to see how the model works and how the inputs impact the obtained results. Numerous tools for explainable Artificial Intelligence can help, but it may be cumbersome and repetitive to use different tools every time you test the model. 
 
-In this paper, we introduce a package modelDown for the R language [@R] that can help to eliminate these issues. It automatically creates an easy to understand HTML website with model interpretations. You can automatically analyze, explore and debug your predictive models in many ways with just a single command.
+In this paper, we introduce a package modelDown for the R language [@R] that can help to eliminate these issues. modelDown automatically creates an easy to understand HTML website with model interpretations. You can automatically analyze, explore, and debug your predictive models in many ways with just a single command.
 
-The modelDown package is designed in a similar way to the pkgdown [@pkgdown] library. Both packages use templates to generate a static HTML website with detailed information. In the case of pkgdown it is an information about a selected package, while in the case of modelDown it is a website with information about predictive models.
+The modelDown package is designed in a similar way to the pkgdown [@pkgdown] library. Both packages use templates to generate a static HTML website with detailed information. In the case of pkgdown, the information is about a selected package, while in the case of modelDown, it is about predictive models.
 
-The modelDown package builds on the set of tools for model exploration implemented in the DALEX [@DALEX] package. By creating explainer objects, DALEX provides uniform interface for model agnostic exploration of models. Other R packages compatible with DALEX are also used to provide data, tables and charts available on the website.
+The modelDown package builds on the set of tools for model exploration implemented in the DALEX [@DALEX] package. By creating explainer objects, DALEX provides a uniform interface for model agnostic exploration of models. Other R packages compatible with DALEX are also used to provide data, tables, and charts available on the website.
 
 # Example code
 
@@ -78,29 +78,29 @@ The 'Auditor' tab presents different ways of validating predictive models by ana
 
 The 'Model performance' tab uses functions from DALEX package [@DALEX]. It shows contrastive comparisons of model predictive power by analyzing residuals. Read more about this type of model diagnostic in [@PM_VEE].
 
-The 'Model performance' tab lets you compare different models. The same applies for all tabs created with modelDown. This allows users not only to validate one model, but to pick the best model among many. Below we can see different distributions of residuals for the models.
+The 'Model performance' tab lets you compare different models. This applies for all tabs created with modelDown. This allows users not only to validate one model, but to pick the best model among many. Below we can see different distributions of residuals for the models.
 
 -![Example model performance tab.](paper_images/model_performance.png)
 
-The 'Feature importance' tab also uses functions from DALEX package. It shows how much impact each variable has when it comes to generating predictions. You can compare these model agnostic feature importance scores against the domain knowledge in order to see if the model works in the expected way.
+The 'Feature importance' tab also uses functions from DALEX package. It shows how much impact each variable has when it comes to generating predictions. You can compare these model agnostic feature importance scores against domain knowledge in order to see if the model works in the expected way.
 
 -![Example variable importance tab.](paper_images/variable_importance.png)
 
-All examples presented in this paper are based on models generated with the Titanic dataset. In this example, three considered models picked gender as the most important variable. Only k-Nearest Neighbors algorithm picked different features. It may suggest that this model does not give the best results for this data.
+All examples presented in this paper are based on models generated with the Titanic dataset. In this example, three models that are considered picked gender as the most important variable. Only the k-Nearest Neighbors algorithm picked different features. This may suggest that this model does not give the best results for this data.
 
-The 'Feature response' tab also uses functions from DALEX package. The main goal of this table is to present the link between average model response and the feature of interest. With the use of Partial Dependency Plots or Factor Merger Plots one can read how model predictions change with a changing value of a selected single variable.
+The 'Feature response' tab also uses functions from DALEX package. The main goal of this table is to present the link between average model response and the feature of interest. With the use of Partial Dependency Plots or Factor Merger Plots one can read how model predictions change with changing values of a selected single variable.
 
-Last tab, the 'drifter' uses functions from an R package with the same name [@Drifter]. You can test if there is concept drift or data drift in the data. Also, you can see how changes in the data distribution impact the model of interest.
+The last tab, 'drifter', uses functions from an R package with the same name [@Drifter]. You can test if there is concept drift or data drift in the data. You can also see how changes in the data distribution impact the model of interest.
 
-All of that can be generated using one simple command, which is highly customizable. You can select different plot formats - either a raster png or vectorized [@svg], change each tab's individual settings and control visual aspects.  
+All of this can be generated using one simple command, which is highly customizable. You can select different plot formats - either a raster png or vectorized [@svg], change each tab's individual settings and control visual aspects.  
 
-To boost reproducibility of models, all results from model exploration and explanation are saved in binary form with the archivist [@Archivist] package. You can always look at them later, share models or explainers with collaborators, validate session info recorded when explainers were created or reproduce selected explainers.
+To boost reproducibility of models, all results from model exploration and explanation are saved in binary form with the archivist [@Archivist] package. You can always look at them later, share models or explainers with collaborators, validate session info recorded when explainers were created, or reproduce selected explainers.
 
 # Summary
 
-The package uses whisker html templates [@whisker]. Also DALEX itself uses the extensible grammar of data visualization implemented in the ggplot2 package [@ggplot2]. Because of that, as new packages compatible with DALEX explainers are developed, modelDown can be extended to use them. The modelDown, with its simple usage and wide variety of information on the models, may be a powerful tool that helps you improve your model predictive power.
+The package uses whisker html templates [@whisker]. Also, DALEX itself uses the extensible grammar of data visualization implemented in the ggplot2 package [@ggplot2]. Because of that, as new packages compatible with DALEX explainers are developed, modelDown can be extended to use them. modelDown, with its simple usage and wide variety of information on the models, may be a powerful tool that helps you improve your model predictive power.
 
-See an example website generated with the modelDown package at https://github.com/MI2DataLab/modelDown_example. It also contains a reproducible R code for model training, wrapping and transforming into an HTML website.
+An example website generated with the modelDown package is at https://github.com/MI2DataLab/modelDown_example. It also contains a reproducible R code for model training, wrapping and transforming into an HTML website.
 
 The modelDown is a part of DrWhy.AI [@DrWhy] collection of tools for automated training, exploration and maintenance for predictive models.
 

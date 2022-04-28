@@ -1,10 +1,11 @@
 Package: modelDown
 Title: Make Static HTML Website for Predictive Models
-Version: 1.0.1
-Authors@R: c(person("Przemysław", "Biecek", email = "przemyslaw.biecek@gmail.com", role = c("aut")), 
+Version: 1.1.1
+Authors@R: c(person("Przemyslaw", "Biecek", email = "przemyslaw.biecek@gmail.com", role = c("aut")), 
     person("Magda", "Tatarynowicz", email = "magda.tatarynowicz@gmail.com", role = c("aut")), 
     person("Kamil", "Romaszko", email = "kamil.romaszko@gmail.com", role = c("aut", "cre")), 
-    person("Mateusz", "Urbański", email = "matiszak@gmail.com", role = c("aut")))
+    person("Mateusz", "Urbanski", email = "matiszak@gmail.com", role = c("aut")),
+    person("Michal", "Kaminski", role = c("ctb")))
 Description: Website generator with HTML summaries for predictive models.
     This package uses 'DALEX' explainers to describe global model behavior. 
     We can see how well models behave (tabs: Model Performance, Auditor),
@@ -15,10 +16,10 @@ Description: Website generator with HTML summaries for predictive models.
     Work on this package was financially supported by the NCN Opus grant 2017/27/B/ST6/01307 
     at Warsaw University of Technology, Faculty of Mathematics and Information Science.
 Depends: R (>= 3.4.0)
-License: Apache License 2.0 | file LICENSE
+License: Apache License 2.0
 Encoding: UTF-8
 LazyData: true
-Imports: DALEX (>= 0.2.8),
+Imports: DALEX (>= 1.0),
     auditor (>= 0.3.0),
     ggplot2 (>= 3.1.0),
     whisker (>= 0.3-2),
@@ -30,9 +31,11 @@ Imports: DALEX (>= 0.2.8),
     devtools (>= 2.0.1),
     breakDown (>= 0.1.6),
     drifter (>= 0.2.1)
-Suggests: ranger,
+Suggests: 
+    ranger,
     testthat,
-    useful
-RoxygenNote: 6.1.1
-URL: https://github.com/MI2DataLab/modelDown
-BugReports: https://github.com/MI2DataLab/modelDown/issues
+    useful,
+    covr
+RoxygenNote: 7.1.2
+URL: https://github.com/ModelOriented/modelDown
+BugReports: https://github.com/ModelOriented/modelDown/issues
