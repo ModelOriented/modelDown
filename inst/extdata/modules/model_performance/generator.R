@@ -20,7 +20,7 @@ make_model_performance_plot_model <- function(explainers, img_folder, options) {
   img_box_filename <- paste('model_performance_box', plot_settings$device, sep = '.')
 
   models <- lapply(explainers, function(explainer) {
-    model_performance(explainer)
+    DALEX::model_performance(explainer)
   })
 
   save_plot_image(img_filename, models, 5, img_folder, plot_settings)

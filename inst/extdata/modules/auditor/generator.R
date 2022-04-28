@@ -29,9 +29,9 @@ SCALE_DOCS_LINK <- "https://modeloriented.github.io/auditor/reference/plotScaleL
 
 save_plot_image <- function(file_name, models, type, settings){
   if (type %in% c("roc", "lift")) {
-    models <- purrr::map(models, ~ model_evaluation(.x))
+    models <- lapply(models, function(x) model_evaluation(x))
   } else {
-    models <- purrr::map(models, ~ model_residual(.x))
+    models <- lapply(models, function(x) model_residual(x))
   }
 
   pl <- do.call(plot, c(models, type = type))

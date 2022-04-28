@@ -1,10 +1,11 @@
 Package: modelDown
 Title: Make Static HTML Website for Predictive Models
-Version: 1.1
+Version: 1.1.1
 Authors@R: c(person("Przemyslaw", "Biecek", email = "przemyslaw.biecek@gmail.com", role = c("aut")), 
     person("Magda", "Tatarynowicz", email = "magda.tatarynowicz@gmail.com", role = c("aut")), 
     person("Kamil", "Romaszko", email = "kamil.romaszko@gmail.com", role = c("aut", "cre")), 
-    person("Mateusz", "Urbanski", email = "matiszak@gmail.com", role = c("aut")))
+    person("Mateusz", "Urbanski", email = "matiszak@gmail.com", role = c("aut")),
+    person("Michal", "Kaminski", role = c("ctb")))
 Description: Website generator with HTML summaries for predictive models.
     This package uses 'DALEX' explainers to describe global model behavior. 
     We can see how well models behave (tabs: Model Performance, Auditor),
@@ -35,6 +36,6 @@ Suggests:
     testthat,
     useful,
     covr
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 URL: https://github.com/ModelOriented/modelDown
 BugReports: https://github.com/ModelOriented/modelDown/issues
