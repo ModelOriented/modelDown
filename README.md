@@ -16,7 +16,7 @@ An example website for regression models: https://mi2datalab.github.io/modelDown
 
 ## Getting started
 
-Do you want to start right now ? Check out our [getting started](https://ModelOriented.github.io/modelDown/getting-started) guide.
+Do you want to start right now ? Check out our [getting started](https://ModelOriented.github.io/modelDown/paper) guide.
 
 Or just simply install it like below:
 
