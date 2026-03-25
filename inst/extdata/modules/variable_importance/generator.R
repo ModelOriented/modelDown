@@ -2,8 +2,8 @@ library(DALEX)
 library(ggplot2)
 library(kableExtra)
 
-HELP_LINK <- "https://pbiecek.github.io/DALEX_docs/3-2-featureImportance.html#featureImportance"
-DOCS_LINK <- "https://pbiecek.github.io/DALEX/reference/variable_importance.html"
+HELP_LINK <- "https://pbiecek.github.io/ema/featureImportance.html"
+DOCS_LINK <- "https://modeloriented.github.io/DALEX/reference/variable_importance.html"
 
 save_plot_image <- function(file_name, models, settings){
   pl <- do.call(plot, models) + theme(text = element_text(size=settings$font_size))
@@ -18,7 +18,9 @@ make_variable_importance_table <- function(explainers) {
   for (explainer_id in seq_along(explainers)) {
     explainer <- explainers[[explainer_id]]
     model <- variable_importance(explainer, type = "raw")
-    importance_table_list[[explainer_id]] <- model[,-3]
+    # only first permutation (from DALEX 1.0)
+    model <- model[model$permutation == 0,]
+    importance_table_list[[explainer_id]] <- model[,c(1,3)]
   }
   importance_table <- do.call(rbind, importance_table_list)
 
@@ -51,7 +53,9 @@ create_plot_image <- function(models, img_folder, options){
 
 generate_models <- function(explainers){
   models <- lapply(explainers, function(explainer) {
-    variable_importance(explainer, type="raw")
+    model <- variable_importance(explainer, type="raw")
+    # only first permutation (from DALEX 1.0)
+    model[model$permutation == 0,]
   })
   models
 }

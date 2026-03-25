@@ -1,8 +1,8 @@
 library("DALEX")
 library(ggplot2)
 
-HELP_LINK <- "https://pbiecek.github.io/DALEX_docs/3-3-variableResponse.html#variableResponse"
-DOCS_LINK <- "https://pbiecek.github.io/DALEX/reference/variable_response.html"
+HELP_LINK <- "https://pbiecek.github.io/ema/partialDependenceProfiles.html"
+DOCS_LINK <- "https://modeloriented.github.io/DALEX/reference/model_profile.html"
 
 save_plot_image <- function(file_name, models, settings){
   pl <- do.call(plot, models) + theme(text = element_text(size=settings$font_size))
@@ -25,16 +25,16 @@ make_variable_plot_model <- function(variable_name, explainers, img_folder, opti
 
   types <- options[["vr.type"]]
   if(is.null(types)) {
-    types <- "pdp"
+    types <- "partial"
   }
 
   models_per_type <- lapply(types, function(type) {
-    lapply(explainers, function(explainer) { variable_response(explainer, variable_name, type=type) })
+    lapply(explainers, function(explainer) { model_profile(explainer, variable_name, type=type)$agr_profiles })
   })
 
   models <- do.call(c, models_per_type)
 
-  plot_filename <-make_variable_plot(variable_name, types, models, img_folder, options)
+  plot_filename <- make_variable_plot(variable_name, types, models, img_folder, options)
 
   link <- save_to_repository(models, options)
 
@@ -47,6 +47,8 @@ make_variable_plot_model <- function(variable_name, explainers, img_folder, opti
 
 sort_by_importance <- function(explainers, variables) {
   importance <- variable_importance(explainers[[1]])
+  # only first permutation (from DALEX 1.0)
+  importance <- importance[importance$permutation == 0,]
   variable_dropouts <- importance$dropout_loss[
     sapply(variables, function(var_name) {
       index <- which(importance$variable == var_name)

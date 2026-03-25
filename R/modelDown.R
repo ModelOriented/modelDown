@@ -12,7 +12,7 @@
 #'   \item{remote_repository_path} {Path to remote repository that stores folder with archivist repository. If not provided, links to local repository will be shown.}
 #'   \item{device} {Device to use. Tested for "png" and "svg", but values from \code{ggplot2::ggsave} function should be working fine. Defaults to "png".}
 #'   \item{vr.vars} {variables which will be examined in Variable Response module. Defaults to all variables. Example vr.vars = c("var1", "var2")}
-#'   \item{vr.type} {types of examinations which will be conducteed in Variable Response module. Defaults to "pdp". Example vr.type = c("ale", "pdp")}
+#'   \item{vr.type} {types of examinations which will be conducteed in Variable Response module. Defaults to "partial". Example vr.type = c("partial", "conditional", "accumulated")}
 #' }
 #'
 #' @export
@@ -22,14 +22,29 @@
 #' @importFrom grDevices svg
 #' @importFrom graphics plot
 #' @importFrom utils capture.output tail
-#' @author Magda Tatarynowicz, Kamil Romaszko, Mateusz Urbański
+#' @author Przemysław Biecek, Magda Tatarynowicz, Kamil Romaszko, Mateusz Urbański
 #' @examples
-#' \dontrun{
+#' if(FALSE){
 #' require("ranger")
 #' require("breakDown")
 #' require("DALEX")
 #'
-#' # ranger
+#'
+#' # Generate simple modelDown page
+#' HR_data_selected <- HR_data[1000:3000,]
+#' HR_glm_model <- glm(left~., HR_data_selected, family = "binomial")
+#' explainer_glm <- explain(HR_glm_model, data=HR_data_selected, y = HR_data_selected$left)
+#'
+#' modelDown::modelDown(explainer_glm,
+#'                      modules = c("model_performance", "variable_importance",
+#'                                  "variable_response"),
+#'                      output_folder = tempdir(),
+#'                      repository_name = "HR",
+#'                      device = "png",
+#'                      vr.vars= c("average_montly_hours"),
+#'                      vr.type = "partial")
+#'
+#' # More complex example with all modules
 #' HR_ranger_model <- ranger(as.factor(left) ~ .,
 #'                       data = HR_data, num.trees = 500, classification = TRUE, probability = TRUE)
 #' explainer_ranger <- explain(HR_ranger_model,
@@ -37,7 +52,7 @@
 #'  return(predict(model, data)$prediction[,2])
 #' }, na.rm=TRUE)
 #'
-#' # glm
+#' # Two glm models used for drift detection
 #' HR_data1 <- HR_data[1:4000,]
 #' HR_data2 <- HR_data[4000:nrow(HR_data),]
 #' HR_glm_model1 <- glm(left~., HR_data1, family = "binomial")
@@ -45,23 +60,21 @@
 #' explainer_glm1 <- explain(HR_glm_model1, data=HR_data1, y = HR_data1$left)
 #' explainer_glm2 <- explain(HR_glm_model2, data=HR_data2, y = HR_data2$left)
 #'
-#' modelDown::modelDown(explainer_ranger, list(explainer_glm1, explainer_glm2)) #all defaults
-#'
-#' modelDown::modelDown(list(explainer_glm1, explainer_glm2)
+#' modelDown::modelDown(list(explainer_glm1, explainer_glm2),
 #'   modules = c("auditor", "drifter", "model_performance", "variable_importance",
 #'               "variable_response"),
-#'   output_folder = "modelDown_output",
+#'   output_folder = tempdir(),
 #'   repository_name = "HR",
 #'   remote_repository_path = "some_user/remote_repo_name",
 #'   device = "png",
 #'   vr.vars= c("average_montly_hours", "time_spend_company"),
-#'   vr.type = "ale")
+#'   vr.type = "partial")
 #' }
 modelDown <- function(...,
                       modules = c("auditor", "drifter", "model_performance", "variable_importance", "variable_response"),
                       output_folder="output",
                       repository_name="repository",
-                      should_open_website=TRUE) {
+                      should_open_website=interactive()) {
 
   args <- list(..., version=1.0 )
   #named arguments are options (except those specified after ... in function definition)
@@ -175,8 +188,8 @@ validateExplainers <- function(explainers){
 
 validateOptions <- function(options, explainers){
   vr.type <- options[["vr.type"]]
-  if(!is.null(vr.type) && !vr.type %in% c("pdp", "ale")){
-    stop("Invalid 'vr.type' value. Must be 'pdp' or 'ale'.")
+  if(!is.null(vr.type) && !vr.type %in% c("partial", "conditional", "accumulated")){
+    stop("Invalid 'vr.type' value. Must be 'partial', 'conditional' or 'accumulated'.")
   }
 
   vr.vars <- options[["vr.vars"]]

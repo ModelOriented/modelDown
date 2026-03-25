@@ -1,8 +1,8 @@
 library("DALEX")
 library(ggplot2)
 
-HELP_LINK <- "https://pbiecek.github.io/DALEX_docs/3-1-modelPerformance.html#modelPerformance"
-DOCS_LINK <- "https://pbiecek.github.io/DALEX/reference/model_performance.html"
+HELP_LINK <- "https://pbiecek.github.io/ema/modelPerformance.html"
+DOCS_LINK <- "https://modeloriented.github.io/DALEX/reference/model_performance.html"
 
 save_plot_image <- function(file_name, models, height, img_folder, settings){
 
@@ -20,7 +20,7 @@ make_model_performance_plot_model <- function(explainers, img_folder, options) {
   img_box_filename <- paste('model_performance_box', plot_settings$device, sep = '.')
 
   models <- lapply(explainers, function(explainer) {
-    model_performance(explainer)
+    DALEX::model_performance(explainer)
   })
 
   save_plot_image(img_filename, models, 5, img_folder, plot_settings)

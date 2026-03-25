@@ -1,7 +1,6 @@
 ^README.md$
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^misc$
 ^docs$
 ^_pkgdown\.yml$
 .travis.yml
@@ -9,3 +8,10 @@ vignettes/
 ^paper.bib$
 ^paper.md$
 ^cran-comments.md$
+paper_images/
+scripts/
+^\.github$
+^.*\.gif
+^.*\.png
+^pkgdown$
+^codecov\.yml$
