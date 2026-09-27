@@ -29,11 +29,11 @@ Generates a website with HTML summaries for predictive models
 }
 \details{
 Additional arguments that could by passed by name:
-\itemize{
-  \item{remote_repository_path} {Path to remote repository that stores folder with archivist repository. If not provided, links to local repository will be shown.}
-  \item{device} {Device to use. Tested for "png" and "svg", but values from \code{ggplot2::ggsave} function should be working fine. Defaults to "png".}
-  \item{vr.vars} {variables which will be examined in Variable Response module. Defaults to all variables. Example vr.vars = c("var1", "var2")}
-  \item{vr.type} {types of examinations which will be conducteed in Variable Response module. Defaults to "partial". Example vr.type = c("partial", "conditional", "accumulated")}
+\describe{
+  \item{remote_repository_path}{Path to remote repository that stores folder with archivist repository. If not provided, links to local repository will be shown.}
+  \item{device}{Device to use. Tested for "png" and "svg", but values from \code{ggplot2::ggsave} function should be working fine. Defaults to "png".}
+  \item{vr.vars}{variables which will be examined in Variable Response module. Defaults to all variables. Example vr.vars = c("var1", "var2")}
+  \item{vr.type}{types of examinations which will be conducteed in Variable Response module. Defaults to "partial". Example vr.type = c("partial", "conditional", "accumulated")}
 }
 }
 \examples{
